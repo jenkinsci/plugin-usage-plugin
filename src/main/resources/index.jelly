@@ -1,0 +1,6 @@
+<!--
+  This view is used to render the installed plugins page.
+-->
+<div>
+  This plugin provides the possibility to analyze how often a plugin is being used in your jobs.
+</div>

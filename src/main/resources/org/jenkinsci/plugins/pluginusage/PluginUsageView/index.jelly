@@ -1,0 +1,65 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout permission="${app.ADMINISTER}" xmlns:local="local" norefresh="true"><!--Requires ADMINISTER-Permissions-->
+        <st:include it="${app}" page="sidepanel.jelly"/><!--Implements the sidepanel of the default-view-->
+        <l:main-panel>
+            <j:set var="data" value="${it.data}"/>
+            <j:set var="pluginsByJob" value="${data.pluginUsageByPlugin}"/>
+            <j:set var="jobsPerPlugin" value="${data.jobsPerPlugin}"/>
+            <j:set var="numberOfJobs" value="${data.numberOfJobs}"/>
+            <j:set var="count" value="0"/>
+            Number of Jobs: ${numberOfJobs}
+            <br/>
+            <hr/>
+            <h1>Jobs by Plugin</h1>
+            <table border="1" id="PluginUsageTable">
+                <tr>
+                    <th>
+                        Plugin Name
+                    </th>
+                    <th>
+                        Number of Jobs
+                    </th>
+                    <th>
+                        Jobs
+                    </th>
+                </tr>
+                 <j:forEach var="j" items="${jobsPerPlugin}">
+                    <tr>
+                        <td>
+                            ${j.pluginName}
+                        </td>
+                        <td>
+                           ${j.numberOfJobs}
+                        </td>
+                        <td>
+                        <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})"/>
+                            <ul id="ulID${count}" style="display:none">
+                                <j:forEach var="project" items="${j.projects}">
+                                    <li><a href="${app.rootUrl}${project.url}">${project.displayName}</a></li>
+                                </j:forEach>
+                            </ul>
+                           <j:set var="count" value="${count+1}"/> 
+                        </td>
+                    </tr>
+                 </j:forEach>
+            </table>
+        </l:main-panel>
+    </l:layout> 
+    
+    <script> 
+        function showHide(element, btn)
+        {
+            if (element.style.display == 'none')
+            {
+                element.style.display = '';
+                btn.value='collapse';
+            } 
+            else 
+            {
+                element.style.display = 'none';
+                btn.value='expand';
+            }
+        }
+    </script>
+</j:jelly>
