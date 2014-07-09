@@ -6,11 +6,12 @@
     <version>1.509.4</version><!-- which version of Jenkins is this plugin built against? Users must have at least this Jenkins version to use this plugin. -->
   </parent>
 
-  <name>IFX - Plugin Usage</name>
+  <name>Plugin Usage - Plugin</name>
   <groupId>org.jenkins-ci.plugins</groupId>
-  <artifactId>plugin-usage</artifactId>
+  <artifactId>plugin-usage-plugin</artifactId>
   <version>0.1</version>
   <packaging>hpi</packaging>
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/Plugin-Usage-Plugin</url>
 
   <licenses>
     <license>
@@ -33,5 +34,20 @@
       <url>http://repo.jenkins-ci.org/public/</url>
     </pluginRepository>
   </pluginRepositories>
+  
+  <scm>
+    <connection>scm:git:ssh://github.com/jenkinsci/plugin-usage-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/plugin-usage-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
+  </scm>
+  
+  <developers>
+    <developer>
+      <id>chrissy25</id>
+      <name>Christian Meyer</name>
+      <email>chrissy25dev@gmail.com</email>
+    </developer>
+  </developers>
+  
 
 </project>
