@@ -13,26 +13,29 @@
             <hr/>
             <h1>Jobs by Plugin</h1>
             <table border="1" id="PluginUsageTable">
-                <tr>
-                    <th>
-                        Plugin Name
-                    </th>
-                    <th>
-                        Number of Jobs
-                    </th>
-                    <th>
-                        Jobs
-                    </th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>
+                            Plugin Name
+                        </th>
+                        <th>
+                            Number of Jobs <a onclick="sortTable(true)" href="javascript:void(0);">up</a>/<a onclick="sortTable(false)" href="javascript:void(0);">down</a>
+                        </th>
+                        <th>
+                            Jobs
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="pluginUsageTableBody">
                  <j:forEach var="j" items="${jobsPerPlugin}">
                     <tr>
-                        <td>
+                        <td align="center" style="vertical-align:middle;">
                             <a href="${j.plugin.url}">${j.pluginName}</a>
                         </td>
-                        <td>
+                        <td align="center" style="vertical-align:middle;">
                            ${j.numberOfJobs}
                         </td>
-                        <td>
+                        <td style="padding:5px 15px 5px 5px;">
                         <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})"/>
                             <ul id="ulID${count}" style="display:none">
                                 <j:forEach var="project" items="${j.projects}">
@@ -43,12 +46,12 @@
                         </td>
                     </tr>
                  </j:forEach>
+                 </tbody>
             </table>
         </l:main-panel>
     </l:layout> 
-    
-    <script> 
-        function showHide(element, btn)
+    <script>
+    function showHide(element, btn)
         {
             if (element.style.display == 'none')
             {
@@ -59,6 +62,39 @@
             {
                 element.style.display = 'none';
                 btn.value='expand';
+            }
+        }
+        
+        function sortTable(up)
+        {
+            tbody = document.getElementById("pluginUsageTableBody");
+            rows = tbody.getElementsByTagName("tr");
+            count = rows.length;
+            for(j=count; j!=0; j--)
+            {
+                for(i=0; i&lt;j-1; i++)
+                {
+                    value1 = rows[i].childNodes[1].innerHTML;
+                    value2 = rows[i+1].childNodes[1].innerHTML;
+                    if(!up)
+                    {
+                        if(value2 &lt; value1)
+                        {
+                            switchRow = rows[i+1];
+                            tbody.replaceChild(rows[i],rows[i+1]);
+                            tbody.insertBefore(switchRow,rows[i]);
+                        }
+                    }
+                    else
+                    {
+                        if(value2 &gt; value1)
+                        {
+                            switchRow = rows[i+1];
+                            tbody.replaceChild(rows[i],rows[i+1]);
+                            tbody.insertBefore(switchRow,rows[i]);
+                        }
+                    }
+                }
             }
         }
     </script>
