@@ -27,7 +27,7 @@
                  <j:forEach var="j" items="${jobsPerPlugin}">
                     <tr>
                         <td>
-                            ${j.pluginName}
+                            <a href="${j.plugin.url}">${j.pluginName}</a>
                         </td>
                         <td>
                            ${j.numberOfJobs}
