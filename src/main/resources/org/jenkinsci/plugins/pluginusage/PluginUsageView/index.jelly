@@ -74,8 +74,8 @@
             {
                 for(i=0; i&lt;j-1; i++)
                 {
-                    value1 = rows[i].childNodes[1].innerHTML;
-                    value2 = rows[i+1].childNodes[1].innerHTML;
+                    value1 = parseInt(rows[i].childNodes[1].innerHTML);
+                    value2 = parseInt(rows[i+1].childNodes[1].innerHTML);
                     if(!up)
                     {
                         if(value2 &lt; value1)
