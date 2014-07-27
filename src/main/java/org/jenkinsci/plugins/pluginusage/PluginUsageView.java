@@ -1,11 +1,10 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import hudson.Extension;
-import hudson.model.ManagementLink;
 import hudson.model.RootAction;
 
 @Extension
-public class PluginUsageView extends ManagementLink{
+public class PluginUsageView implements RootAction{
 	
 	public String getDisplayName() {
 		return "Plugin Usage";

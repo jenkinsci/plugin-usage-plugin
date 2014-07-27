@@ -1,6 +1,6 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <l:layout permission="${app.ADMINISTER}" xmlns:local="local" norefresh="true"><!--Requires ADMINISTER-Permissions-->
+    <l:layout xmlns:local="local" norefresh="true">
         <st:include it="${app}" page="sidepanel.jelly"/><!--Implements the sidepanel of the default-view-->
         <l:main-panel>
             <j:set var="data" value="${it.data}"/>
