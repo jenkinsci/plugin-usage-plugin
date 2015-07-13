@@ -36,6 +36,7 @@
                             ${j.numberOfJobs}
                         </td>
                         <td style="padding:5px 15px 5px 5px;">
+                          <j:if test="${j.numberOfJobs > 0}">
                               <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})"/>
                               <ul id="ulID${count}" style="display:none">
                                   <j:forEach var="project" items="${j.projects}">
@@ -43,6 +44,7 @@
                                   </j:forEach>
                               </ul>
                              <j:set var="count" value="${count+1}"/>
+                          </j:if>
                         </td>
                     </tr>
                  </j:forEach>
