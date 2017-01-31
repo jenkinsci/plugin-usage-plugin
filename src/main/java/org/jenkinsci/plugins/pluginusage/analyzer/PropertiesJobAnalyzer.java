@@ -3,7 +3,7 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import hudson.PluginWrapper;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 public class PropertiesJobAnalyzer extends JobAnalyzer{
 	
 
-	protected void doJobAnalyze(Project item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		Map<JobPropertyDescriptor,JobProperty> properties = item.getProperties();
 		for (Map.Entry<JobPropertyDescriptor,JobProperty> entry : properties.entrySet())
