@@ -3,9 +3,11 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.Descriptor;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
+import hudson.model.BuildableItemWithBuildWrappers;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Builder;
+import hudson.util.DescribableList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,28 +26,31 @@ public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 		}
 	}
 	
-	protected void doJobAnalyze(Project item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		Map<Descriptor<BuildWrapper>,BuildWrapper> buildWrappers = item.getBuildWrappers();
-	    for (Map.Entry<Descriptor<BuildWrapper>,BuildWrapper>  entry : buildWrappers.entrySet())
+		if (item instanceof BuildableItemWithBuildWrappers)
 		{
-		    PluginWrapper usedPlugin = getUsedPlugin(entry.getKey().clazz);
-		    if(usedPlugin!=null)
-		    {
-		    	JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
-		    	if(jobsPerPlugin!=null)
-		    	{
-		    		jobsPerPlugin.addProject(item);
-		    	}
-		    	else
-		    	{
-		    		JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
-		    		jobsPerPlugin2.addProject(item);
-		    		mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
-		    	}
-		    }
+			DescribableList<BuildWrapper,Descriptor<BuildWrapper>> buildWrappers = ((BuildableItemWithBuildWrappers)item).getBuildWrappersList();
+			Map<Descriptor<BuildWrapper>,BuildWrapper> map = buildWrappers.toMap();
+			for (Map.Entry<Descriptor<BuildWrapper>,BuildWrapper> entry : map.entrySet())
+			{
+				PluginWrapper usedPlugin = getUsedPlugin(entry.getKey().clazz);
+				if(usedPlugin!=null)
+				{
+					JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
+					if(jobsPerPlugin!=null)
+					{
+						jobsPerPlugin.addProject(item);
+					}
+					else
+					{
+						JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
+						jobsPerPlugin2.addProject(item);
+						mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
+					}
+				}
+			}
 		}
 	}
-
 }

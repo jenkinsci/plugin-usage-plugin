@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.PluginWrapper;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,9 +27,9 @@ public class JobCollector {
 	public HashMap<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
 	{
 		HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<PluginWrapper, JobsPerPlugin>();
-		List<Project> allItems = Jenkins.getInstance().getAllItems(Project.class);
+		List<AbstractProject> allItems = Jenkins.getInstance().getAllItems(AbstractProject.class);
 		
-		for(Project item: allItems)
+		for(AbstractProject item: allItems)
 		{
 			for(JobAnalyzer analyser: analysers)
 			{
@@ -40,7 +40,7 @@ public class JobCollector {
 	}
 	
 	public int getNumberOfJobs() {
-		List<Project> allItems = Jenkins.getInstance().getAllItems(Project.class);
+		List<AbstractProject> allItems = Jenkins.getInstance().getAllItems(AbstractProject.class);
 		return allItems.size();	
 	}
 	

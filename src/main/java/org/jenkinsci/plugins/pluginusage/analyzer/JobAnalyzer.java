@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 import hudson.PluginWrapper;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
 import jenkins.model.Jenkins;
 
 
@@ -19,7 +19,7 @@ public abstract class JobAnalyzer{
 		return instance.getPluginManager().whichPlugin(clazz);
 	}
 
-	protected void doJobAnalyze(Project item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		for(PluginWrapper plugin: plugins)
 		{

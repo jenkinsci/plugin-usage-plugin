@@ -3,7 +3,7 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.Descriptor;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Publisher;
 import hudson.util.DescribableList;
@@ -25,7 +25,7 @@ public class PublisherJobAnalyzer extends JobAnalyzer{
 		}
 	}
 
-	protected void doJobAnalyze(Project item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		DescribableList<Publisher,Descriptor<Publisher>> publisherList = item.getPublishersList();

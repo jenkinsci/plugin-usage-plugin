@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import hudson.PluginWrapper;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,19 +10,19 @@ import java.util.List;
 public class JobsPerPlugin {
 	
 	private PluginWrapper plugin;
-	private HashMap<String, Project> jobMap = new HashMap<String, Project>();
+	private HashMap<String, AbstractProject> jobMap = new HashMap<String, AbstractProject>();
 	
 	
 	public JobsPerPlugin(PluginWrapper plugin) {
 		this.plugin = plugin;
 	}
 	
-	public void addProject(Project project) {
+	public void addProject(AbstractProject project) {
 		this.jobMap.put(project.getDisplayName(), project);
 	}
 	
-	public List<Project> getProjects() {
-		ArrayList<Project> projects = new ArrayList<Project>();
+	public List<AbstractProject> getProjects() {
+		ArrayList<AbstractProject> projects = new ArrayList<AbstractProject>();
 		projects.addAll(jobMap.values());
 		
 		return projects;

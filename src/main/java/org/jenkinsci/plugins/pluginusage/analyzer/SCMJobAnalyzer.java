@@ -3,7 +3,7 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.Descriptor;
-import hudson.model.Project;
+import hudson.model.AbstractProject;
 import hudson.scm.SCMDescriptor;
 import hudson.scm.SCM;
 import hudson.tasks.BuildWrapper;
@@ -24,7 +24,7 @@ public class SCMJobAnalyzer extends JobAnalyzer{
 		}
 	}
 	
-	protected void doJobAnalyze(Project item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		PluginWrapper scmPlugin = getUsedPlugin(item.getScm().getDescriptor().clazz);
