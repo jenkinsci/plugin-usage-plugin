@@ -19,6 +19,9 @@
                             ${%Plugin Name}
                         </th>
                         <th>
+                            ${%Version}
+                        </th>
+                        <th>
                             ${%Number of Jobs}
                         </th>
                         <th>
@@ -31,6 +34,9 @@
                     <tr>
                         <td align="center" style="vertical-align:middle;">
                             <a href="${j.plugin.url}">${j.pluginName}</a>
+                        </td>
+                        <td align="center" style="vertical-align:middle;">
+                            ${j.pluginVersion}
                         </td>
                         <td align="center" style="vertical-align:middle;">
                             ${j.numberOfJobs}

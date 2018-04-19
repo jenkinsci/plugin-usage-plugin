@@ -31,6 +31,10 @@ public class JobsPerPlugin {
 	public String getPluginName() {
 		return plugin.getLongName();
 	}
+
+	public String getPluginVersion() {
+		return plugin.getVersion();
+	}
 	
 	public int getNumberOfJobs() {
 		return jobMap.size();
