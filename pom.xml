@@ -3,8 +3,12 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.480.3</version><!-- which version of Jenkins is this plugin built against? Users must have at least this Jenkins version to use this plugin. -->
+    <version>3.8</version>
   </parent>
+
+  <properties>
+    <jenkins.version>1.480.3</jenkins.version>
+  </properties>
 
   <name>Plugin Usage - Plugin</name>
   <groupId>org.jenkins-ci.plugins</groupId>
