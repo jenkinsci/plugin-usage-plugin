@@ -8,7 +8,7 @@
 
   <properties>
     <maven-hpi-plugin>3.0.2</maven-hpi-plugin>
-    <jenkins.version>1.480.3</jenkins.version>
+    <jenkins.version>1.625.1</jenkins.version>
     <java.level>7</java.level>
   </properties>
 
