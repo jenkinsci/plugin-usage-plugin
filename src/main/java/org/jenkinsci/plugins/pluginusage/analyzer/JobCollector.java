@@ -28,6 +28,9 @@ public class JobCollector {
 	{
 		HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<PluginWrapper, JobsPerPlugin>();
 		Jenkins jenkins = Jenkins.getInstance();
+		if (jenkins == null) {
+			return mapJobsPerPlugin;
+		}
 		List<AbstractProject> allItems = jenkins.getAllItems(AbstractProject.class);
 		
 		for(AbstractProject item: allItems)
@@ -51,7 +54,11 @@ public class JobCollector {
 	}
 	
 	public int getNumberOfJobs() {
-		List<AbstractProject> allItems = Jenkins.getInstance().getAllItems(AbstractProject.class);
+		Jenkins instance = Jenkins.getInstance();
+		if (instance == null) {
+			return 0;
+		}
+		List<AbstractProject> allItems = instance.getAllItems(AbstractProject.class);
 		return allItems.size();	
 	}
 	

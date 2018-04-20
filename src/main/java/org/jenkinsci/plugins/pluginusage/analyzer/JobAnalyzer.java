@@ -16,6 +16,9 @@ public abstract class JobAnalyzer{
 
 	protected PluginWrapper getUsedPlugin(Class clazz) {
 		Jenkins instance = Jenkins.getInstance();
+		if (instance == null) {
+			return null;
+		}
 		return instance.getPluginManager().whichPlugin(clazz);
 	}
 
