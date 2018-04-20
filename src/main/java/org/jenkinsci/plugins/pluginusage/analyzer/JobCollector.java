@@ -27,7 +27,8 @@ public class JobCollector {
 	public HashMap<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
 	{
 		HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<PluginWrapper, JobsPerPlugin>();
-		List<AbstractProject> allItems = Jenkins.getInstance().getAllItems(AbstractProject.class);
+		Jenkins jenkins = Jenkins.getInstance();
+		List<AbstractProject> allItems = jenkins.getAllItems(AbstractProject.class);
 		
 		for(AbstractProject item: allItems)
 		{
@@ -36,6 +37,16 @@ public class JobCollector {
 				analyser.doJobAnalyze(item, mapJobsPerPlugin);
 			}
 		}
+
+		List<PluginWrapper> allPlugins = jenkins.getPluginManager().getPlugins();
+		for(PluginWrapper plugin: allPlugins)
+		{
+			if (mapJobsPerPlugin.get(plugin) == null)
+			{
+				mapJobsPerPlugin.put(plugin, new JobsPerPlugin(plugin));
+			}
+		}
+
 		return mapJobsPerPlugin;
 	}
 	
