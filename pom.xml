@@ -15,7 +15,7 @@
   <name>Plugin Usage - Plugin</name>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>plugin-usage-plugin</artifactId>
-  <version>0.4-beta</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Plugin+Usage+Plugin+%28Community%29</url>
 
@@ -45,7 +45,7 @@
     <connection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
-    <tag>plugin-usage-plugin-0.4-beta</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <developers>
