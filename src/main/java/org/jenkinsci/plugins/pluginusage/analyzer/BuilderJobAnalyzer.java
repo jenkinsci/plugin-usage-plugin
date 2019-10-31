@@ -15,43 +15,35 @@ import jenkins.model.Jenkins;
 
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
-public class BuilderJobAnalyzer extends JobAnalyzer{
-	
-	public BuilderJobAnalyzer() {
-		DescriptorExtensionList<Builder,Descriptor<Builder>> all = Builder.all();
-		for(Descriptor<Builder> b: all)
-		{
-			PluginWrapper usedPlugin = getUsedPlugin(b.clazz);
-			plugins.add(usedPlugin);
-		}
-	}
+public class BuilderJobAnalyzer extends JobAnalyzer {
 
-	@Override
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
-	{	
-		super.doJobAnalyze(null, mapJobsPerPlugin);
-                if (item instanceof Project)
-                {
-                    List<Builder> builders = ((Project)item).getBuilders();
-                    for(Builder builder: builders)
-                    {
-                        PluginWrapper usedPlugin = getUsedPlugin(builder.getDescriptor().clazz);
-                        if(usedPlugin!=null)
-                        {
-                            JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
-                            if(jobsPerPlugin!=null)
-                            {
-                                    jobsPerPlugin.addProject(item);
-                            }
-                            else
-                            {
-                                    JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
-                                    jobsPerPlugin2.addProject(item);
-                                    mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
-                            }
-                        }
+    public BuilderJobAnalyzer() {
+        DescriptorExtensionList<Builder, Descriptor<Builder>> all = Builder.all();
+        for (Descriptor<Builder> b : all) {
+            PluginWrapper usedPlugin = getUsedPlugin(b.clazz);
+            plugins.add(usedPlugin);
+        }
+    }
+
+    @Override
+    protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+        super.doJobAnalyze(null, mapJobsPerPlugin);
+        if (item instanceof Project) {
+            List<Builder> builders = ((Project) item).getBuilders();
+            for (Builder builder : builders) {
+                PluginWrapper usedPlugin = getUsedPlugin(builder.getDescriptor().clazz);
+                if (usedPlugin != null) {
+                    JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
+                    if (jobsPerPlugin != null) {
+                        jobsPerPlugin.addProject(item);
+                    } else {
+                        JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
+                        jobsPerPlugin2.addProject(item);
+                        mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
                     }
                 }
-	}
+            }
+        }
+    }
 
 }
