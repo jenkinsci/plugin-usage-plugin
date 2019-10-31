@@ -4,6 +4,7 @@ import hudson.PluginWrapper;
 import hudson.model.AbstractProject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class JobsPerPlugin {
 	public List<AbstractProject> getProjects() {
 		ArrayList<AbstractProject> projects = new ArrayList<AbstractProject>();
 		projects.addAll(jobMap.values());
-		
+		projects.sort(Comparator.comparing(AbstractProject::getName));
 		return projects;
 	}
 	

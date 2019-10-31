@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import hudson.PluginWrapper;
@@ -11,7 +12,7 @@ public class PluginUsageModel {
 	public List<JobsPerPlugin> getJobsPerPlugin() {
 		ArrayList<JobsPerPlugin> list = new ArrayList<JobsPerPlugin>();
 		list.addAll(new JobCollector().getJobsPerPlugin().values());
-		
+		list.sort(Comparator.comparing(JobsPerPlugin::getPluginName));
 		return list;
 	}
 	
@@ -21,7 +22,9 @@ public class PluginUsageModel {
 	}
 	
 	public List<PluginWrapper> getOtherPlugins(){
-		return new JobCollector().getOtherPlugins();
+		List<PluginWrapper> plugins = new JobCollector().getOtherPlugins();
+		plugins.sort(Comparator.comparing(PluginWrapper::getLongName));
+		return plugins;
 	}
 	
 }
