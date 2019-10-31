@@ -12,8 +12,9 @@ import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 
 public class PropertiesJobAnalyzer extends JobAnalyzer{
-	
 
+
+	@Override
 	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		Map<JobPropertyDescriptor,JobProperty> properties = item.getProperties();

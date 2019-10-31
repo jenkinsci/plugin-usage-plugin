@@ -25,7 +25,8 @@ public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 			plugins.add(usedPlugin);
 		}
 	}
-	
+
+	@Override
 	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		super.doJobAnalyze(null, mapJobsPerPlugin);

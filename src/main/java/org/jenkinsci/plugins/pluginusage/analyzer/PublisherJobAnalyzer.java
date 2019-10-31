@@ -25,6 +25,7 @@ public class PublisherJobAnalyzer extends JobAnalyzer{
 		}
 	}
 
+	@Override
 	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		super.doJobAnalyze(null, mapJobsPerPlugin);
