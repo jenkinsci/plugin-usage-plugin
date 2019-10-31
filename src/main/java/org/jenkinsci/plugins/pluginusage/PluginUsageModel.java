@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.pluginusage;
 import java.util.ArrayList;
 import java.util.List;
 
+import hudson.PluginWrapper;
 import org.jenkinsci.plugins.pluginusage.analyzer.JobCollector;
 
 public class PluginUsageModel {
@@ -19,6 +20,8 @@ public class PluginUsageModel {
 		return new JobCollector().getNumberOfJobs();
 	}
 	
-	
+	public List<PluginWrapper> getOtherPlugins(){
+		return new JobCollector().getOtherPlugins();
+	}
 	
 }

@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
@@ -11,7 +12,7 @@ import jenkins.model.Jenkins;
 
 
 public abstract class JobAnalyzer{
-	
+
 	protected ArrayList<PluginWrapper> plugins = new ArrayList<PluginWrapper>();
 
 	protected PluginWrapper getUsedPlugin(Class clazz) {
@@ -36,6 +37,10 @@ public abstract class JobAnalyzer{
 				}
 			}		
 		}
+	}
+
+	public List<PluginWrapper> getPlugins() {
+		return plugins;
 	}
 
 }

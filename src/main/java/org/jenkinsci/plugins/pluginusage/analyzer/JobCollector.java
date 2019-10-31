@@ -41,15 +41,6 @@ public class JobCollector {
 			}
 		}
 
-		List<PluginWrapper> allPlugins = jenkins.getPluginManager().getPlugins();
-		for(PluginWrapper plugin: allPlugins)
-		{
-			if (mapJobsPerPlugin.get(plugin) == null)
-			{
-				mapJobsPerPlugin.put(plugin, new JobsPerPlugin(plugin));
-			}
-		}
-
 		return mapJobsPerPlugin;
 	}
 	
@@ -61,6 +52,18 @@ public class JobCollector {
 		List<AbstractProject> allItems = instance.getAllItems(AbstractProject.class);
 		return allItems.size();	
 	}
-	
-	
+
+
+    public List<PluginWrapper> getOtherPlugins() {
+		Jenkins jenkins = Jenkins.getInstance();
+		List<PluginWrapper> allPlugins = jenkins.getPluginManager().getPlugins();
+		List<PluginWrapper> others = new ArrayList<>(allPlugins);
+
+		for(JobAnalyzer analyser: analysers)
+		{
+			others.removeAll(analyser.getPlugins());
+		}
+
+		return others;
+    }
 }

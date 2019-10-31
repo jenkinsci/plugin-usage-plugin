@@ -58,6 +58,37 @@
                  </tbody>
             </table>
         </l:main-panel>
+        <l:main-panel>
+            <j:set var="data" value="${it.data}"/>
+            <j:set var="otherPlugins" value="${data.otherPlugins}"/>
+            <br/>
+            <hr/>
+            <h1>${%Other Plugins}</h1>
+            <table class="sortable pane bigtable" border="solid #bbb;">
+                <thead>
+                    <tr>
+                        <th>
+                            ${%Plugin Name}
+                        </th>
+                        <th>
+                            ${%Version}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="j" items="${otherPlugins}">
+                        <tr>
+                            <td align="center" style="vertical-align:middle;">
+                                <a href="${j.plugin.url}">${j.longName}</a>
+                            </td>
+                            <td align="center" style="vertical-align:middle;">
+                                ${j.version}
+                            </td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+        </l:main-panel>
     </l:layout>
     <script>
         function showHide(element, btn)
