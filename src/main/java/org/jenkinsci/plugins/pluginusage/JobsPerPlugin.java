@@ -20,7 +20,7 @@ public class JobsPerPlugin {
 	}
 	
 	public void addProject(AbstractProject project) {
-		this.jobMap.put(project.getDisplayName(), project);
+		this.jobMap.put(project.getFullDisplayName(), project);
 	}
 	
 	public List<AbstractProject> getProjects() {
