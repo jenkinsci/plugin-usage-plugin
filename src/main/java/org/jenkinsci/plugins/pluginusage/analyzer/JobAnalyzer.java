@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
@@ -13,17 +14,13 @@ import jenkins.model.Jenkins;
 
 public abstract class JobAnalyzer{
 
-	protected ArrayList<PluginWrapper> plugins = new ArrayList<PluginWrapper>();
+	protected List<PluginWrapper> plugins = new ArrayList<>();
 
 	protected PluginWrapper getUsedPlugin(Class clazz) {
-		Jenkins instance = Jenkins.getInstance();
-		if (instance == null) {
-			return null;
-		}
-		return instance.getPluginManager().whichPlugin(clazz);
+		return Jenkins.get().getPluginManager().whichPlugin(clazz);
 	}
 
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		for(PluginWrapper plugin: plugins)
 		{

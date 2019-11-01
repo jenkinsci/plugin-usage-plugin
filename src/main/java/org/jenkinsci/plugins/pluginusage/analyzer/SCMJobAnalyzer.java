@@ -10,6 +10,7 @@ import hudson.tasks.BuildWrapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
@@ -25,7 +26,7 @@ public class SCMJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		PluginWrapper scmPlugin = getUsedPlugin(item.getScm().getDescriptor().clazz);

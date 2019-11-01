@@ -6,6 +6,7 @@ import hudson.model.AbstractProject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jenkins.model.Jenkins;
 
@@ -13,7 +14,7 @@ import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 public class JobCollector {
 	
-	private ArrayList<JobAnalyzer> analysers = new ArrayList<JobAnalyzer>();
+	private ArrayList<JobAnalyzer> analysers = new ArrayList<>();
 	
 	public JobCollector() {
 		analysers.add(new BuilderJobAnalyzer());
@@ -24,14 +25,11 @@ public class JobCollector {
 		analysers.add(new TriggerJobAnalyzer());
 	}
 
-	public HashMap<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
+	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
 	{
-		HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<PluginWrapper, JobsPerPlugin>();
-		Jenkins jenkins = Jenkins.getInstance();
-		if (jenkins == null) {
-			return mapJobsPerPlugin;
-		}
-		List<AbstractProject> allItems = jenkins.getAllItems(AbstractProject.class);
+		Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<>();
+
+		List<AbstractProject> allItems = Jenkins.get().getAllItems(AbstractProject.class);
 		
 		for(AbstractProject item: allItems)
 		{
@@ -45,18 +43,13 @@ public class JobCollector {
 	}
 	
 	public int getNumberOfJobs() {
-		Jenkins instance = Jenkins.getInstance();
-		if (instance == null) {
-			return 0;
-		}
-		List<AbstractProject> allItems = instance.getAllItems(AbstractProject.class);
+		List<AbstractProject> allItems = Jenkins.get().getAllItems(AbstractProject.class);
 		return allItems.size();	
 	}
 
 
     public List<PluginWrapper> getOtherPlugins() {
-		Jenkins jenkins = Jenkins.getInstance();
-		List<PluginWrapper> allPlugins = jenkins.getPluginManager().getPlugins();
+		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
 		List<PluginWrapper> others = new ArrayList<>(allPlugins);
 
 		for(JobAnalyzer analyser: analysers)

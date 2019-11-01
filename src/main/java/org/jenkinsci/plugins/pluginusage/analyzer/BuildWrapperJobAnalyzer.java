@@ -27,7 +27,7 @@ public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		if (item instanceof BuildableItemWithBuildWrappers)

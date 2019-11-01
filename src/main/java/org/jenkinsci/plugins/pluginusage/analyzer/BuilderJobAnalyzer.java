@@ -10,6 +10,7 @@ import hudson.tasks.Builder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jenkins.model.Jenkins;
 
@@ -26,7 +27,7 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
     }
 
     @Override
-    protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+    protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         super.doJobAnalyze(null, mapJobsPerPlugin);
         if (item instanceof Project) {
             List<Builder> builders = ((Project) item).getBuilders();

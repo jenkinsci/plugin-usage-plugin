@@ -26,7 +26,7 @@ public class TriggerJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		Map<TriggerDescriptor,Trigger> triggers = item.getTriggers();

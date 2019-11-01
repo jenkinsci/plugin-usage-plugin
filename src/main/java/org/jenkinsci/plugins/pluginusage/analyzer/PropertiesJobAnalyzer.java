@@ -15,7 +15,7 @@ public class PropertiesJobAnalyzer extends JobAnalyzer{
 
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		Map<JobPropertyDescriptor,JobProperty> properties = item.getProperties();
 		for (Map.Entry<JobPropertyDescriptor,JobProperty> entry : properties.entrySet())
