@@ -5,15 +5,15 @@ import hudson.PluginWrapper;
 import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
 import hudson.model.Project;
+import hudson.tasks.BuildStep;
+import hudson.tasks.BuildStepCompatibilityLayer;
 import hudson.tasks.Builder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jenkins.model.Jenkins;
-
+import org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder;
+import org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 public class BuilderJobAnalyzer extends JobAnalyzer {
@@ -33,16 +33,41 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
             List<Builder> builders = ((Project) item).getBuilders();
             for (Builder builder : builders) {
                 PluginWrapper usedPlugin = getUsedPlugin(builder.getDescriptor().clazz);
-                if (usedPlugin != null) {
-                    JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
-                    if (jobsPerPlugin != null) {
-                        jobsPerPlugin.addProject(item);
-                    } else {
-                        JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
-                        jobsPerPlugin2.addProject(item);
-                        mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
-                    }
-                }
+                addItem(item, mapJobsPerPlugin, usedPlugin);
+                processConditionalBuilder(item, mapJobsPerPlugin, builder);
+            }
+        }
+    }
+
+    private void processConditionalBuilder(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Builder builder) {
+        if(builder instanceof ConditionalBuilder){
+            ConditionalBuilder conditionalBuilder = (ConditionalBuilder) builder;
+            List<Builder> conditionalBuilders = conditionalBuilder.getConditionalbuilders();
+            for (Builder innerBuilder: conditionalBuilders) {
+                PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                addItem(item, mapJobsPerPlugin, usedPlugin);
+            }
+        }
+        if(builder instanceof SingleConditionalBuilder){
+            SingleConditionalBuilder singleConditionalBuilder = (SingleConditionalBuilder) builder;
+            BuildStep buildStep = singleConditionalBuilder.getBuildStep();
+            if (buildStep instanceof Builder){
+                Builder innerBuilder = (Builder) buildStep;
+                PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                addItem(item, mapJobsPerPlugin, usedPlugin);
+            }
+        }
+    }
+
+    private void addItem(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, PluginWrapper usedPlugin) {
+        if (usedPlugin != null) {
+            JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
+            if (jobsPerPlugin != null) {
+                jobsPerPlugin.addProject(item);
+            } else {
+                JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
+                jobsPerPlugin2.addProject(item);
+                mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
             }
         }
     }
