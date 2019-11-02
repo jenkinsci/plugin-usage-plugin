@@ -2,8 +2,10 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
-import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
+import hudson.model.Descriptor;
+import hudson.model.ParameterDefinition;
+import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
 import hudson.tasks.BuildStep;
 import hudson.tasks.BuildStepCompatibilityLayer;
@@ -30,11 +32,24 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
     protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         super.doJobAnalyze(null, mapJobsPerPlugin);
         if (item instanceof Project) {
-            List<Builder> builders = ((Project) item).getBuilders();
+            Project project = (Project) item;
+            List<Builder> builders = project.getBuilders();
             for (Builder builder : builders) {
                 PluginWrapper usedPlugin = getUsedPlugin(builder.getDescriptor().clazz);
                 addItem(item, mapJobsPerPlugin, usedPlugin);
                 processConditionalBuilder(item, mapJobsPerPlugin, builder);
+            }
+            processParameters(item, mapJobsPerPlugin, project);
+        }
+    }
+
+    private void processParameters(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Project project) {
+        ParametersDefinitionProperty parameters = project.getAction(ParametersDefinitionProperty.class);
+        if (parameters!=null){
+            List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
+            for (ParameterDefinition parameterDefinition: parameterDefinitions) {
+                PluginWrapper usedPlugin = getUsedPlugin(parameterDefinition.getDescriptor().clazz);
+                addItem(item, mapJobsPerPlugin, usedPlugin);
             }
         }
     }
