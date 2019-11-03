@@ -7,6 +7,8 @@ import hudson.model.Descriptor;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
+import hudson.plugins.promoted_builds.PromotedProjectAction;
+import hudson.plugins.promoted_builds.PromotionProcess;
 import hudson.tasks.BuildStep;
 import hudson.tasks.BuildStepCompatibilityLayer;
 import hudson.tasks.Builder;
@@ -39,17 +41,35 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
                 addItem(item, mapJobsPerPlugin, usedPlugin);
                 processConditionalBuilder(item, mapJobsPerPlugin, builder);
             }
-            processParameters(item, mapJobsPerPlugin, project);
+            processPromotedBuilds(item, mapJobsPerPlugin);
+            processParameters(project, mapJobsPerPlugin);
         }
     }
 
-    private void processParameters(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Project project) {
+    private void processPromotedBuilds(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+        PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
+        if (action != null){
+            List<PromotionProcess> processes = action.getProcesses();
+            for (PromotionProcess process: processes) {
+                List<BuildStep> buildSteps = process.getBuildSteps();
+                for (BuildStep buildStep: buildSteps) {
+                    if (buildStep instanceof Builder){
+                        Builder innerBuilder = (Builder) buildStep;
+                        PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                        addItem(item, mapJobsPerPlugin, usedPlugin);
+                    }
+                }
+            }
+        }
+    }
+
+    private void processParameters(Project project, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         ParametersDefinitionProperty parameters = project.getAction(ParametersDefinitionProperty.class);
         if (parameters!=null){
             List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
             for (ParameterDefinition parameterDefinition: parameterDefinitions) {
                 PluginWrapper usedPlugin = getUsedPlugin(parameterDefinition.getDescriptor().clazz);
-                addItem(item, mapJobsPerPlugin, usedPlugin);
+                addItem(project, mapJobsPerPlugin, usedPlugin);
             }
         }
     }
