@@ -30,7 +30,7 @@ public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if (item instanceof BuildableItemWithBuildWrappers)
+		if (item != null && item instanceof BuildableItemWithBuildWrappers)
 		{
 			DescribableList<BuildWrapper,Descriptor<BuildWrapper>> buildWrappers = ((BuildableItemWithBuildWrappers)item).getBuildWrappersList();
 			Map<Descriptor<BuildWrapper>,BuildWrapper> map = buildWrappers.toMap();

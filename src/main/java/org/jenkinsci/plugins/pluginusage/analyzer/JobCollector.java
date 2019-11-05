@@ -29,6 +29,12 @@ public class JobCollector {
 	{
 		Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<>();
 
+		// bootstrap map with all job related plugins
+		for(JobAnalyzer analyser: analysers)
+		{
+			analyser.doJobAnalyze(null, mapJobsPerPlugin);
+		}
+
 		List<AbstractProject> allItems = Jenkins.get().getAllItems(AbstractProject.class);
 		
 		for(AbstractProject item: allItems)
