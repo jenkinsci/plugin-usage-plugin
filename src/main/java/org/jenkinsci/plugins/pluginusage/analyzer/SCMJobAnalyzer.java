@@ -4,6 +4,7 @@ import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
+import hudson.model.Job;
 import hudson.scm.SCMDescriptor;
 import hudson.scm.SCM;
 import hudson.tasks.BuildWrapper;
@@ -26,11 +27,11 @@ public class SCMJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if(item != null){
-			PluginWrapper scmPlugin = getUsedPlugin(item.getScm().getDescriptor().clazz);
+		if(item != null && item instanceof AbstractProject){
+			PluginWrapper scmPlugin = getUsedPlugin(((AbstractProject)item).getScm().getDescriptor().clazz);
 			if(scmPlugin!=null)
 			{
 				JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(scmPlugin);

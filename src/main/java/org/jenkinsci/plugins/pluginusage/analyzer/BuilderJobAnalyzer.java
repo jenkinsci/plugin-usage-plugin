@@ -2,8 +2,8 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
-import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
+import hudson.model.Job;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
 import hudson.model.Project;
@@ -31,7 +31,7 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
     }
 
     @Override
-    protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+    protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         super.doJobAnalyze(null, mapJobsPerPlugin);
         if (item != null && item instanceof Project) {
             Project project = (Project) item;
@@ -46,7 +46,7 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
         }
     }
 
-    private void processPromotedBuilds(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+    private void processPromotedBuilds(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
         if (action != null){
             List<PromotionProcess> processes = action.getProcesses();
@@ -63,7 +63,7 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
         }
     }
 
-    private void processParameters(Project project, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+    private void processParameters(Job project, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         ParametersDefinitionProperty parameters = project.getAction(ParametersDefinitionProperty.class);
         if (parameters!=null){
             List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
@@ -74,7 +74,7 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
         }
     }
 
-    private void processConditionalBuilder(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Builder builder) {
+    private void processConditionalBuilder(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Builder builder) {
         if(builder instanceof ConditionalBuilder){
             ConditionalBuilder conditionalBuilder = (ConditionalBuilder) builder;
             List<Builder> conditionalBuilders = conditionalBuilder.getConditionalbuilders();
@@ -94,7 +94,7 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
         }
     }
 
-    private void addItem(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, PluginWrapper usedPlugin) {
+    private void addItem(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, PluginWrapper usedPlugin) {
         if (usedPlugin != null) {
             JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
             if (jobsPerPlugin != null) {

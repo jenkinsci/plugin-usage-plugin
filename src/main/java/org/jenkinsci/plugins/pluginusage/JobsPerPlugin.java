@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.pluginusage;
 
 import hudson.PluginWrapper;
 import hudson.model.AbstractProject;
+import hudson.model.Job;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,21 +13,21 @@ import java.util.Map;
 public class JobsPerPlugin {
 	
 	private PluginWrapper plugin;
-	private Map<String, AbstractProject> jobMap = new HashMap<String, AbstractProject>();
+	private Map<String, Job> jobMap = new HashMap<String, Job>();
 	
 	
 	public JobsPerPlugin(PluginWrapper plugin) {
 		this.plugin = plugin;
 	}
 	
-	public void addProject(AbstractProject project) {
+	public void addProject(Job project) {
 		this.jobMap.put(project.getFullDisplayName(), project);
 	}
 	
-	public List<AbstractProject> getProjects() {
-		ArrayList<AbstractProject> projects = new ArrayList<AbstractProject>();
+	public List<Job> getProjects() {
+		ArrayList<Job> projects = new ArrayList<Job>();
 		projects.addAll(jobMap.values());
-		projects.sort(Comparator.comparing(AbstractProject::getName));
+		projects.sort(Comparator.comparing(Job::getName));
 		return projects;
 	}
 	

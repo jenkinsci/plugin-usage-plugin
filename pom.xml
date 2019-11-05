@@ -48,6 +48,12 @@
       <version>3.4</version>
       <optional>true</optional>
     </dependency>
+
+    <dependency>
+      <groupId>org.jenkinsci.plugins</groupId>
+      <artifactId>pipeline-model-definition</artifactId>
+      <version>0.8.2</version>
+    </dependency>
   </dependencies>
 
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hudson.model.Job;
 import jenkins.model.Jenkins;
 
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
@@ -23,6 +24,7 @@ public class JobCollector {
 		analysers.add(new PublisherJobAnalyzer());
 		analysers.add(new SCMJobAnalyzer());
 		analysers.add(new TriggerJobAnalyzer());
+		analysers.add(new StepAnalyser());
 	}
 
 	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
@@ -35,9 +37,9 @@ public class JobCollector {
 			analyser.doJobAnalyze(null, mapJobsPerPlugin);
 		}
 
-		List<AbstractProject> allItems = Jenkins.get().getAllItems(AbstractProject.class);
+		List<Job> allItems = Jenkins.get().getAllItems(Job.class);
 		
-		for(AbstractProject item: allItems)
+		for(Job item: allItems)
 		{
 			for(JobAnalyzer analyser: analysers)
 			{

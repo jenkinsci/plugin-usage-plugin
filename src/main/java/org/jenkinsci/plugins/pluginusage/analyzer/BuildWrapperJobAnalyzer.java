@@ -5,6 +5,7 @@ import hudson.PluginWrapper;
 import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
 import hudson.model.BuildableItemWithBuildWrappers;
+import hudson.model.Job;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Builder;
 import hudson.util.DescribableList;
@@ -27,7 +28,7 @@ public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		if (item != null && item instanceof BuildableItemWithBuildWrappers)

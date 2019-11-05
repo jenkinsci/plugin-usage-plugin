@@ -4,6 +4,7 @@ import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
+import hudson.model.Job;
 import hudson.tasks.BuildWrapper;
 import hudson.triggers.Trigger;
 import hudson.triggers.TriggerDescriptor;
@@ -26,11 +27,11 @@ public class TriggerJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if(item != null){
-			Map<TriggerDescriptor,Trigger> triggers = item.getTriggers();
+		if(item != null && item instanceof AbstractProject){
+			Map<TriggerDescriptor,Trigger> triggers = ((AbstractProject)item).getTriggers();
 			for (Map.Entry<TriggerDescriptor,Trigger> entry : triggers.entrySet())
 			{
 				PluginWrapper usedPlugin = getUsedPlugin(entry.getKey().clazz);

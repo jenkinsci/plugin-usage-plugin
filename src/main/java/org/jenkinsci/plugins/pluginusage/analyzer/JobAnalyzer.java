@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hudson.model.Job;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 import hudson.PluginWrapper;
@@ -20,7 +21,7 @@ public abstract class JobAnalyzer{
 		return Jenkins.get().getPluginManager().whichPlugin(clazz);
 	}
 
-	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		for(PluginWrapper plugin: plugins)
 		{

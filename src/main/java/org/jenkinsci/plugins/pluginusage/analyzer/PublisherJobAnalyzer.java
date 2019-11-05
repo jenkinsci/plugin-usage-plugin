@@ -4,6 +4,7 @@ import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
+import hudson.model.Job;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Publisher;
 import hudson.util.DescribableList;
@@ -26,11 +27,11 @@ public class PublisherJobAnalyzer extends JobAnalyzer{
 	}
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if(item != null){
-			DescribableList<Publisher,Descriptor<Publisher>> publisherList = item.getPublishersList();
+		if(item != null && item instanceof AbstractProject){
+			DescribableList<Publisher,Descriptor<Publisher>> publisherList = ((AbstractProject)item).getPublishersList();
 			Map<Descriptor<Publisher>, Publisher> map = publisherList.toMap();
 			for (Map.Entry<Descriptor<Publisher>, Publisher> entry : map.entrySet())
 			{

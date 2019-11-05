@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.PluginWrapper;
+import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
 import hudson.model.AbstractProject;
@@ -15,7 +16,7 @@ public class PropertiesJobAnalyzer extends JobAnalyzer{
 
 
 	@Override
-	protected void doJobAnalyze(AbstractProject item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		if (item != null){
 			Map<JobPropertyDescriptor,JobProperty> properties = item.getProperties();
