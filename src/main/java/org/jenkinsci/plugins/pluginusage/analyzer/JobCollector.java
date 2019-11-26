@@ -25,6 +25,7 @@ public class JobCollector {
 		analysers.add(new SCMJobAnalyzer());
 		analysers.add(new TriggerJobAnalyzer());
 		analysers.add(new StepAnalyser());
+		analysers.add(new MavenJobAnalyzer());
 	}
 
 	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
