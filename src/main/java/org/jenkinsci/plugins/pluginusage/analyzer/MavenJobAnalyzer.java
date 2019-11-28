@@ -12,7 +12,7 @@ public class MavenJobAnalyzer  extends JobAnalyzer {
     @Override
     protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         super.doJobAnalyze(null, mapJobsPerPlugin);
-        if (item != null && item instanceof MavenModuleSet) {
+        if (item instanceof MavenModuleSet) {
             PluginWrapper usedPlugin = getUsedPlugin(MavenModuleSet.DescriptorImpl.class);
             if (usedPlugin != null) {
                 JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);

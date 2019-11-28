@@ -36,7 +36,7 @@ public class StepAnalyser extends JobAnalyzer {
     protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         super.doJobAnalyze(null, mapJobsPerPlugin);
 
-        if (item != null && item instanceof WorkflowJob) {
+        if (item instanceof WorkflowJob) {
             WorkflowJob job = (WorkflowJob) item;
             FlowDefinition definition = job.getDefinition();
             if (definition instanceof CpsFlowDefinition) {

@@ -30,7 +30,7 @@ public class PublisherJobAnalyzer extends JobAnalyzer{
 	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{	
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if(item != null && item instanceof AbstractProject){
+		if(item instanceof AbstractProject){
 			DescribableList<Publisher,Descriptor<Publisher>> publisherList = ((AbstractProject)item).getPublishersList();
 			Map<Descriptor<Publisher>, Publisher> map = publisherList.toMap();
 			for (Map.Entry<Descriptor<Publisher>, Publisher> entry : map.entrySet())

@@ -33,8 +33,8 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
     @Override
     protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
         super.doJobAnalyze(null, mapJobsPerPlugin);
-        if (item != null && item instanceof Project) {
-            Project project = (Project) item;
+        if (item instanceof Project) {
+            Project<?,?> project = (Project) item;
             List<Builder> builders = project.getBuilders();
             for (Builder builder : builders) {
                 PluginWrapper usedPlugin = getUsedPlugin(builder.getDescriptor().clazz);

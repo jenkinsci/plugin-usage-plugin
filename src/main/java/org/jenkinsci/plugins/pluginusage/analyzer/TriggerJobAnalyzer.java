@@ -30,7 +30,7 @@ public class TriggerJobAnalyzer extends JobAnalyzer{
 	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if(item != null && item instanceof AbstractProject){
+		if(item instanceof AbstractProject){
 			Map<TriggerDescriptor,Trigger> triggers = ((AbstractProject)item).getTriggers();
 			for (Map.Entry<TriggerDescriptor,Trigger> entry : triggers.entrySet())
 			{

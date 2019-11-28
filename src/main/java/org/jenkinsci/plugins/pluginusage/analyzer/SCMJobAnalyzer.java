@@ -30,7 +30,7 @@ public class SCMJobAnalyzer extends JobAnalyzer{
 	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		if(item != null && item instanceof AbstractProject){
+		if(item instanceof AbstractProject){
 			PluginWrapper scmPlugin = getUsedPlugin(((AbstractProject)item).getScm().getDescriptor().clazz);
 			if(scmPlugin!=null)
 			{
