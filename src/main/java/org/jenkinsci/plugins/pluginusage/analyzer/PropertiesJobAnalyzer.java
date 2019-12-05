@@ -4,12 +4,9 @@ import hudson.PluginWrapper;
 import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
-import hudson.model.AbstractProject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+
+import java.util.Map;
 
 
 public class PropertiesJobAnalyzer extends JobAnalyzer{

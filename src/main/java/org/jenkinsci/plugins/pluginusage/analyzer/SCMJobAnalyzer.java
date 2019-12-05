@@ -2,18 +2,13 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
-import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
-import hudson.scm.SCMDescriptor;
 import hudson.scm.SCM;
-import hudson.tasks.BuildWrapper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
+import hudson.scm.SCMDescriptor;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+
+import java.util.Map;
 
 public class SCMJobAnalyzer extends JobAnalyzer{
 	

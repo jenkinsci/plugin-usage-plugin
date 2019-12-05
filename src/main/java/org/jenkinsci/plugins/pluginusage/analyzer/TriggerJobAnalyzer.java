@@ -2,18 +2,13 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
-import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
 import hudson.model.Job;
-import hudson.tasks.BuildWrapper;
 import hudson.triggers.Trigger;
 import hudson.triggers.TriggerDescriptor;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+
+import java.util.Map;
 
 public class TriggerJobAnalyzer extends JobAnalyzer{
 	

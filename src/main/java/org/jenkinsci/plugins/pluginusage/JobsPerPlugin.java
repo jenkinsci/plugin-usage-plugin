@@ -1,7 +1,6 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import hudson.PluginWrapper;
-import hudson.model.AbstractProject;
 import hudson.model.Job;
 
 import java.util.ArrayList;

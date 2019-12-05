@@ -10,15 +10,13 @@ import hudson.model.Project;
 import hudson.plugins.promoted_builds.PromotedProjectAction;
 import hudson.plugins.promoted_builds.PromotionProcess;
 import hudson.tasks.BuildStep;
-import hudson.tasks.BuildStepCompatibilityLayer;
 import hudson.tasks.Builder;
-
-import java.util.List;
-import java.util.Map;
-
 import org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder;
 import org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+
+import java.util.List;
+import java.util.Map;
 
 public class BuilderJobAnalyzer extends JobAnalyzer {
 

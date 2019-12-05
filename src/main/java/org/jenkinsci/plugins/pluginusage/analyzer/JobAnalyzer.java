@@ -1,16 +1,13 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import hudson.PluginWrapper;
 import hudson.model.Job;
+import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
-import hudson.PluginWrapper;
-import hudson.model.AbstractProject;
-import jenkins.model.Jenkins;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public abstract class JobAnalyzer{
