@@ -6,14 +6,16 @@ import hudson.model.AbstractProject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import hudson.model.Job;
 import jenkins.model.Jenkins;
 
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 public class JobCollector {
 	
-	private ArrayList<JobAnalyzer> analysers = new ArrayList<JobAnalyzer>();
+	private ArrayList<JobAnalyzer> analysers = new ArrayList<>();
 	
 	public JobCollector() {
 		analysers.add(new BuilderJobAnalyzer());
@@ -22,18 +24,23 @@ public class JobCollector {
 		analysers.add(new PublisherJobAnalyzer());
 		analysers.add(new SCMJobAnalyzer());
 		analysers.add(new TriggerJobAnalyzer());
+		analysers.add(new StepAnalyser());
+		analysers.add(new MavenJobAnalyzer());
 	}
 
-	public HashMap<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
+	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
 	{
-		HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<PluginWrapper, JobsPerPlugin>();
-		Jenkins jenkins = Jenkins.getInstance();
-		if (jenkins == null) {
-			return mapJobsPerPlugin;
+		Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<>();
+
+		// bootstrap map with all job related plugins
+		for(JobAnalyzer analyser: analysers)
+		{
+			analyser.doJobAnalyze(null, mapJobsPerPlugin);
 		}
-		List<AbstractProject> allItems = jenkins.getAllItems(AbstractProject.class);
+
+		List<Job> allItems = Jenkins.get().getAllItems(Job.class);
 		
-		for(AbstractProject item: allItems)
+		for(Job item: allItems)
 		{
 			for(JobAnalyzer analyser: analysers)
 			{
@@ -41,26 +48,24 @@ public class JobCollector {
 			}
 		}
 
-		List<PluginWrapper> allPlugins = jenkins.getPluginManager().getPlugins();
-		for(PluginWrapper plugin: allPlugins)
-		{
-			if (mapJobsPerPlugin.get(plugin) == null)
-			{
-				mapJobsPerPlugin.put(plugin, new JobsPerPlugin(plugin));
-			}
-		}
-
 		return mapJobsPerPlugin;
 	}
 	
 	public int getNumberOfJobs() {
-		Jenkins instance = Jenkins.getInstance();
-		if (instance == null) {
-			return 0;
-		}
-		List<AbstractProject> allItems = instance.getAllItems(AbstractProject.class);
+		List<AbstractProject> allItems = Jenkins.get().getAllItems(AbstractProject.class);
 		return allItems.size();	
 	}
-	
-	
+
+
+    public List<PluginWrapper> getOtherPlugins() {
+		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
+		List<PluginWrapper> others = new ArrayList<>(allPlugins);
+
+		for(JobAnalyzer analyser: analysers)
+		{
+			others.removeAll(analyser.getPlugins());
+		}
+
+		return others;
+    }
 }

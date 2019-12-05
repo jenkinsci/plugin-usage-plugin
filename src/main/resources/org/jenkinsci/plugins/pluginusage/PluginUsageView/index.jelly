@@ -4,6 +4,7 @@
     <l:layout xmlns:local="local" norefresh="true">
         <st:include it="${app}" page="sidepanel.jelly"/><!--Implements the sidepanel of the default-view-->
         <l:main-panel>
+            <p>${%Warning: Scripted pipeline jobs are not detected by this plugin. Support for declarative pipeline jobs is experimental.}</p>
             <j:set var="data" value="${it.data}"/>
             <j:set var="pluginsByJob" value="${data.pluginUsageByPlugin}"/>
             <j:set var="jobsPerPlugin" value="${data.jobsPerPlugin}"/>
@@ -44,10 +45,10 @@
                         </td>
                         <td style="padding:5px 15px 5px 5px;">
                           <j:if test="${j.numberOfJobs > 0}">
-                              <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})"/>
+                              <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})" style="display: block;margin: auto;"/>
                               <ul id="ulID${count}" style="display:none">
                                   <j:forEach var="project" items="${j.projects}">
-                                      <li><a href="${app.rootUrl}${project.url}">${project.displayName}</a></li>
+                                      <li><a href="${app.rootUrl}${project.url}">${project.fullDisplayName}</a></li>
                                   </j:forEach>
                               </ul>
                              <j:set var="count" value="${count+1}"/>
@@ -56,6 +57,36 @@
                     </tr>
                  </j:forEach>
                  </tbody>
+            </table>
+
+            <j:set var="data" value="${it.data}"/>
+            <j:set var="otherPlugins" value="${data.otherPlugins}"/>
+            <br/>
+            <hr/>
+            <h1>${%Other Plugins}</h1>
+            <table class="sortable pane bigtable" border="solid #bbb;">
+                <thead>
+                    <tr>
+                        <th>
+                            ${%Plugin Name}
+                        </th>
+                        <th>
+                            ${%Version}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="j" items="${otherPlugins}">
+                        <tr>
+                            <td align="center" style="vertical-align:middle;">
+                                <a href="${j.url}">${j.longName}</a>
+                            </td>
+                            <td align="center" style="vertical-align:middle;">
+                                ${j.version}
+                            </td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
             </table>
         </l:main-panel>
     </l:layout>

@@ -1,28 +1,24 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import hudson.PluginWrapper;
+import hudson.model.Job;
+import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
-import hudson.PluginWrapper;
-import hudson.model.AbstractProject;
-import jenkins.model.Jenkins;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public abstract class JobAnalyzer{
-	
-	protected ArrayList<PluginWrapper> plugins = new ArrayList<PluginWrapper>();
+
+	protected List<PluginWrapper> plugins = new ArrayList<>();
 
 	protected PluginWrapper getUsedPlugin(Class clazz) {
-		Jenkins instance = Jenkins.getInstance();
-		if (instance == null) {
-			return null;
-		}
-		return instance.getPluginManager().whichPlugin(clazz);
+		return Jenkins.get().getPluginManager().whichPlugin(clazz);
 	}
 
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		for(PluginWrapper plugin: plugins)
 		{
@@ -36,6 +32,10 @@ public abstract class JobAnalyzer{
 				}
 			}		
 		}
+	}
+
+	public List<PluginWrapper> getPlugins() {
+		return plugins;
 	}
 
 }
