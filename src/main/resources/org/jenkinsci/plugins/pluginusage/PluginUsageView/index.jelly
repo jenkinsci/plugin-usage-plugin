@@ -79,7 +79,7 @@
                     <j:forEach var="j" items="${otherPlugins}">
                         <tr>
                             <td align="center" style="vertical-align:middle;">
-                                <a href="${j.plugin.url}">${j.longName}</a>
+                                <a href="${j.url}">${j.longName}</a>
                             </td>
                             <td align="center" style="vertical-align:middle;">
                                 ${j.version}
