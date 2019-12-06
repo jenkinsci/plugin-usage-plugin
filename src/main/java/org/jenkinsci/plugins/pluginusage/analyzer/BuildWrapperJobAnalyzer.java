@@ -2,18 +2,14 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
-import hudson.model.Descriptor;
-import hudson.model.AbstractProject;
 import hudson.model.BuildableItemWithBuildWrappers;
+import hudson.model.Descriptor;
+import hudson.model.Job;
 import hudson.tasks.BuildWrapper;
-import hudson.tasks.Builder;
 import hudson.util.DescribableList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+
+import java.util.Map;
 
 public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 	
@@ -25,8 +21,9 @@ public class BuildWrapperJobAnalyzer extends JobAnalyzer{
 			plugins.add(usedPlugin);
 		}
 	}
-	
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+
+	@Override
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{
 		super.doJobAnalyze(null, mapJobsPerPlugin);
 		if (item instanceof BuildableItemWithBuildWrappers)

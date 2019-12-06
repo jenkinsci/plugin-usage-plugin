@@ -1,30 +1,32 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import hudson.PluginWrapper;
-import hudson.model.AbstractProject;
+import hudson.model.Job;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JobsPerPlugin {
 	
 	private PluginWrapper plugin;
-	private HashMap<String, AbstractProject> jobMap = new HashMap<String, AbstractProject>();
+	private Map<String, Job> jobMap = new HashMap<String, Job>();
 	
 	
 	public JobsPerPlugin(PluginWrapper plugin) {
 		this.plugin = plugin;
 	}
 	
-	public void addProject(AbstractProject project) {
-		this.jobMap.put(project.getDisplayName(), project);
+	public void addProject(Job project) {
+		this.jobMap.put(project.getFullDisplayName(), project);
 	}
 	
-	public List<AbstractProject> getProjects() {
-		ArrayList<AbstractProject> projects = new ArrayList<AbstractProject>();
+	public List<Job> getProjects() {
+		ArrayList<Job> projects = new ArrayList<Job>();
 		projects.addAll(jobMap.values());
-		
+		projects.sort(Comparator.comparing(Job::getName));
 		return projects;
 	}
 	

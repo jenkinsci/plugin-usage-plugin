@@ -2,16 +2,13 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
-import hudson.model.Descriptor;
 import hudson.model.AbstractProject;
-import hudson.scm.SCMDescriptor;
+import hudson.model.Job;
 import hudson.scm.SCM;
-import hudson.tasks.BuildWrapper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import hudson.scm.SCMDescriptor;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+
+import java.util.Map;
 
 public class SCMJobAnalyzer extends JobAnalyzer{
 	
@@ -23,25 +20,28 @@ public class SCMJobAnalyzer extends JobAnalyzer{
 			plugins.add(usedPlugin);
 		}
 	}
-	
-	protected void doJobAnalyze(AbstractProject item, HashMap<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
+
+	@Override
+	protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin)
 	{		
 		super.doJobAnalyze(null, mapJobsPerPlugin);
-		PluginWrapper scmPlugin = getUsedPlugin(item.getScm().getDescriptor().clazz);
-		if(scmPlugin!=null)
-	    {
-	    	JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(scmPlugin);
-	    	if(jobsPerPlugin!=null)
-	    	{
-	    		jobsPerPlugin.addProject(item);
-	    	}
-	    	else
-	    	{
-	    		JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(scmPlugin);
-	    		jobsPerPlugin2.addProject(item);
-	    		mapJobsPerPlugin.put(scmPlugin, jobsPerPlugin2);
-	    	}
-	    }
+		if(item instanceof AbstractProject){
+			PluginWrapper scmPlugin = getUsedPlugin(((AbstractProject)item).getScm().getDescriptor().clazz);
+			if(scmPlugin!=null)
+			{
+				JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(scmPlugin);
+				if(jobsPerPlugin!=null)
+				{
+					jobsPerPlugin.addProject(item);
+				}
+				else
+				{
+					JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(scmPlugin);
+					jobsPerPlugin2.addProject(item);
+					mapJobsPerPlugin.put(scmPlugin, jobsPerPlugin2);
+				}
+			}
+		}
 	}
 
 }
