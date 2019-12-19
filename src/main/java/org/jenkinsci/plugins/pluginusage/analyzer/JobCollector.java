@@ -1,12 +1,14 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.PluginWrapper;
+
 import hudson.model.AbstractProject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import hudson.model.Job;
 import jenkins.model.Jenkins;
@@ -15,6 +17,7 @@ import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 public class JobCollector {
 	
+	private static final Logger LOGGER = Logger.getLogger(JobCollector.class.getName());
 	private ArrayList<JobAnalyzer> analysers = new ArrayList<>();
 	
 	public JobCollector() {
@@ -39,15 +42,17 @@ public class JobCollector {
 		}
 
 		List<Job> allItems = Jenkins.get().getAllItems(Job.class);
-		
 		for(Job item: allItems)
 		{
 			for(JobAnalyzer analyser: analysers)
 			{
-				analyser.doJobAnalyze(item, mapJobsPerPlugin);
+				try{
+					analyser.doJobAnalyze(item, mapJobsPerPlugin);
+				} catch(Exception e){
+					LOGGER.warning("Exception catched: " + e );
+				}
 			}
 		}
-
 		return mapJobsPerPlugin;
 	}
 	
