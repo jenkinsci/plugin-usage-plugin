@@ -62,17 +62,10 @@ public class JobCollector {
 		return allItems.size();	
 	}
 
-
-    public List<PluginWrapper> getOtherPlugins() {
-		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
-		List<PluginWrapper> others = new ArrayList<>(allPlugins);
-		List<String> isDependency = new ArrayList<>();
+	public void removeDependencies (List<PluginWrapper> listOfPlugins){
 		List<PluginWrapper> pluginsToRemove = new ArrayList<>();
-
-		for(JobAnalyzer analyser: analysers)
-		{
-			others.removeAll(analyser.getPlugins());
-		}
+		List<String> isDependency = new ArrayList<>();
+		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
 
 		// get a single list of all the plugins that are dependency of another plugin		
 		for(PluginWrapper plugin: allPlugins)
@@ -84,13 +77,13 @@ public class JobCollector {
 			}
 		}
 
-		LOGGER.info("this jobs are dependency of another: " + isDependency);
+		//LOGGER.info("this jobs are dependency of another: " + isDependency);
 
 		//now I want to remove plugins that are dependency of another plugin
-		for(PluginWrapper plugin: others)
+		for(PluginWrapper plugin: listOfPlugins)
 		{
 			String pluginName = plugin.getShortName();
-			LOGGER.info("checking for "+pluginName);	
+			//LOGGER.info("checking for "+pluginName);	
 			if(isDependency.contains(pluginName))
 			{
 				LOGGER.info("this plugin: " + pluginName +" is dependency of another");
@@ -100,7 +93,21 @@ public class JobCollector {
 			}
 		}
 
-		others.removeAll(pluginsToRemove);
+		listOfPlugins.removeAll(pluginsToRemove);
+
+	}
+
+
+    public List<PluginWrapper> getOtherPlugins() {
+		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
+		List<PluginWrapper> others = new ArrayList<>(allPlugins);
+
+		for(JobAnalyzer analyser: analysers)
+		{
+			others.removeAll(analyser.getPlugins());
+		}
+
+		removeDependencies(others);
 
 		return others;
     }
