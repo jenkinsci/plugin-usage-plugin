@@ -31,11 +31,7 @@
       <version>1.2</version>
       <optional>true</optional>
     </dependency>
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>token-macro</artifactId>
-      <version>2.0</version>
-    </dependency>
+
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>promoted-builds</artifactId>
@@ -47,12 +43,14 @@
       <groupId>org.jenkinsci.plugins</groupId>
       <artifactId>pipeline-model-definition</artifactId>
       <version>0.8.2</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>org.jenkins-ci.main</groupId>
       <artifactId>maven-plugin</artifactId>
       <version>3.0</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 
@@ -72,6 +70,11 @@
         <groupId>commons-net</groupId>
         <artifactId>commons-net</artifactId>
         <version>3.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>token-macro</artifactId>
+        <version>2.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
