@@ -70,7 +70,6 @@ public class JobCollector {
 			}
 		}
 
-		removeDependencies(mapJobsPerPlugin);
 		return mapJobsPerPlugin;
 	}
 	
@@ -80,15 +79,12 @@ public class JobCollector {
 	}
 
     public List<PluginWrapper> getOtherPlugins() {
-		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
 		List<PluginWrapper> others = new ArrayList<>(allPlugins);
 
 		for(JobAnalyzer analyser: analysers)
 		{
 			others.removeAll(analyser.getPlugins());
 		}
-
-		removeDependencies(others);
 
 		return others;
     }
