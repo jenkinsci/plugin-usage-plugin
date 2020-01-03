@@ -21,6 +21,7 @@ public class JobCollector {
 	
 	private static final Logger LOGGER = Logger.getLogger(JobCollector.class.getName());
 	private ArrayList<JobAnalyzer> analysers = new ArrayList<>();
+	private List<PluginWrapper> others;
 	private List<PluginWrapper> allPlugins;
 	private List<String> isDependency;
 
@@ -45,6 +46,14 @@ public class JobCollector {
 				isDependency.add(dependency.shortName);
 			}
 		}
+
+		//get a list of all the plugins that are not jobs related
+		others = new ArrayList<>(allPlugins);
+		for(JobAnalyzer analyser: analysers)
+		{
+			others.removeAll(analyser.getPlugins());
+		}
+
 	}
 
 	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
@@ -79,18 +88,12 @@ public class JobCollector {
 	}
 
     public List<PluginWrapper> getOtherPlugins() {
-		List<PluginWrapper> others = new ArrayList<>(allPlugins);
-
-		for(JobAnalyzer analyser: analysers)
-		{
-			others.removeAll(analyser.getPlugins());
-		}
-
 		return others;
     }
 
-	public void removeDependencies (Map<PluginWrapper, JobsPerPlugin> listOfPlugins){
+	public Map<PluginWrapper, JobsPerPlugin> splitByDependencies (Map<PluginWrapper, JobsPerPlugin> listOfPlugins){
 		List<PluginWrapper> pluginsToRemove = new ArrayList<>();
+		Map<PluginWrapper, JobsPerPlugin> mapOfPluginsToRemove = new HashMap<>();
 
 		//now I want to remove plugins that are dependency of another plugin
 		for(Map.Entry<PluginWrapper, JobsPerPlugin> plugin: listOfPlugins.entrySet())
@@ -99,25 +102,31 @@ public class JobCollector {
 			if(isDependency.contains(pluginName))
 			{
 				PluginWrapper toRemove = Jenkins.get().getPluginManager().getPlugin(pluginName);
-				//LOGGER.info("about to remove:"+toRemove);
 				pluginsToRemove.add(toRemove);
 			}
 		}
 
-		//listOfPlugins.removeAll(pluginsToRemove);
 		Iterator<Map.Entry<PluginWrapper, JobsPerPlugin>> itr = listOfPlugins.entrySet().iterator();
         while(itr.hasNext())
         {
              Map.Entry<PluginWrapper, JobsPerPlugin> entry = itr.next();
              if( pluginsToRemove.contains( entry.getKey() ) )
              {
-				itr.remove();
+                //LOGGER.info("add to mapOfPluginsToRemove:"+entry.getKey());
+				mapOfPluginsToRemove.put(entry.getKey(),entry.getValue());
              }
         }
+        //now we can remove
+        for(Map.Entry<PluginWrapper, JobsPerPlugin> plugin: mapOfPluginsToRemove.entrySet())
+        {
+            listOfPlugins.remove(plugin.getKey());
+        }
+
+        return mapOfPluginsToRemove;
 	}
 
     //remove plugins that are dependency of another plugin
-	public void removeDependencies (List<PluginWrapper> listOfPlugins){
+	public List<PluginWrapper> removeDependencies (List<PluginWrapper> listOfPlugins){
 		List<PluginWrapper> pluginsToRemove = new ArrayList<>();
 
 		//now I want to remove plugins that are dependency of another plugin
@@ -133,5 +142,7 @@ public class JobCollector {
 		}
 
 		listOfPlugins.removeAll(pluginsToRemove);
+
+		return pluginsToRemove;
 	}
 }

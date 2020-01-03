@@ -9,11 +9,13 @@
             <j:set var="pluginsByJob" value="${data.pluginUsageByPlugin}"/>
             <j:set var="jobsPerPlugin" value="${data.jobsPerPlugin}"/>
             <j:set var="numberOfJobs" value="${data.numberOfJobs}"/>
+            <j:set var="DependenciesPerPlugin" value="${data.DependenciesPerPlugin}"/>
             <j:set var="count" value="0"/>
             ${%Number of Jobs}: ${numberOfJobs}
             <br/>
             <hr/>
-            <h1>${%Jobs by Plugin}</h1>
+            <h1>${%Top level Plugins}</h1>
+            <h3>${%This plugins are not needed by other plugins}</h3>
             <table class="sortable pane bigtable" border="solid #bbb;" id="PluginUsageTable">
                 <thead>
                     <tr>
@@ -59,11 +61,90 @@
                  </tbody>
             </table>
 
+            <h1>${%Dependencies Plugin}</h1>
+            <h3>${%This plugins are dependency of another plugins}</h3>
+            <table class="sortable pane bigtable" border="solid #bbb;" id="DependenciesUsageTable">
+                <thead>
+                    <tr>
+                        <th>
+                            ${%Plugin Name}
+                        </th>
+                        <th>
+                            ${%Version}
+                        </th>
+                        <th>
+                            ${%Number of Jobs}
+                        </th>
+                        <th>
+                            ${%Jobs}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="DependenciesUsageTableBody">
+                 <j:forEach var="j" items="${DependenciesPerPlugin}">
+                    <tr>
+                        <td align="center" style="vertical-align:middle;">
+                            <a href="${j.plugin.url}">${j.pluginName}</a>
+                        </td>
+                        <td align="center" style="vertical-align:middle;">
+                            ${j.pluginVersion}
+                        </td>
+                        <td align="center" style="vertical-align:middle;">
+                            ${j.numberOfJobs}
+                        </td>
+                        <td style="padding:5px 15px 5px 5px;">
+                          <j:if test="${j.numberOfJobs > 0}">
+                              <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})" style="display: block;margin: auto;"/>
+                              <ul id="ulID${count}" style="display:none">
+                                  <j:forEach var="project" items="${j.projects}">
+                                      <li><a href="${app.rootUrl}${project.url}">${project.fullDisplayName}</a></li>
+                                  </j:forEach>
+                              </ul>
+                             <j:set var="count" value="${count+1}"/>
+                          </j:if>
+                        </td>
+                    </tr>
+                 </j:forEach>
+                 </tbody>
+            </table>
+
             <j:set var="data" value="${it.data}"/>
             <j:set var="otherPlugins" value="${data.otherPlugins}"/>
             <br/>
             <hr/>
+            <h1>${%Top level Other Plugins}</h1>
+            <h3>${%This plugins are not dependency of another plugins, also have no job related}</h3>
+            <table class="sortable pane bigtable" border="solid #bbb;">
+                <thead>
+                    <tr>
+                        <th>
+                            ${%Plugin Name}
+                        </th>
+                        <th>
+                            ${%Version}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <j:forEach var="j" items="${otherPlugins}">
+                        <tr>
+                            <td align="center" style="vertical-align:middle;">
+                                <a href="${j.url}">${j.longName}</a>
+                            </td>
+                            <td align="center" style="vertical-align:middle;">
+                                ${j.version}
+                            </td>
+                        </tr>
+                    </j:forEach>
+                </tbody>
+            </table>
+
+            <j:set var="data" value="${it.data}"/>
+            <j:set var="otherPlugins" value="${data.OtherDependencies}"/>
+            <br/>
+            <hr/>
             <h1>${%Other Plugins}</h1>
+            <h3>${%This plugins are dependency of another plugins, also have no job related}</h3>
             <table class="sortable pane bigtable" border="solid #bbb;">
                 <thead>
                     <tr>
