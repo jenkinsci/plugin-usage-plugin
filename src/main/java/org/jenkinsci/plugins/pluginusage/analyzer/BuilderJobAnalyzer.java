@@ -11,6 +11,7 @@ import hudson.plugins.promoted_builds.PromotedProjectAction;
 import hudson.plugins.promoted_builds.PromotionProcess;
 import hudson.tasks.BuildStep;
 import hudson.tasks.Builder;
+import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder;
 import org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
@@ -45,16 +46,18 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
     }
 
     private void processPromotedBuilds(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
-        PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
-        if (action != null){
-            List<PromotionProcess> processes = action.getProcesses();
-            for (PromotionProcess process: processes) {
-                List<BuildStep> buildSteps = process.getBuildSteps();
-                for (BuildStep buildStep: buildSteps) {
-                    if (buildStep instanceof Builder){
-                        Builder innerBuilder = (Builder) buildStep;
-                        PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
-                        addItem(item, mapJobsPerPlugin, usedPlugin);
+        if (Jenkins.get().getPlugin("promoted-builds") != null){
+            PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
+            if (action != null){
+                List<PromotionProcess> processes = action.getProcesses();
+                for (PromotionProcess process: processes) {
+                    List<BuildStep> buildSteps = process.getBuildSteps();
+                    for (BuildStep buildStep: buildSteps) {
+                        if (buildStep instanceof Builder){
+                            Builder innerBuilder = (Builder) buildStep;
+                            PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                            addItem(item, mapJobsPerPlugin, usedPlugin);
+                        }
                     }
                 }
             }
@@ -73,21 +76,23 @@ public class BuilderJobAnalyzer extends JobAnalyzer {
     }
 
     private void processConditionalBuilder(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Builder builder) {
-        if(builder instanceof ConditionalBuilder){
-            ConditionalBuilder conditionalBuilder = (ConditionalBuilder) builder;
-            List<Builder> conditionalBuilders = conditionalBuilder.getConditionalbuilders();
-            for (Builder innerBuilder: conditionalBuilders) {
-                PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
-                addItem(item, mapJobsPerPlugin, usedPlugin);
+        if (Jenkins.get().getPlugin("conditional-buildstep") != null){
+            if(builder instanceof ConditionalBuilder){
+                ConditionalBuilder conditionalBuilder = (ConditionalBuilder) builder;
+                List<Builder> conditionalBuilders = conditionalBuilder.getConditionalbuilders();
+                for (Builder innerBuilder: conditionalBuilders) {
+                    PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                    addItem(item, mapJobsPerPlugin, usedPlugin);
+                }
             }
-        }
-        if(builder instanceof SingleConditionalBuilder){
-            SingleConditionalBuilder singleConditionalBuilder = (SingleConditionalBuilder) builder;
-            BuildStep buildStep = singleConditionalBuilder.getBuildStep();
-            if (buildStep instanceof Builder){
-                Builder innerBuilder = (Builder) buildStep;
-                PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
-                addItem(item, mapJobsPerPlugin, usedPlugin);
+            if(builder instanceof SingleConditionalBuilder){
+                SingleConditionalBuilder singleConditionalBuilder = (SingleConditionalBuilder) builder;
+                BuildStep buildStep = singleConditionalBuilder.getBuildStep();
+                if (buildStep instanceof Builder){
+                    Builder innerBuilder = (Builder) buildStep;
+                    PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                    addItem(item, mapJobsPerPlugin, usedPlugin);
+                }
             }
         }
     }
