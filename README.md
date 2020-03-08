@@ -14,6 +14,8 @@ analyze the used extension points of each job.
 **Plugins used in pipeline scripts would not be listed normally as used
 by jobs, because they are used dynamically in Jenkinsfiles.**
 
+![plugin view](screenshot.png)
+
 ## Supported Extension points
 
 This plugins will first iterate through jobs to gather those types of
