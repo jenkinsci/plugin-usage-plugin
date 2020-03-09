@@ -1,5 +1,10 @@
 # Jenkins plugin-usage-plugin
 
+[![Jenkins Plugins](https://img.shields.io/jenkins/plugin/v/plugin-usage-plugin)](https://github.com/jenkinsci/plugin-usage-plugin/releases)
+[![Jenkins Plugin installs](https://img.shields.io/jenkins/plugin/i/plugin-usage-plugin)](https://plugins.jenkins.io/plugin-usage-plugin/)
+[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/plugin-usage-plugin/master)](https://ci.jenkins.io/blue/organizations/jenkins/Plugins%2Fplugin-usage-plugin/branches)
+[![javadoc](https://img.shields.io/badge/javadoc-available-brightgreen.svg)](https://javadoc.jenkins.io/plugin/plugin-usage-plugin/)
+
 This plugin gives you the possibility to analyze the usage of your
 installed plugins.
 
