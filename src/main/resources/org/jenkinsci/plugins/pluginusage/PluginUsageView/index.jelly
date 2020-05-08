@@ -29,6 +29,9 @@
                         <th>
                             ${%Jobs}
                         </th>
+                        <th>
+                            ${%Has Dependants?}
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="pluginUsageTableBody">
@@ -54,6 +57,9 @@
                              <j:set var="count" value="${count+1}"/>
                           </j:if>
                         </td>
+                        <td align="center" style="vertical-align:middle;">
+                             ${j.hasDependants()}
+                        </td>
                     </tr>
                  </j:forEach>
                  </tbody>
@@ -73,6 +79,9 @@
                         <th>
                             ${%Version}
                         </th>
+                        <th>
+                            ${%Has Dependants?}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +92,9 @@
                             </td>
                             <td align="center" style="vertical-align:middle;">
                                 ${j.version}
+                            </td>
+                            <td align="center" style="vertical-align:middle;">
+                                 ${j.hasDependants()}
                             </td>
                         </tr>
                     </j:forEach>

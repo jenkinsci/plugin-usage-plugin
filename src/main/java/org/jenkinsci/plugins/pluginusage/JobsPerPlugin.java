@@ -47,4 +47,8 @@ public class JobsPerPlugin {
 		return plugin;
 	}
 
+	public boolean hasDependants(){
+		return plugin.hasDependants();
+	}
+
 }
