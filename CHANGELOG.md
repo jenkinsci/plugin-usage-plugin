@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - Added columns to indicate if a plugin has dependants or not
+
 ### [Version 1.0] (2020-03-09)
 
 **Major Upgrade**
