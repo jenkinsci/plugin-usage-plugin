@@ -38,4 +38,17 @@ public abstract class JobAnalyzer{
 		return plugins;
 	}
 
+	protected void 	addItem(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, PluginWrapper usedPlugin) {
+		if (usedPlugin != null) {
+			JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
+			if (jobsPerPlugin != null) {
+				jobsPerPlugin.addProject(item);
+			} else {
+				JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
+				jobsPerPlugin2.addProject(item);
+				mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
+			}
+		}
+	}
+
 }

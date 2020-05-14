@@ -1,15 +1,20 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
+import java.util.List;
+import java.util.Map;
+
 import hudson.DescriptorExtensionList;
 import hudson.PluginWrapper;
 import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
 import hudson.model.Job;
+import hudson.plugins.promoted_builds.PromotedProjectAction;
+import hudson.plugins.promoted_builds.PromotionProcess;
+import hudson.tasks.BuildStep;
 import hudson.tasks.Publisher;
 import hudson.util.DescribableList;
+import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
-
-import java.util.Map;
 
 public class PublisherJobAnalyzer extends JobAnalyzer{
 	
@@ -32,18 +37,25 @@ public class PublisherJobAnalyzer extends JobAnalyzer{
 			for (Map.Entry<Descriptor<Publisher>, Publisher> entry : map.entrySet())
 			{
 				PluginWrapper usedPlugin = getUsedPlugin(entry.getKey().clazz);
-				if(usedPlugin!=null)
-				{
-					JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
-					if(jobsPerPlugin!=null)
-					{
-						jobsPerPlugin.addProject(item);
-					}
-					else
-					{
-						JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
-						jobsPerPlugin2.addProject(item);
-						mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
+				addItem(item, mapJobsPerPlugin, usedPlugin);
+			}
+			processPromotedBuilds(item, mapJobsPerPlugin);
+		}
+	}
+
+	private void processPromotedBuilds(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+		if (Jenkins.get().getPlugin("promoted-builds") != null){
+			PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
+			if (action != null){
+				List<PromotionProcess> processes = action.getProcesses();
+				for (PromotionProcess process: processes) {
+					List<BuildStep> buildSteps = process.getBuildSteps();
+					for (BuildStep buildStep: buildSteps) {
+						if (buildStep instanceof Publisher){
+							Publisher innerPublisher = (Publisher) buildStep;
+							PluginWrapper usedPlugin = getUsedPlugin(innerPublisher.getDescriptor().clazz);
+							addItem(item, mapJobsPerPlugin, usedPlugin);
+						}
 					}
 				}
 			}

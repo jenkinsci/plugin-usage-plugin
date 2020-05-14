@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - Added columns to indicate if a plugin has dependants or not
+ - Added processing of Publisher in promotions
 
 ### [Version 1.0] (2020-03-09)
 
