@@ -13,7 +13,7 @@
   <name>Plugin Usage - Plugin</name>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>plugin-usage-plugin</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1.0-di2e-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
 
