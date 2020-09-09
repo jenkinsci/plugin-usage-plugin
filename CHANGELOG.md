@@ -2,10 +2,12 @@
 
 ### [Unreleased]
 
+### [Version 1.1] (2020-09-09)
+
  - Added columns to indicate if a plugin has dependants or not
  - Added processing of Publisher in promotions
  - Fixed [JENKINS-63442 ClassNotFoundException: org.jenkinsci.plugins.workflow.job.WorkflowJob](https://issues.jenkins-ci.org/browse/JENKINS-63442)
-- Change minimum supported jenkins version from 2.138.4 to 2.204
+ - Change minimum supported jenkins version from 2.138.4 to 2.204
 
 ### [Version 1.0] (2020-03-09)
 
@@ -44,7 +46,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.0...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.1...HEAD
+[Version 1.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.0...plugin-usage-plugin-1.1
 [Version 1.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-0.4...plugin-usage-plugin-1.0
 [Version 0.4]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-0.3...plugin-usage-plugin-0.4
 [Version 0.3]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-0.2...plugin-usage-plugin-0.3
