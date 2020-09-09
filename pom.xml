@@ -13,7 +13,7 @@
   <name>Plugin Usage - Plugin</name>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>plugin-usage-plugin</artifactId>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
 
@@ -98,7 +98,7 @@
     <connection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
-    <tag>plugin-usage-plugin-1.1</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <developers>
