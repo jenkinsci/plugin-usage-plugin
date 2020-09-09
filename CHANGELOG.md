@@ -4,6 +4,8 @@
 
  - Added columns to indicate if a plugin has dependants or not
  - Added processing of Publisher in promotions
+ - Fixed [JENKINS-63442 ClassNotFoundException: org.jenkinsci.plugins.workflow.job.WorkflowJob](https://issues.jenkins-ci.org/browse/JENKINS-63442)
+- Change minimum supported jenkins version from 2.138.4 to 2.204
 
 ### [Version 1.0] (2020-03-09)
 
