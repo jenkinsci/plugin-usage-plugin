@@ -27,7 +27,7 @@ public class StepAnalyser extends JobAnalyzer {
     private boolean hasPlugin;
 
     public StepAnalyser() {
-        hasPlugin = Jenkins.get().getPlugin("maven-plugin") != null;
+        hasPlugin = Jenkins.get().getPlugin("workflow-job") != null;
         if (hasPlugin){
             for (StepDescriptor b : StepDescriptor.all()) {
                 PluginWrapper usedPlugin = getUsedPlugin(b.clazz);
