@@ -32,5 +32,7 @@ extension points:
 -   Publisher
 -   SCM
 -   Trigger
+-   WorkflowJob
+-   Maven
 
 and will add other plugins at the end. 
