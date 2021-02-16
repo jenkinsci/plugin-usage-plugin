@@ -21,6 +21,8 @@ by jobs, because they are used dynamically in Jenkinsfiles.**
 
 ![plugin view](screenshot.png)
 
+An API is also available (https://github.com/jenkinsci/plugin-usage-plugin/pull/18).
+
 ## Supported Extension points
 
 This plugins will first iterate through jobs to gather those types of
