@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - Add API support (https://github.com/jenkinsci/plugin-usage-plugin/pull/18)
+
 ### [Version 1.1] (2020-09-09)
 
  - Added columns to indicate if a plugin has dependants or not
