@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 1.2] (2021-02-16)
+
  - Add API support (https://github.com/jenkinsci/plugin-usage-plugin/pull/18)
 
 ### [Version 1.1] (2020-09-09)
