@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import hudson.Extension;
+import hudson.model.Api;
 import hudson.model.RootAction;
 
 @Extension
@@ -23,4 +24,7 @@ public class PluginUsageView implements RootAction{
 		return pluginUsageModel;
 	}
 
+	public Api getApi() {
+		return new Api(getData());
+	}
 }

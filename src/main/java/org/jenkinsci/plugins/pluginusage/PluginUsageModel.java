@@ -6,9 +6,13 @@ import java.util.List;
 
 import hudson.PluginWrapper;
 import org.jenkinsci.plugins.pluginusage.analyzer.JobCollector;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
 
+@ExportedBean
 public class PluginUsageModel {
 	
+	@Exported
 	public List<JobsPerPlugin> getJobsPerPlugin() {
 		ArrayList<JobsPerPlugin> list = new ArrayList<JobsPerPlugin>();
 		list.addAll(new JobCollector().getJobsPerPlugin().values());
