@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.PluginWrapper;
+import hudson.PluginWrapper.Dependency;
 
 import hudson.model.AbstractProject;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 import hudson.model.Job;
@@ -19,7 +21,10 @@ public class JobCollector {
 	
 	private static final Logger LOGGER = Logger.getLogger(JobCollector.class.getName());
 	private ArrayList<JobAnalyzer> analysers = new ArrayList<>();
-	
+	private List<PluginWrapper> others;
+	private List<PluginWrapper> allPlugins;
+	private List<String> isDependency;
+
 	public JobCollector() {
 		analysers.add(new BuilderJobAnalyzer());
 		analysers.add(new BuildWrapperJobAnalyzer());
@@ -29,6 +34,26 @@ public class JobCollector {
 		analysers.add(new TriggerJobAnalyzer());
 		analysers.add(new StepAnalyser());
 		analysers.add(new MavenJobAnalyzer());
+
+		// get a single list of all the plugins that are dependency of another plugin
+		allPlugins = Jenkins.get().getPluginManager().getPlugins();
+		isDependency = new ArrayList<>();
+		for(PluginWrapper plugin: allPlugins)
+		{
+			List<Dependency> dependencies = plugin.getDependencies();
+			for( Dependency dependency: dependencies )
+			{
+				isDependency.add(dependency.shortName);
+			}
+		}
+
+		//get a list of all the plugins that are not jobs related
+		others = new ArrayList<>(allPlugins);
+		for(JobAnalyzer analyser: analysers)
+		{
+			others.removeAll(analyser.getPlugins());
+		}
+
 	}
 
 	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
@@ -53,6 +78,7 @@ public class JobCollector {
 				}
 			}
 		}
+
 		return mapJobsPerPlugin;
 	}
 	
@@ -61,16 +87,62 @@ public class JobCollector {
 		return allItems.size();	
 	}
 
-
     public List<PluginWrapper> getOtherPlugins() {
-		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
-		List<PluginWrapper> others = new ArrayList<>(allPlugins);
-
-		for(JobAnalyzer analyser: analysers)
-		{
-			others.removeAll(analyser.getPlugins());
-		}
-
 		return others;
     }
+
+	public Map<PluginWrapper, JobsPerPlugin> splitByDependencies (Map<PluginWrapper, JobsPerPlugin> listOfPlugins){
+		List<PluginWrapper> pluginsToRemove = new ArrayList<>();
+		Map<PluginWrapper, JobsPerPlugin> mapOfPluginsToRemove = new HashMap<>();
+
+		//now I want to remove plugins that are dependency of another plugin
+		for(Map.Entry<PluginWrapper, JobsPerPlugin> plugin: listOfPlugins.entrySet())
+		{
+			String pluginName = plugin.getKey().getShortName();
+			if(isDependency.contains(pluginName))
+			{
+				PluginWrapper toRemove = Jenkins.get().getPluginManager().getPlugin(pluginName);
+				pluginsToRemove.add(toRemove);
+			}
+		}
+
+		Iterator<Map.Entry<PluginWrapper, JobsPerPlugin>> itr = listOfPlugins.entrySet().iterator();
+        while(itr.hasNext())
+        {
+             Map.Entry<PluginWrapper, JobsPerPlugin> entry = itr.next();
+             if( pluginsToRemove.contains( entry.getKey() ) )
+             {
+                //LOGGER.info("add to mapOfPluginsToRemove:"+entry.getKey());
+				mapOfPluginsToRemove.put(entry.getKey(),entry.getValue());
+             }
+        }
+        //now we can remove
+        for(Map.Entry<PluginWrapper, JobsPerPlugin> plugin: mapOfPluginsToRemove.entrySet())
+        {
+            listOfPlugins.remove(plugin.getKey());
+        }
+
+        return mapOfPluginsToRemove;
+	}
+
+    //remove plugins that are dependency of another plugin
+	public List<PluginWrapper> removeDependencies (List<PluginWrapper> listOfPlugins){
+		List<PluginWrapper> pluginsToRemove = new ArrayList<>();
+
+		//now I want to remove plugins that are dependency of another plugin
+		for(PluginWrapper plugin: listOfPlugins)
+		{
+			String pluginName = plugin.getShortName();
+			if(isDependency.contains(pluginName))
+			{
+				PluginWrapper toRemove = Jenkins.get().getPluginManager().getPlugin(pluginName);
+				//LOGGER.info("about to remove:"+toRemove);
+				pluginsToRemove.add(toRemove);
+			}
+		}
+
+		listOfPlugins.removeAll(pluginsToRemove);
+
+		return pluginsToRemove;
+	}
 }
