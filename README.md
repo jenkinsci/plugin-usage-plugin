@@ -15,13 +15,19 @@ use this plugin.
 
 The plugin will give you a report on how much every plugin will be used
 in all of your jobs (see the screenshot below). Therefore it will
-analyze the used extension points of each job.  
+analyze the used extension points of each job.
 **Plugins used in pipeline scripts would not be listed normally as used
 by jobs, because they are used dynamically in Jenkinsfiles.**
 
 ![plugin view](screenshot.png)
 
 An API is also available (https://github.com/jenkinsci/plugin-usage-plugin/pull/18).
+
+### User access
+
+Authenticated users can access the Plugin Usage View if they have the Plugin View permission.
+
+This is because plugin usage view exposes information about the installed plugin and versions which may be against organization security policies.
 
 ## Supported Extension points
 
@@ -37,4 +43,4 @@ extension points:
 -   WorkflowJob
 -   Maven
 
-and will add other plugins at the end. 
+and will add other plugins at the end.
