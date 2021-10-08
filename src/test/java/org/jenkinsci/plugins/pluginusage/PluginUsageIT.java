@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.138.4";
+    private static final String IMAGE = "jenkins/jenkins:2.303.2";
 
     @Rule
     public GenericContainer jenkins = new GenericContainer(DockerImageName.parse(IMAGE))
@@ -32,19 +32,69 @@ public class PluginUsageIT {
         JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
         final int maxTimeBackoffMillis = 60 * 1000;
 
-        attempt(client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
 
-        attempt(client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
-        attempt(() -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
-        attempt(() -> client.createJob("freestyle1", "freestyle1.xml"), plugins -> client.getJobs().contains("freestyle1"), maxTimeBackoffMillis);
+        attempt("creating job", () -> client.createJob("freestyle1", "freestyle1.xml"), plugins -> client.getJobs().contains("freestyle1"), maxTimeBackoffMillis);
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(
                         new Project("freestyle1")
                 ))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void conditionalSingle() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+        attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("conditional-single1", "conditional-single1.xml"), plugins -> client.getJobs().contains("conditional-single1"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("conditional-buildstep", "1.4.1"), Lists.newArrayList(new Project("conditional-single1"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-single1")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void conditionalMultiple() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+        attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("conditional-multiple1", "conditional-multiple1.xml"), plugins -> client.getJobs().contains("conditional-multiple1"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("conditional-buildstep", "1.4.1"), Lists.newArrayList(new Project("conditional-multiple1"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-multiple1")))
         ));
         assertEquals(expected, actual);
     }
