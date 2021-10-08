@@ -99,5 +99,25 @@ public class PluginUsageIT {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void parameters() {
 
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing Git Parameter", () -> client.installPlugins("git-parameter", "0.9.13"), plugins -> client.getInstalledPlugins().contains("git-parameter"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("parameter1", "parameter1.xml"), plugins -> client.getJobs().contains("parameter1"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("git-parameter", "0.9.13"), Lists.newArrayList(new Project("parameter1")))
+        ));
+        assertEquals(expected, actual);
+    }
 }
