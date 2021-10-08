@@ -1,5 +1,9 @@
 package org.jenkinsci.plugins.pluginusage;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import com.google.common.collect.Lists;
 import org.jenkinsci.plugins.pluginusage.api.Plugin;
 import org.jenkinsci.plugins.pluginusage.api.PluginProjects;
@@ -117,6 +121,34 @@ public class PluginUsageIT {
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
                         new Plugin("git-parameter", "0.9.13"), Lists.newArrayList(new Project("parameter1")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void promotions() throws MalformedURLException, URISyntaxException {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+        attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("promotion-job1", "promotion-job1.xml"), plugins -> client.getJobs().contains("promotion-job1"), maxTimeBackoffMillis);
+
+        final URL url = client.getBaseURLBuilder().setPath("job/promotion-job1/promotion/createProcess").setParameter("name", "CI").build().toURL();
+        client.postFile(url, "promotion-job1-CI-process1.xml");
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("promotion-job1"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("promotion-job1")))
         ));
         assertEquals(expected, actual);
     }

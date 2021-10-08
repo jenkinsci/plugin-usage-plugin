@@ -40,7 +40,7 @@ public class JenkinsClient {
         this.port = port;
     }
 
-    private URIBuilder getBaseURLBuilder() {
+    protected URIBuilder getBaseURLBuilder() {
         URIBuilder builder = new URIBuilder();
         builder.setScheme("http");
         builder.setHost("localhost");
@@ -186,7 +186,16 @@ public class JenkinsClient {
 
     public Void createJob(String name, String jobResource) {
         try {
-            URLConnection con = createJobURL(name).openConnection();
+            postFile(createJobURL(name), jobResource);
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public Void postFile(URL url, String jobResource) {
+        try {
+            URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection)con;
             http.setRequestMethod("POST");
             http.setDoOutput(true);
@@ -220,12 +229,11 @@ public class JenkinsClient {
             }
             http.disconnect();
             assertEquals(200, status);
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
-
 
     public Void installPlugins(String plugin, String version) {
         try {
