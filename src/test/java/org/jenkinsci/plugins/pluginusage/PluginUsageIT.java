@@ -152,4 +152,29 @@ public class PluginUsageIT {
         ));
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void buildWrappers() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+        attempt("installing timestamper", () -> client.installPlugins("timestamper", "1.13"), plugins -> client.getInstalledPlugins().contains("timestamper"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("timestamper1", "timestamper1.xml"), plugins -> client.getJobs().contains("timestamper1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("timestamper", "1.13"), Lists.newArrayList(new Project("timestamper1"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("timestamper1")))
+        ));
+        assertEquals(expected, actual);
+    }
 }
