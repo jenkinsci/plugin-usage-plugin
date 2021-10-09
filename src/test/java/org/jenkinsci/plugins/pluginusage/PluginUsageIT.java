@@ -253,4 +253,32 @@ public class PluginUsageIT {
         ));
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void maven() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 3 * 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("maven1", "maven1.xml"), plugins -> client.getJobs().contains("maven1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven1")))
+        ));
+        assertEquals(expected, actual);
+    }
 }
