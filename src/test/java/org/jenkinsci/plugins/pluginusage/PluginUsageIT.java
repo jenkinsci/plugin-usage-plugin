@@ -227,4 +227,30 @@ public class PluginUsageIT {
         ));
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void scm() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing git", () -> client.installPlugins("git", "4.9.0"), plugins -> client.getInstalledPlugins().contains("git"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("scm1", "scm1.xml"), plugins -> client.getJobs().contains("scm1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("git", "4.9.0"), Lists.newArrayList(new Project("scm1"))),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList())
+        ));
+        assertEquals(expected, actual);
+    }
 }
