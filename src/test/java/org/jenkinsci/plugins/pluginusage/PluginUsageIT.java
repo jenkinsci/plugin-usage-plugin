@@ -305,4 +305,48 @@ public class PluginUsageIT {
         ));
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void pipeline() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 3 * 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing pipeline-model-definition", () -> client.installPlugins("pipeline-model-definition", "1.9.2"), plugins -> client.getInstalledPlugins().contains("pipeline-model-definition"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("pipeline1", "pipeline1.xml"), plugins -> client.getJobs().contains("pipeline1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("cloudbees-folder", "6.16"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-basic-steps", "2.24"), Lists.newArrayList(new Project("pipeline1"))),
+                new PluginProjects(
+                        new Plugin("pipeline-model-definition", "1.9.2"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-cps", "2.94"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-input-step", "2.12"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-multibranch", "2.26"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-durable-task-step", "2.40"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-cps-global-lib", "2.21"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList())
+        ));
+        assertEquals(expected, actual);
+    }
 }
