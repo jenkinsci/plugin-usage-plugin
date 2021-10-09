@@ -177,4 +177,54 @@ public class PluginUsageIT {
         ));
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void publishers() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing junit", () -> client.installPlugins("junit", "1.53"), plugins -> client.getInstalledPlugins().contains("junit"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("publisher1", "publisher1.xml"), plugins -> client.getJobs().contains("publisher1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList(new Project("publisher1")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void publishersPromotions() throws URISyntaxException, MalformedURLException {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing junit", () -> client.installPlugins("junit", "1.53"), plugins -> client.getInstalledPlugins().contains("junit"), maxTimeBackoffMillis);
+        attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("publisher2", "publisher2.xml"), plugins -> client.getJobs().contains("publisher2"), maxTimeBackoffMillis);
+
+        final URL url = client.getBaseURLBuilder().setPath("job/publisher2/promotion/createProcess").setParameter("name", "CI").build().toURL();
+        client.postFile(url, "publisher2-CI-process1.xml");
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList(new Project("publisher2"))),
+                new PluginProjects(
+                        new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("publisher2")))
+        ));
+        assertEquals(expected, actual);
+    }
 }
