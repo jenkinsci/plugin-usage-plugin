@@ -73,6 +73,14 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("conditional-buildstep", "1.4.1"), Lists.newArrayList(new Project("conditional-single1"))),
                 new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList()),
+                new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-single1")))
         ));
         assertEquals(expected, actual);
@@ -98,6 +106,14 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("conditional-buildstep", "1.4.1"), Lists.newArrayList(new Project("conditional-multiple1"))),
                 new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList()),
+                new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-multiple1")))
         ));
         assertEquals(expected, actual);
@@ -120,7 +136,15 @@ public class PluginUsageIT {
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
-                        new Plugin("git-parameter", "0.9.13"), Lists.newArrayList(new Project("parameter1")))
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("git-parameter", "0.9.13"), Lists.newArrayList(new Project("parameter1"))),
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("git", "4.9.0"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList())
         ));
         assertEquals(expected, actual);
     }
@@ -145,6 +169,8 @@ public class PluginUsageIT {
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("promotion-job1"))),
                 new PluginProjects(
