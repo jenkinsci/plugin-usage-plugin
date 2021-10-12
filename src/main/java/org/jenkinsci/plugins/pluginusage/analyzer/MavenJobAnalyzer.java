@@ -3,9 +3,11 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import hudson.PluginWrapper;
 import hudson.maven.MavenModuleSet;
 import hudson.model.Job;
+import hudson.tasks.Builder;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
+import java.util.List;
 import java.util.Map;
 
 public class MavenJobAnalyzer  extends JobAnalyzer {
@@ -25,6 +27,14 @@ public class MavenJobAnalyzer  extends JobAnalyzer {
                         jobsPerPlugin2.addProject(item);
                         mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
                     }
+                }
+
+                final MavenModuleSet moduleSet = (MavenModuleSet) item;
+                for (Builder builder : moduleSet.getPrebuilders()) {
+                    addItem(item, mapJobsPerPlugin, getUsedPlugin(builder.getDescriptor().clazz));
+                }
+                for (Builder builder : moduleSet.getPostbuilders()) {
+                    addItem(item, mapJobsPerPlugin, getUsedPlugin(builder.getDescriptor().clazz));
                 }
             }
         }

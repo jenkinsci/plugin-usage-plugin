@@ -317,6 +317,68 @@ public class PluginUsageIT {
     }
 
     @Test
+    public void mavenPreBuilders() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 3 * 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("maven2", "maven2.xml"), plugins -> client.getJobs().contains("maven2"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven2"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven2")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void mavenPostBuilders() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 3 * 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("maven3", "maven3.xml"), plugins -> client.getJobs().contains("maven3"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven3"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven3")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void trigger() {
 
         JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
