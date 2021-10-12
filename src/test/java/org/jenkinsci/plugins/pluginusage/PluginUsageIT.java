@@ -481,6 +481,44 @@ public class PluginUsageIT {
         assertEquals(expected, actual);
     }
 
+
+    @Test
+    public void mavenPromotions() throws URISyntaxException, MalformedURLException {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 3 * 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("maven7", "maven7.xml"), plugins -> client.getJobs().contains("maven7"), maxTimeBackoffMillis);
+
+        final URL url = client.getBaseURLBuilder().setPath("job/maven7/promotion/createProcess").setParameter("name", "CI").build().toURL();
+        client.postFile(url, "maven7-CI-process1.xml");
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("maven7"))),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven7"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven7")))
+        ));
+        assertEquals(expected, actual);
+    }
+
     @Test
     public void trigger() {
 

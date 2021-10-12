@@ -5,6 +5,8 @@ import hudson.maven.MavenModuleSet;
 import hudson.model.Job;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
+import hudson.plugins.promoted_builds.PromotedProjectAction;
+import hudson.plugins.promoted_builds.PromotionProcess;
 import hudson.tasks.BuildStep;
 import hudson.tasks.Builder;
 import jenkins.model.Jenkins;
@@ -44,6 +46,26 @@ public class MavenJobAnalyzer  extends JobAnalyzer {
                     processConditionalBuilder(item, mapJobsPerPlugin, builder);
                 }
                 processParameters(item, mapJobsPerPlugin);
+                processPromotedBuilds(item, mapJobsPerPlugin);
+            }
+        }
+    }
+
+    private void processPromotedBuilds(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+        if (Jenkins.get().getPlugin("promoted-builds") != null){
+            PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
+            if (action != null){
+                List<PromotionProcess> processes = action.getProcesses();
+                for (PromotionProcess process: processes) {
+                    List<BuildStep> buildSteps = process.getBuildSteps();
+                    for (BuildStep buildStep: buildSteps) {
+                        if (buildStep instanceof Builder){
+                            Builder innerBuilder = (Builder) buildStep;
+                            PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                            addItem(item, mapJobsPerPlugin, usedPlugin);
+                        }
+                    }
+                }
             }
         }
     }
