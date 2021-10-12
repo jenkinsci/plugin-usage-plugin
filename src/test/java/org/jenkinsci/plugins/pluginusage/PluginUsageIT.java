@@ -379,6 +379,41 @@ public class PluginUsageIT {
     }
 
     @Test
+    public void mavenParameter() {
+
+        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
+        final int maxTimeBackoffMillis = 3 * 60 * 1000;
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
+
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing Git Parameter", () -> client.installPlugins("git-parameter", "0.9.13"), plugins -> client.getInstalledPlugins().contains("git-parameter"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("maven4", "maven4.xml"), plugins -> client.getJobs().contains("maven4"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("git-parameter", "0.9.13"), Lists.newArrayList(new Project("maven4"))),
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("git", "4.9.0"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven4")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void trigger() {
 
         JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));

@@ -3,6 +3,8 @@ package org.jenkinsci.plugins.pluginusage.analyzer;
 import hudson.PluginWrapper;
 import hudson.maven.MavenModuleSet;
 import hudson.model.Job;
+import hudson.model.ParameterDefinition;
+import hudson.model.ParametersDefinitionProperty;
 import hudson.tasks.Builder;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
@@ -36,6 +38,18 @@ public class MavenJobAnalyzer  extends JobAnalyzer {
                 for (Builder builder : moduleSet.getPostbuilders()) {
                     addItem(item, mapJobsPerPlugin, getUsedPlugin(builder.getDescriptor().clazz));
                 }
+                processParameters(item, mapJobsPerPlugin);
+            }
+        }
+    }
+
+    private void processParameters(Job project, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
+        ParametersDefinitionProperty parameters = project.getAction(ParametersDefinitionProperty.class);
+        if (parameters!=null){
+            List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
+            for (ParameterDefinition parameterDefinition: parameterDefinitions) {
+                PluginWrapper usedPlugin = getUsedPlugin(parameterDefinition.getDescriptor().clazz);
+                addItem(project, mapJobsPerPlugin, usedPlugin);
             }
         }
     }
