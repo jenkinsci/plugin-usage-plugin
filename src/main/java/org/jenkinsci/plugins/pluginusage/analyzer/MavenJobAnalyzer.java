@@ -5,8 +5,11 @@ import hudson.maven.MavenModuleSet;
 import hudson.model.Job;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParametersDefinitionProperty;
+import hudson.tasks.BuildStep;
 import hudson.tasks.Builder;
 import jenkins.model.Jenkins;
+import org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder;
+import org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 import java.util.List;
@@ -34,11 +37,35 @@ public class MavenJobAnalyzer  extends JobAnalyzer {
                 final MavenModuleSet moduleSet = (MavenModuleSet) item;
                 for (Builder builder : moduleSet.getPrebuilders()) {
                     addItem(item, mapJobsPerPlugin, getUsedPlugin(builder.getDescriptor().clazz));
+                    processConditionalBuilder(item, mapJobsPerPlugin, builder);
                 }
                 for (Builder builder : moduleSet.getPostbuilders()) {
                     addItem(item, mapJobsPerPlugin, getUsedPlugin(builder.getDescriptor().clazz));
+                    processConditionalBuilder(item, mapJobsPerPlugin, builder);
                 }
                 processParameters(item, mapJobsPerPlugin);
+            }
+        }
+    }
+
+    private void processConditionalBuilder(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Builder builder) {
+        if (Jenkins.get().getPlugin("conditional-buildstep") != null){
+            if(builder instanceof ConditionalBuilder){
+                ConditionalBuilder conditionalBuilder = (ConditionalBuilder) builder;
+                List<Builder> conditionalBuilders = conditionalBuilder.getConditionalbuilders();
+                for (Builder innerBuilder: conditionalBuilders) {
+                    PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                    addItem(item, mapJobsPerPlugin, usedPlugin);
+                }
+            }
+            if(builder instanceof SingleConditionalBuilder){
+                SingleConditionalBuilder singleConditionalBuilder = (SingleConditionalBuilder) builder;
+                BuildStep buildStep = singleConditionalBuilder.getBuildStep();
+                if (buildStep instanceof Builder){
+                    Builder innerBuilder = (Builder) buildStep;
+                    PluginWrapper usedPlugin = getUsedPlugin(innerBuilder.getDescriptor().clazz);
+                    addItem(item, mapJobsPerPlugin, usedPlugin);
+                }
             }
         }
     }
