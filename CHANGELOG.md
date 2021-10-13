@@ -7,6 +7,7 @@
 ### [Version 1.2] (2021-02-16)
 
  - Add API support (https://github.com/jenkinsci/plugin-usage-plugin/pull/18)
+ - Suport for Maven projects pre, post builds, parameters, conditional-builder and promotions (https://github.com/jenkinsci/plugin-usage-plugin/pull/21)
 
 ### [Version 1.1] (2020-09-09)
 
