@@ -9,6 +9,7 @@ import org.jenkinsci.plugins.pluginusage.api.Plugin;
 import org.jenkinsci.plugins.pluginusage.api.PluginProjects;
 import org.jenkinsci.plugins.pluginusage.api.PluginUsage;
 import org.jenkinsci.plugins.pluginusage.api.Project;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,22 +34,27 @@ public class PluginUsageIT {
                     "-Djenkins.install.runSetupWizard=false " +
                     "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true");
 
+    private JenkinsClient client;
+    private final int maxTimeBackoffMillis = 5 * 60 * 1000;
+
     @BeforeClass
-    public static void setup(){
+    public static void setupAll(){
         assumeFalse(isWindows());
+    }
+
+    @Before
+    public void setup(){
+        client = new JenkinsClient(jenkins.getMappedPort(8080));
+
+        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
     }
 
     @Test
     public void freestyle() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
-        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
         attempt("creating job", () -> client.createJob("freestyle1", "freestyle1.xml"), plugins -> client.getJobs().contains("freestyle1"), maxTimeBackoffMillis);
 
@@ -63,11 +69,6 @@ public class PluginUsageIT {
 
     @Test
     public void conditionalSingle() {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
@@ -97,11 +98,6 @@ public class PluginUsageIT {
     @Test
     public void conditionalMultiple() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
 
@@ -130,11 +126,6 @@ public class PluginUsageIT {
     @Test
     public void parameters() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing Git Parameter", () -> client.installPlugins("git-parameter", "0.9.13"), plugins -> client.getInstalledPlugins().contains("git-parameter"), maxTimeBackoffMillis);
 
         attempt("creating job", () -> client.createJob("parameter1", "parameter1.xml"), plugins -> client.getJobs().contains("parameter1"), maxTimeBackoffMillis);
@@ -159,11 +150,6 @@ public class PluginUsageIT {
 
     @Test
     public void promotions() throws MalformedURLException, URISyntaxException {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
@@ -190,11 +176,6 @@ public class PluginUsageIT {
     @Test
     public void buildWrappers() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing timestamper", () -> client.installPlugins("timestamper", "1.13"), plugins -> client.getInstalledPlugins().contains("timestamper"), maxTimeBackoffMillis);
 
@@ -215,11 +196,6 @@ public class PluginUsageIT {
     @Test
     public void publishers() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing junit", () -> client.installPlugins("junit", "1.53"), plugins -> client.getInstalledPlugins().contains("junit"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
@@ -236,11 +212,6 @@ public class PluginUsageIT {
 
     @Test
     public void publishersPromotions() throws URISyntaxException, MalformedURLException {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing junit", () -> client.installPlugins("junit", "1.53"), plugins -> client.getInstalledPlugins().contains("junit"), maxTimeBackoffMillis);
         attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
@@ -265,11 +236,6 @@ public class PluginUsageIT {
     @Test
     public void scm() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing git", () -> client.installPlugins("git", "4.9.0"), plugins -> client.getInstalledPlugins().contains("git"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
@@ -290,11 +256,6 @@ public class PluginUsageIT {
 
     @Test
     public void maven() {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
 
@@ -318,11 +279,6 @@ public class PluginUsageIT {
 
     @Test
     public void mavenPreBuilders() {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
@@ -350,11 +306,6 @@ public class PluginUsageIT {
     @Test
     public void mavenPostBuilders() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
@@ -380,11 +331,6 @@ public class PluginUsageIT {
 
     @Test
     public void mavenParameter() {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing Git Parameter", () -> client.installPlugins("git-parameter", "0.9.13"), plugins -> client.getInstalledPlugins().contains("git-parameter"), maxTimeBackoffMillis);
@@ -416,11 +362,6 @@ public class PluginUsageIT {
     @Test
     public void mavenSingleConditionalBuilder() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
@@ -449,11 +390,6 @@ public class PluginUsageIT {
 
     @Test
     public void mavenMultiConditionalBuilder() {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
@@ -484,11 +420,6 @@ public class PluginUsageIT {
 
     @Test
     public void mavenPromotions() throws URISyntaxException, MalformedURLException {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
@@ -522,11 +453,6 @@ public class PluginUsageIT {
     @Test
     public void trigger() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing urltrigger", () -> client.installPlugins("urltrigger", "0.49"), plugins -> client.getInstalledPlugins().contains("urltrigger"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
@@ -545,11 +471,6 @@ public class PluginUsageIT {
 
     @Test
     public void pipeline() {
-
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
 
         attempt("installing pipeline-model-definition", () -> client.installPlugins("pipeline-model-definition", "1.9.2"), plugins -> client.getInstalledPlugins().contains("pipeline-model-definition"), maxTimeBackoffMillis);
 
@@ -590,11 +511,6 @@ public class PluginUsageIT {
     @Test
     public void pipeline2() {
 
-        JenkinsClient client = new JenkinsClient(jenkins.getMappedPort(8080));
-        final int maxTimeBackoffMillis = 3 * 60 * 1000;
-
-        attempt("waiting for available plugins", client::getAvailablePlugins, plugins -> !plugins.isEmpty(), maxTimeBackoffMillis);
-
         attempt("installing pipeline-model-definition", () -> client.installPlugins("pipeline-model-definition", "1.9.2"), plugins -> client.getInstalledPlugins().contains("pipeline-model-definition"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
@@ -630,6 +546,28 @@ public class PluginUsageIT {
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("pipeline2")))
+        ));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void matrix() {
+
+        attempt("installing matrix-project", () -> client.installPlugins("matrix-project", "1.19"), plugins -> client.getInstalledPlugins().contains("matrix-project"), maxTimeBackoffMillis);
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("matrix1", "matrix1.xml"), plugins -> client.getJobs().contains("matrix1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("junit", "1.53"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("matrix-project", "1.19"), Lists.newArrayList(new Project("matrix1"))),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("matrix1")))
         ));
         assertEquals(expected, actual);
     }
