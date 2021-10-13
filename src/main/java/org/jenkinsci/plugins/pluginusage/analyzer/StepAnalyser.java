@@ -1,6 +1,8 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
 import hudson.PluginWrapper;
+import hudson.model.Describable;
+import hudson.model.Descriptor;
 import hudson.model.Job;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch;
@@ -13,26 +15,60 @@ import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStages;
 import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep;
 import org.jenkinsci.plugins.pipeline.modeldefinition.parser.Converter;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
+import org.jenkinsci.plugins.structs.SymbolLookup;
+import org.jenkinsci.plugins.structs.describable.DescribableModel;
+import org.jenkinsci.plugins.structs.describable.DescribableParameter;
+import org.jenkinsci.plugins.structs.describable.HeterogeneousObjectType;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class StepAnalyser extends JobAnalyzer {
 
-    private Map<String, PluginWrapper> pluginPerFunction = new HashMap<>();
-    private boolean hasPlugin;
+    private final Map<String, PluginWrapper> pluginPerFunction = new HashMap<>();
+    private final boolean hasPlugin;
 
     public StepAnalyser() {
-        hasPlugin = Jenkins.get().getPlugin("workflow-job") != null;
+        hasPlugin = Jenkins.get().getPlugin("pipeline-model-definition") != null;
         if (hasPlugin){
             for (StepDescriptor b : StepDescriptor.all()) {
                 PluginWrapper usedPlugin = getUsedPlugin(b.clazz);
                 plugins.add(usedPlugin);
-                pluginPerFunction.put(b.getFunctionName(), usedPlugin);
+
+                // adapted from org.jenkinsci.plugins.workflow.cps.Snippetizer.getQuasiDescriptors()
+                if (!b.isAdvanced()) {
+                    pluginPerFunction.put(b.getFunctionName(), usedPlugin);
+                    if (b.isMetaStep()) {
+                        DescribableModel<?> m = new DescribableModel<>(b.clazz);
+                        Collection<DescribableParameter> parameters = m.getParameters();
+                        if (parameters.size() == 1) {
+                            DescribableParameter delegate = parameters.iterator().next();
+                            if (delegate.isRequired()) {
+                                if (delegate.getType() instanceof HeterogeneousObjectType) {
+                                    for (DescribableModel<?> delegateOptionSchema : ((HeterogeneousObjectType) delegate.getType()).getTypes().values()) {
+                                        Class<?> delegateOptionType = delegateOptionSchema.getType();
+                                        Descriptor<?> delegateDescriptor = Jenkins.getActiveInstance().getDescriptorOrDie(delegateOptionType.asSubclass(Describable.class));
+                                        PluginWrapper usedPlugin2 = getUsedPlugin(delegateDescriptor.clazz);
+                                        if (usedPlugin2 != null){
+                                            Set<String> symbols = SymbolLookup.getSymbolValue(delegateDescriptor);
+                                            if (!symbols.isEmpty()) {
+                                                for (String symbol : symbols) {
+                                                    pluginPerFunction.put(symbol, usedPlugin2);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
