@@ -9,14 +9,17 @@ import org.jenkinsci.plugins.pluginusage.api.Plugin;
 import org.jenkinsci.plugins.pluginusage.api.PluginProjects;
 import org.jenkinsci.plugins.pluginusage.api.PluginUsage;
 import org.jenkinsci.plugins.pluginusage.api.Project;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
+import static hudson.Functions.isWindows;
 import static org.jenkinsci.plugins.pluginusage.ExponentialBackoffStrategy.attempt;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeFalse;
 
 public class PluginUsageIT {
 
@@ -29,6 +32,11 @@ public class PluginUsageIT {
             .withEnv("JAVA_OPTS",
                     "-Djenkins.install.runSetupWizard=false " +
                     "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true");
+
+    @BeforeClass
+    public static void setup(){
+        assumeFalse(isWindows());
+    }
 
     @Test
     public void freestyle() {
