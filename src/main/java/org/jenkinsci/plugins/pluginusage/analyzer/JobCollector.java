@@ -1,76 +1,101 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
-import hudson.PluginWrapper;
-
-import hudson.model.AbstractProject;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import hudson.PluginWrapper;
 import hudson.model.Job;
 import jenkins.model.Jenkins;
-
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
 public class JobCollector {
-	
-	private static final Logger LOGGER = Logger.getLogger(JobCollector.class.getName());
-	private ArrayList<JobAnalyzer> analysers = new ArrayList<>();
-	
-	public JobCollector() {
-		analysers.add(new BuilderJobAnalyzer());
-		analysers.add(new BuildWrapperJobAnalyzer());
-		analysers.add(new PropertiesJobAnalyzer());
-		analysers.add(new PublisherJobAnalyzer());
-		analysers.add(new SCMJobAnalyzer());
-		analysers.add(new TriggerJobAnalyzer());
-		analysers.add(new StepAnalyser());
-		analysers.add(new MavenJobAnalyzer());
-	}
 
-	public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
-	{
-		Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<>();
+    private static final Logger LOGGER = Logger.getLogger(org.jenkinsci.plugins.pluginusage.analyzer.JobCollector.class.getName());
 
-		// bootstrap map with all job related plugins
-		for(JobAnalyzer analyser: analysers)
-		{
-			analyser.doJobAnalyze(null, mapJobsPerPlugin);
-		}
+    private Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin;
 
-		List<Job> allItems = Jenkins.get().getAllItems(Job.class);
-		for(Job item: allItems)
-		{
-			for(JobAnalyzer analyser: analysers)
-			{
-				try{
-					analyser.doJobAnalyze(item, mapJobsPerPlugin);
-				} catch(Exception e){
-					LOGGER.warning("Exception catched: " + e );
-				}
-			}
-		}
-		return mapJobsPerPlugin;
-	}
-	
-	public int getNumberOfJobs() {
-		List<AbstractProject> allItems = Jenkins.get().getAllItems(AbstractProject.class);
-		return allItems.size();	
-	}
+    public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
+    {
+        if (mapJobsPerPlugin != null){
+            return mapJobsPerPlugin;
+        }
 
+        mapJobsPerPlugin = new HashMap<>();
+
+        List<AbstractProjectAnalyzer> analyzers =
+                Arrays.asList(
+                        new FreeStyleProjectAnalyzer(),
+                        new MavenProjectAnalyzer(),
+                        new PipelineProjectAnalyzer(),
+                        new MatrixProjectAnalyzer());
+
+        // bootstrap map with all job related plugins
+        for(AbstractProjectAnalyzer analyzer: analyzers)
+        {
+            try{
+                for(PluginWrapper plugin: analyzer.getPlugins()){
+                    if (plugin != null){
+                        if (mapJobsPerPlugin.get(plugin) == null) {
+                            mapJobsPerPlugin.put(plugin, new JobsPerPlugin(plugin));
+                        }
+                    }
+                }
+            } catch(Exception e){
+                LOGGER.warning("Exception catched: " + e );
+            }
+        }
+
+        for(Job<?,?> item: Jenkins.get().getAllItems(Job.class))
+        {
+            for(AbstractProjectAnalyzer analyzer: analyzers)
+            {
+                try{
+                    for(PluginWrapper plugin: analyzer.getPluginsFromItem(item)){
+                        addItem(item, plugin);
+                    }
+                } catch(Exception e){
+                    LOGGER.warning("Exception catched: " + e );
+                }
+            }
+        }
+
+        return mapJobsPerPlugin;
+    }
+
+    protected void 	addItem(Job<?,?> item, PluginWrapper usedPlugin) {
+        if (usedPlugin != null) {
+            JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
+            if (jobsPerPlugin != null) {
+                jobsPerPlugin.addProject(item);
+            } else {
+                JobsPerPlugin jobsPerPlugin2 = new JobsPerPlugin(usedPlugin);
+                jobsPerPlugin2.addProject(item);
+                mapJobsPerPlugin.put(usedPlugin, jobsPerPlugin2);
+            }
+        }
+    }
+
+    public int getNumberOfJobs() {
+        return getJobsPerPlugin()
+                .values()
+                .stream()
+                .flatMap(jopsPerPlugin -> jopsPerPlugin.getProjects().stream())
+                .collect(Collectors.toSet())
+                .size();
+    }
 
     public List<PluginWrapper> getOtherPlugins() {
-		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
-		List<PluginWrapper> others = new ArrayList<>(allPlugins);
+        List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
+        List<PluginWrapper> others = new ArrayList<>(allPlugins);
 
-		for(JobAnalyzer analyser: analysers)
-		{
-			others.removeAll(analyser.getPlugins());
-		}
+        others.removeAll(getJobsPerPlugin().keySet());
 
-		return others;
+        return others;
     }
+
 }

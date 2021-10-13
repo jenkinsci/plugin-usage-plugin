@@ -1,5 +1,11 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import hudson.PluginWrapper;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
@@ -14,7 +20,6 @@ import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage;
 import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStages;
 import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep;
 import org.jenkinsci.plugins.pipeline.modeldefinition.parser.Converter;
-import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 import org.jenkinsci.plugins.structs.SymbolLookup;
 import org.jenkinsci.plugins.structs.describable.DescribableModel;
 import org.jenkinsci.plugins.structs.describable.DescribableParameter;
@@ -24,26 +29,19 @@ import org.jenkinsci.plugins.workflow.flow.FlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-public class StepAnalyser extends JobAnalyzer {
+class PipelineProjectAnalyzer extends AbstractProjectAnalyzer {
 
     private final Map<String, PluginWrapper> pluginPerFunction = new HashMap<>();
     private final boolean hasPlugin;
 
-    public StepAnalyser() {
+    public PipelineProjectAnalyzer() {
         hasPlugin = Jenkins.get().getPlugin("pipeline-model-definition") != null;
         if (hasPlugin){
             for (StepDescriptor b : StepDescriptor.all()) {
-                PluginWrapper usedPlugin = getUsedPlugin(b.clazz);
-                plugins.add(usedPlugin);
 
                 // adapted from org.jenkinsci.plugins.workflow.cps.Snippetizer.getQuasiDescriptors()
                 if (!b.isAdvanced()) {
-                    pluginPerFunction.put(b.getFunctionName(), usedPlugin);
+                    pluginPerFunction.put(b.getFunctionName(), getPluginFromClass(b.clazz));
                     if (b.isMetaStep()) {
                         DescribableModel<?> m = new DescribableModel<>(b.clazz);
                         Collection<DescribableParameter> parameters = m.getParameters();
@@ -53,13 +51,13 @@ public class StepAnalyser extends JobAnalyzer {
                                 if (delegate.getType() instanceof HeterogeneousObjectType) {
                                     for (DescribableModel<?> delegateOptionSchema : ((HeterogeneousObjectType) delegate.getType()).getTypes().values()) {
                                         Class<?> delegateOptionType = delegateOptionSchema.getType();
-                                        Descriptor<?> delegateDescriptor = Jenkins.getActiveInstance().getDescriptorOrDie(delegateOptionType.asSubclass(Describable.class));
-                                        PluginWrapper usedPlugin2 = getUsedPlugin(delegateDescriptor.clazz);
-                                        if (usedPlugin2 != null){
+                                        Descriptor<?> delegateDescriptor = Jenkins.get().getDescriptorOrDie(delegateOptionType.asSubclass(Describable.class));
+                                        PluginWrapper usedPlugin = getPluginFromClass(delegateDescriptor.clazz);
+                                        if (usedPlugin != null){
                                             Set<String> symbols = SymbolLookup.getSymbolValue(delegateDescriptor);
                                             if (!symbols.isEmpty()) {
                                                 for (String symbol : symbols) {
-                                                    pluginPerFunction.put(symbol, usedPlugin2);
+                                                    pluginPerFunction.put(symbol, usedPlugin);
                                                 }
                                             }
                                         }
@@ -74,50 +72,65 @@ public class StepAnalyser extends JobAnalyzer {
     }
 
     @Override
-    protected void doJobAnalyze(Job item, Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin) {
-        super.doJobAnalyze(null, mapJobsPerPlugin);
+    protected Set<PluginWrapper> getPlugins() {
+        final Set<PluginWrapper> plugins = super.getPlugins();
+        if (!hasPlugin) {
+            return plugins;
+        }
+        for (StepDescriptor b : StepDescriptor.all())
+        {
+            plugins.add(getPluginFromClass(b.clazz));
+        }
+        return plugins;
+    }
 
-        if (hasPlugin){
-            if (item instanceof WorkflowJob) {
-                WorkflowJob job = (WorkflowJob) item;
-                FlowDefinition definition = job.getDefinition();
-                if (definition instanceof CpsFlowDefinition) {
-                    ModelASTPipelineDef model = Converter.scriptToPipelineDef(((CpsFlowDefinition) definition).getScript());
-                    if (model != null) {
+    @Override
+    protected Set<PluginWrapper> getPluginsFromBuilders(Job<?, ?> item) {
+        Set<PluginWrapper> plugins = new HashSet<>();
 
-                        // stages
-                        ModelASTStages stages = model.getStages();
-                        for (ModelASTStage stage : stages.getStages()) {
-                            for (ModelASTBranch branch : stage.getBranches()) {
-                                for (ModelASTStep step : branch.getSteps()) {
-                                    if (pluginPerFunction.containsKey(step.getName())) {
-                                        addItem(item, mapJobsPerPlugin, pluginPerFunction.get(step.getName()));
-                                    }
-                                }
-                            }
+        if (!hasPlugin) {
+            return plugins;
+        }
 
-                            ModelASTPostStage postStage = stage.getPost();
-                            if (postStage != null) {
-                                for (ModelASTBuildCondition condition : postStage.getConditions()) {
-                                    ModelASTBranch branch = condition.getBranch();
-                                    for (ModelASTStep step : branch.getSteps()) {
-                                        if (pluginPerFunction.containsKey(step.getName())) {
-                                            addItem(item, mapJobsPerPlugin, pluginPerFunction.get(step.getName()));
-                                        }
-                                    }
+        if (item instanceof WorkflowJob) {
+            WorkflowJob job = (WorkflowJob) item;
+            FlowDefinition definition = job.getDefinition();
+            if (definition instanceof CpsFlowDefinition) {
+                ModelASTPipelineDef model = Converter.scriptToPipelineDef(((CpsFlowDefinition) definition).getScript());
+                if (model != null) {
+
+                    // stages
+                    ModelASTStages stages = model.getStages();
+                    for (ModelASTStage stage : stages.getStages()) {
+                        for (ModelASTBranch branch : stage.getBranches()) {
+                            for (ModelASTStep step : branch.getSteps()) {
+                                if (pluginPerFunction.containsKey(step.getName())) {
+                                    plugins.add(pluginPerFunction.get(step.getName()));
                                 }
                             }
                         }
 
-                        // post
-                        ModelASTPostBuild postBuild = model.getPostBuild();
-                        if (postBuild != null) {
-                            for (ModelASTBuildCondition condition : postBuild.getConditions()) {
+                        ModelASTPostStage postStage = stage.getPost();
+                        if (postStage != null) {
+                            for (ModelASTBuildCondition condition : postStage.getConditions()) {
                                 ModelASTBranch branch = condition.getBranch();
                                 for (ModelASTStep step : branch.getSteps()) {
                                     if (pluginPerFunction.containsKey(step.getName())) {
-                                        addItem(item, mapJobsPerPlugin, pluginPerFunction.get(step.getName()));
+                                        plugins.add(pluginPerFunction.get(step.getName()));
                                     }
+                                }
+                            }
+                        }
+                    }
+
+                    // post
+                    ModelASTPostBuild postBuild = model.getPostBuild();
+                    if (postBuild != null) {
+                        for (ModelASTBuildCondition condition : postBuild.getConditions()) {
+                            ModelASTBranch branch = condition.getBranch();
+                            for (ModelASTStep step : branch.getSteps()) {
+                                if (pluginPerFunction.containsKey(step.getName())) {
+                                    plugins.add(pluginPerFunction.get(step.getName()));
                                 }
                             }
                         }
@@ -125,6 +138,7 @@ public class StepAnalyser extends JobAnalyzer {
                 }
             }
         }
-    }
 
+        return plugins;
+    }
 }
