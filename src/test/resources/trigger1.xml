@@ -1,0 +1,36 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <org.jenkinsci.plugins.urltrigger.URLTrigger plugin="urltrigger@0.49">
+            <spec></spec>
+            <entries>
+                <org.jenkinsci.plugins.urltrigger.URLTriggerEntry>
+                    <url>http://example.com/</url>
+                    <proxyActivated>false</proxyActivated>
+                    <checkStatus>false</checkStatus>
+                    <statusCode>200</statusCode>
+                    <timeout>300</timeout>
+                    <checkETag>false</checkETag>
+                    <checkLastModificationDate>false</checkLastModificationDate>
+                    <inspectingContent>false</inspectingContent>
+                    <useGlobalEnvVars>false</useGlobalEnvVars>
+                    <contentTypes/>
+                    <requestHeaders/>
+                </org.jenkinsci.plugins.urltrigger.URLTriggerEntry>
+            </entries>
+            <labelRestriction>false</labelRestriction>
+        </org.jenkinsci.plugins.urltrigger.URLTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders/>
+    <publishers/>
+    <buildWrappers/>
+</project>

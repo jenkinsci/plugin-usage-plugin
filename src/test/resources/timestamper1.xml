@@ -1,0 +1,25 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <org.jenkinsci.plugins.vb6.VB6Builder plugin="visual-basic-6@1.4">
+            <projectFile>project1.vbp</projectFile>
+            <outDir></outDir>
+            <compileConstants></compileConstants>
+        </org.jenkinsci.plugins.vb6.VB6Builder>
+    </builders>
+    <publishers/>
+    <buildWrappers>
+        <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.13"/>
+    </buildWrappers>
+</project>
