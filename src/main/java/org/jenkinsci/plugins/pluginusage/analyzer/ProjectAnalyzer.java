@@ -11,13 +11,13 @@ import hudson.model.Project;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Builder;
 
-class FreeStyleProjectAnalyzer extends AbstractProjectAnalyzer {
+class ProjectAnalyzer extends AbstractProjectAnalyzer {
 
     @Override
     protected Set<PluginWrapper> getPluginsFromBuilders(Job<?,?> item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
-        if (item instanceof FreeStyleProject) {
+        if (item instanceof Project) {
             Project<?,?> project = (Project<?,?>) item;
             List<Builder> builders = project.getBuilders();
             for (Builder builder : builders) {
