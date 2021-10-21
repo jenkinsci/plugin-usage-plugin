@@ -88,7 +88,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList()),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-single1")))
         ));
@@ -116,7 +116,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList()),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-multiple1")))
         ));
@@ -257,7 +257,7 @@ public class PluginUsageIT {
     @Test
     public void maven() {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
 
@@ -272,7 +272,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven1")))
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven1")))
         ));
         assertEquals(expected, actual);
     }
@@ -280,7 +280,7 @@ public class PluginUsageIT {
     @Test
     public void mavenPreBuilders() {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
@@ -296,7 +296,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven2"))),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven2"))),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven2")))
         ));
@@ -306,7 +306,7 @@ public class PluginUsageIT {
     @Test
     public void mavenPostBuilders() {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
@@ -322,7 +322,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven3"))),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven3"))),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven3")))
         ));
@@ -332,7 +332,7 @@ public class PluginUsageIT {
     @Test
     public void mavenParameter() {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing Git Parameter", () -> client.installPlugins("git-parameter", "0.9.13"), plugins -> client.getInstalledPlugins().contains("git-parameter"), maxTimeBackoffMillis);
 
         attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
@@ -354,7 +354,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven4")))
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven4")))
         ));
         assertEquals(expected, actual);
     }
@@ -362,7 +362,7 @@ public class PluginUsageIT {
     @Test
     public void mavenSingleConditionalBuilder() {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
 
@@ -381,7 +381,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven5"))),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven5"))),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven5")))
         ));
@@ -391,7 +391,7 @@ public class PluginUsageIT {
     @Test
     public void mavenMultiConditionalBuilder() {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
         attempt("installing conditional buildstep", () -> client.installPlugins("conditional-buildstep", "1.4.1"), plugins -> client.getInstalledPlugins().contains("conditional-buildstep"), maxTimeBackoffMillis);
 
@@ -410,7 +410,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven6"))),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven6"))),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven6")))
         ));
@@ -421,7 +421,7 @@ public class PluginUsageIT {
     @Test
     public void mavenPromotions() throws URISyntaxException, MalformedURLException {
 
-        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.13"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
+        attempt("installing maven", () -> client.installPlugins("maven-plugin", "3.15"), plugins -> client.getInstalledPlugins().contains("maven-plugin"), maxTimeBackoffMillis);
         attempt("installing promoted-builds", () -> client.installPlugins("promoted-builds", "3.10"), plugins -> client.getInstalledPlugins().contains("promoted-builds"), maxTimeBackoffMillis);
         attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
 
@@ -443,7 +443,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("maven7"))),
                 new PluginProjects(
-                        new Plugin("maven-plugin", "3.13"), Lists.newArrayList(new Project("maven7"))),
+                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven7"))),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven7")))
         ));
