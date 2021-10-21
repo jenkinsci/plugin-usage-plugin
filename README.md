@@ -44,3 +44,11 @@ extension points:
 -   Maven
 
 and will add other plugins at the end.
+
+## Release
+
+ * [Performing a Plugin Release manually ](https://www.jenkins.io/doc/developer/publishing/releasing-manually/)
+ 
+```
+JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 mvn -Darguments="-DskipITs" release:prepare release:perform
+```
