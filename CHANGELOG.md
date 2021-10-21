@@ -6,6 +6,7 @@
  - Suport for Maven projects pre, post builds, parameters, conditional-builder and promotions (https://github.com/jenkinsci/plugin-usage-plugin/pull/21)
  - Add support for @symbol function names in pipeline jobs (https://github.com/jenkinsci/plugin-usage-plugin/pull/22)
  - Fixes [JENKINS-53264 Usage plugin incorrectly reports multi-project](https://issues.jenkins.io/browse/JENKINS-53264) (https://github.com/jenkinsci/plugin-usage-plugin/pull/23) GH-23 #23
+ -  Add new PLUGIN_VIEW permission (https://github.com/jenkinsci/plugin-usage-plugin/pull/19)
 
 ### [Version 1.2] (2021-02-16)
 
