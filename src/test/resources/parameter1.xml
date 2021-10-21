@@ -1,0 +1,35 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition plugin="git-parameter@0.9.13">
+                    <name>releaseBranch</name>
+                    <uuid>4e77dd09-a159-45a4-a9ed-f4dd3de9cfca</uuid>
+                    <type>PT_TAG</type>
+                    <branch></branch>
+                    <tagFilter>*</tagFilter>
+                    <branchFilter>.*</branchFilter>
+                    <sortMode>NONE</sortMode>
+                    <defaultValue></defaultValue>
+                    <selectedValue>NONE</selectedValue>
+                    <quickFilterEnabled>false</quickFilterEnabled>
+                    <listSize>5</listSize>
+                </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders/>
+    <publishers/>
+    <buildWrappers/>
+</project>

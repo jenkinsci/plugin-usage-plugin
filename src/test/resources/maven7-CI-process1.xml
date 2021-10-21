@@ -1,0 +1,23 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.plugins.promoted__builds.PromotionProcess plugin="promoted-builds@3.10">
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>false</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <conditions/>
+    <icon>star-gold</icon>
+    <isVisible></isVisible>
+    <buildSteps>
+        <org.jenkinsci.plugins.vb6.VB6Builder plugin="visual-basic-6@1.4">
+            <projectFile>project1.vbp</projectFile>
+            <outDir></outDir>
+            <compileConstants></compileConstants>
+        </org.jenkinsci.plugins.vb6.VB6Builder>
+    </buildSteps>
+    <buildWrappers/>
+</hudson.plugins.promoted__builds.PromotionProcess>

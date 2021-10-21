@@ -21,7 +21,7 @@ public class JobAnalyzerTest {
         FreeStyleProject project = j.createFreeStyleProject();
         PluginUsageView pluginUsageView = new PluginUsageView();
         PluginUsageModel data = pluginUsageView.getData();
-        assertEquals(1,data.getNumberOfJobs());
+        assertEquals(0,data.getNumberOfJobs());
     }
 
     @Test
