@@ -571,4 +571,27 @@ public class PluginUsageIT {
         ));
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void otherProjects() {
+
+        attempt("installing visual basic 6", () -> client.installPlugins("visual-basic-6", "1.4"), plugins -> client.getInstalledPlugins().contains("visual-basic-6"), maxTimeBackoffMillis);
+        attempt("installing coordinator", () -> client.installPlugins("coordinator", "1.4.0"), plugins -> client.getInstalledPlugins().contains("coordinator"), maxTimeBackoffMillis);
+
+        attempt("installing plugin-usage", client::installPluginUsage, plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"), maxTimeBackoffMillis);
+
+        attempt("creating job", () -> client.createJob("freestyle1", "freestyle1.xml"), plugins -> client.getJobs().contains("freestyle1"), maxTimeBackoffMillis);
+        attempt("creating job", () -> client.createJob("coordinator1", "coordinator1.xml"), plugins -> client.getJobs().contains("coordinator1"), maxTimeBackoffMillis);
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(new Plugin("coordinator", "1.4.0"), Lists.newArrayList(
+                        new Project("coordinator1")
+                )),
+                new PluginProjects(new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(
+                        new Project("freestyle1")
+                ))
+        ));
+        assertEquals(expected, actual);
+    }
 }

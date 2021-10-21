@@ -29,7 +29,7 @@ public class JobCollector {
 
         List<AbstractProjectAnalyzer> analyzers =
                 Arrays.asList(
-                        new FreeStyleProjectAnalyzer(),
+                        new ProjectAnalyzer(),
                         new MavenProjectAnalyzer(),
                         new PipelineProjectAnalyzer(),
                         new MatrixProjectAnalyzer());
@@ -50,7 +50,14 @@ public class JobCollector {
             }
         }
 
-        for(Job<?,?> item: Jenkins.get().getAllItems(Job.class))
+        final List<Job> jobs = Jenkins.get().getAllItems(Job.class)
+                .stream()
+                .filter(job -> !analyzers
+                        .stream()
+                        .map(f -> f.ignoreJob(job))
+                        .reduce(false, (a, b) -> a || b))
+                .collect(Collectors.toList());
+        for(Job<?,?> item: jobs)
         {
             for(AbstractProjectAnalyzer analyzer: analyzers)
             {

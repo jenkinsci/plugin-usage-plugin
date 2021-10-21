@@ -75,6 +75,10 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
+    protected boolean ignoreJob(Job<?,?> item){
+        return false;
+    }
+
     protected abstract Set<PluginWrapper> getPluginsFromBuilders(Job<?,?> item);
 
     protected Set<PluginWrapper> getPluginsFromPromotedBuilds(Job item) {
