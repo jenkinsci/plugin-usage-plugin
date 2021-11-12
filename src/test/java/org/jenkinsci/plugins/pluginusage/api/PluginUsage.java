@@ -33,4 +33,8 @@ public class PluginUsage {
                 .add("jobsPerPlugin=" + jobsPerPlugin)
                 .toString();
     }
+
+    public List<PluginProjects> getJobsPerPlugin() {
+        return jobsPerPlugin;
+    }
 }

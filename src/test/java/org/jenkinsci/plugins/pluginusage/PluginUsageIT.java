@@ -3,6 +3,9 @@ package org.jenkinsci.plugins.pluginusage;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 import org.jenkinsci.plugins.pluginusage.api.Plugin;
@@ -37,6 +40,17 @@ public class PluginUsageIT {
     private JenkinsClient client;
     private final int maxTimeBackoffMillis = 5 * 60 * 1000;
 
+    Function<PluginUsage, List<String>> pluginNamesExtractor = p -> p.getJobsPerPlugin()
+            .stream()
+            .map(PluginProjects::getPlugin)
+            .map(Plugin::getShortName)
+            .collect(Collectors.toList());
+
+    Function<PluginUsage, List<List<Project>>> ProjectsExtractor = p -> p.getJobsPerPlugin()
+            .stream()
+            .map(PluginProjects::getProjects)
+            .collect(Collectors.toList());
+
     @BeforeClass
     public static void setupAll(){
         assumeFalse(isWindows());
@@ -64,7 +78,8 @@ public class PluginUsageIT {
                         new Project("freestyle1")
                 ))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -92,7 +107,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-single1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -120,7 +136,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-multiple1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -145,7 +162,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList())
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -170,7 +188,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("promotion-job1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -190,7 +209,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("timestamper1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -207,7 +227,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("junit", "1.53"), Lists.newArrayList(new Project("publisher1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -230,7 +251,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("publisher2")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -251,7 +273,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList())
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -274,7 +297,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -300,7 +324,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven2")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -326,7 +351,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven3")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -356,7 +382,9 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven4")))
         ));
-        assertEquals(expected, actual);
+
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -385,7 +413,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven5")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -414,7 +443,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven6")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
 
@@ -447,7 +477,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven7")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -466,7 +497,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("urltrigger", "0.49"), Lists.newArrayList(new Project("trigger1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -505,7 +537,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList())
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -547,7 +580,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("pipeline2")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -569,7 +603,8 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("matrix1")))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 
     @Test
@@ -592,6 +627,7 @@ public class PluginUsageIT {
                         new Project("freestyle1")
                 ))
         ));
-        assertEquals(expected, actual);
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
     }
 }
