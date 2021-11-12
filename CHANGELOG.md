@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Fix permissions for UnprotectedRootAction](https://github.com/jenkinsci/plugin-usage-plugin/pull/26)
+
 ### [Version 2.0] (2021-10-21)
 
  - Adds integration tests (https://github.com/jenkinsci/plugin-usage-plugin/pull/20)
