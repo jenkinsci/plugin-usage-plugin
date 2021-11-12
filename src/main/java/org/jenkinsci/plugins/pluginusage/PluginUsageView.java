@@ -21,28 +21,38 @@ public class PluginUsageView implements RootAction{
     public static final Permission PLUGIN_VIEW = new Permission(PERMISSIONS,
         "PluginView", Messages._PluginUsageView_PluginViewPermission_Description(), Jenkins.ADMINISTER, PermissionScope.JENKINS);
 
+	@Override
 	public String getDisplayName() {
-		return "Plugin Usage";
+		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
+			return "Plugin Usage";
+		}
+		return null;
 	}
 
+	@Override
 	public String getIconFileName() {
-        Jenkins.getInstance().checkPermission(PluginUsageView.PLUGIN_VIEW);
-		return "plugin.png";
+		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
+			return "plugin.png";
+		}
+		return null;
 	}
 
+	@Override
 	public String getUrlName() {
-        Jenkins.getInstance().checkPermission(PluginUsageView.PLUGIN_VIEW);
-		return "pluginusage";
+		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
+			return "pluginusage";
+		}
+		return null;
 	}
 
 	public PluginUsageModel getData() {
-        Jenkins.getInstance().checkPermission(PluginUsageView.PLUGIN_VIEW);
+        Jenkins.get().checkPermission(PluginUsageView.PLUGIN_VIEW);
 		PluginUsageModel pluginUsageModel = new PluginUsageModel();
 		return pluginUsageModel;
 	}
 
 	public Api getApi() {
-		Jenkins.getInstance().checkPermission(PluginUsageView.PLUGIN_VIEW);
+		Jenkins.get().checkPermission(PluginUsageView.PLUGIN_VIEW);
 		return new Api(getData());
 	}
 }
