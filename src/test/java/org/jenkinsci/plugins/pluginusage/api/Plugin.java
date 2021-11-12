@@ -15,6 +15,10 @@ public class Plugin {
         this.version = version;
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

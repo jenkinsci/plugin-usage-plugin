@@ -32,4 +32,8 @@ public class Project {
                 .add("fullName='" + fullName + "'")
                 .toString();
     }
+
+    public String getFullName() {
+        return fullName;
+    }
 }

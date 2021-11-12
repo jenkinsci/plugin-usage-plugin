@@ -36,4 +36,12 @@ public class PluginProjects {
                 .add("projects=" + projects)
                 .toString();
     }
+
+    public Plugin getPlugin() {
+        return plugin;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
 }
