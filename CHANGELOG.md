@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 2.1] (2021-11-12)
+
  - [Fix permissions for UnprotectedRootAction](https://github.com/jenkinsci/plugin-usage-plugin/pull/26)
 
 ### [Version 2.0] (2021-10-21)
@@ -61,7 +63,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.0...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.1...HEAD
+[Version 2.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.0...plugin-usage-plugin-2.1
 [Version 2.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.2...plugin-usage-plugin-2.0
 [Version 1.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.1...plugin-usage-plugin-1.2
 [Version 1.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.0...plugin-usage-plugin-1.1
