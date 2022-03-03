@@ -46,7 +46,7 @@ public class JobCollector {
                     }
                 }
             } catch(Exception e){
-                LOGGER.warning("Exception catched: " + e );
+                LOGGER.warning("Exception caught: " + e );
             }
         }
 
@@ -66,7 +66,9 @@ public class JobCollector {
                         addItem(item, plugin);
                     }
                 } catch(Exception e){
-                    LOGGER.warning("Exception catched: " + e );
+                    LOGGER.warning("Exception caught in job " + item.getFullName() + ": " + e );
+                } catch (Throwable e){
+                    LOGGER.severe("Exception caught in job " + item.getFullName() + ": " + e );
                 }
             }
         }
