@@ -2,6 +2,10 @@
 
 ### [Unreleased]
 
+### [Version 2.2] (2022-03-04)
+
+ - [Adds catch for Throwables in job analyzers](https://github.com/jenkinsci/plugin-usage-plugin/commit/08aaf1355d024e1ca106dbffa212278769bc436c)
+
 ### [Version 2.1] (2021-11-12)
 
  - [Fix permissions for UnprotectedRootAction](https://github.com/jenkinsci/plugin-usage-plugin/pull/26)
