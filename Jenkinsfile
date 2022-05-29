@@ -1,1 +1,1 @@
-buildPlugin()
+buildPlugin(timeout: 120)

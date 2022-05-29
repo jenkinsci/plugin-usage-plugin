@@ -1,0 +1,26 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <scm class="hudson.scm.NullSCM"/>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder plugin="conditional-buildstep@1.4.1">
+            <condition class="org.jenkins_ci.plugins.run_condition.core.AlwaysRun" plugin="run-condition@1.5"/>
+            <buildStep class="org.jenkinsci.plugins.vb6.VB6Builder" plugin="visual-basic-6@1.4">
+                <projectFile>project1.vbp</projectFile>
+                <outDir></outDir>
+                <compileConstants></compileConstants>
+            </buildStep>
+            <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail" plugin="run-condition@1.5"/>
+        </org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder>
+    </builders>
+    <publishers/>
+    <buildWrappers/>
+</project>
