@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Upgrade Plugin Parent to 4.40](https://github.com/jenkinsci/plugin-usage-plugin/pull/29)
+
 ### [Version 2.2] (2022-03-04)
 
  - [Adds catch for Throwables in job analyzers](https://github.com/jenkinsci/plugin-usage-plugin/commit/08aaf1355d024e1ca106dbffa212278769bc436c)
