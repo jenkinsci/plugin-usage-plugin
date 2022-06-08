@@ -30,7 +30,7 @@ import static org.junit.Assume.assumeFalse;
 
 public class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.303.3";
+    private static final String IMAGE = "jenkins/jenkins:2.332.3";
 
     @Rule
     public GenericContainer<?> jenkins = new GenericContainer(DockerImageName.parse(IMAGE))
@@ -50,7 +50,7 @@ public class PluginUsageIT {
             .map(Plugin::getShortName)
             .collect(Collectors.toSet());
 
-    Function<PluginUsage, List<List<Project>>> ProjectsExtractor = p -> p.getJobsPerPlugin()
+    Function<PluginUsage, List<List<Project>>> projectsExtractor = p -> p.getJobsPerPlugin()
             .stream()
             .map(PluginProjects::getProjects)
             .collect(Collectors.toList());
@@ -91,7 +91,7 @@ public class PluginUsageIT {
                 ))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -117,18 +117,10 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("conditional-buildstep", "1.4.1"), Lists.newArrayList(new Project("conditional-single1"))),
                 new PluginProjects(
-                        new Plugin("junit", "1.53"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList()),
-                new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-single1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -154,18 +146,10 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("conditional-buildstep", "1.4.1"), Lists.newArrayList(new Project("conditional-multiple1"))),
                 new PluginProjects(
-                        new Plugin("junit", "1.53"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("javadoc", "1.6"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("maven-plugin", "3.15"), Lists.newArrayList()),
-                new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("conditional-multiple1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -190,14 +174,12 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("git-parameter", "0.9.13"), Lists.newArrayList(new Project("parameter1"))),
                 new PluginProjects(
-                        new Plugin("junit", "1.53"), Lists.newArrayList()),
-                new PluginProjects(
                         new Plugin("git", "4.9.0"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("mailer", "1.34"), Lists.newArrayList())
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -231,7 +213,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("promotion-job1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -260,7 +242,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("timestamper1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -284,7 +266,7 @@ public class PluginUsageIT {
                         new Plugin("junit", "1.53"), Lists.newArrayList(new Project("publisher1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -316,7 +298,7 @@ public class PluginUsageIT {
                         new Plugin("promoted-builds", "3.10"), Lists.newArrayList(new Project("publisher2")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -344,7 +326,7 @@ public class PluginUsageIT {
                         new Plugin("mailer", "1.34"), Lists.newArrayList())
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -374,7 +356,7 @@ public class PluginUsageIT {
                         new Plugin("maven-plugin", "3.15"), Lists.newArrayList(new Project("maven1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -409,7 +391,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven2")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -444,7 +426,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven3")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -484,7 +466,7 @@ public class PluginUsageIT {
         ));
 
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -524,7 +506,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven5")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -564,7 +546,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven6")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
 
@@ -608,7 +590,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("maven7")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -634,14 +616,14 @@ public class PluginUsageIT {
                         new Plugin("urltrigger", "0.49"), Lists.newArrayList(new Project("trigger1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
     public void pipeline() {
 
         attempt("installing pipeline-model-definition",
-                () -> client.installPlugins("pipeline-model-definition", "1.9.2"),
+                () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
                 plugins -> client.getInstalledPlugins().contains("pipeline-model-definition"));
 
         attempt("installing plugin-usage",
@@ -663,7 +645,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("workflow-basic-steps", "2.24"), Lists.newArrayList(new Project("pipeline1"))),
                 new PluginProjects(
-                        new Plugin("pipeline-model-definition", "1.9.2"), Lists.newArrayList()),
+                        new Plugin("pipeline-model-definition", "1.9.3"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("workflow-cps", "2.94"), Lists.newArrayList()),
                 new PluginProjects(
@@ -675,19 +657,21 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("workflow-cps-global-lib", "2.21"), Lists.newArrayList()),
+                        new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList())
+                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList())
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
     public void pipeline2() {
 
         attempt("installing pipeline-model-definition",
-                () -> client.installPlugins("pipeline-model-definition", "1.9.2"),
+                () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
                 plugins -> client.getInstalledPlugins().contains("pipeline-model-definition"));
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
@@ -712,7 +696,7 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("workflow-basic-steps", "2.24"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("pipeline-model-definition", "1.9.2"), Lists.newArrayList()),
+                        new Plugin("pipeline-model-definition", "1.9.3"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("workflow-cps", "2.94"), Lists.newArrayList()),
                 new PluginProjects(
@@ -724,14 +708,16 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("workflow-cps-global-lib", "2.21"), Lists.newArrayList()),
-                new PluginProjects(
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("pipeline2")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -762,7 +748,7 @@ public class PluginUsageIT {
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("matrix1")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     @Test
@@ -796,7 +782,7 @@ public class PluginUsageIT {
                 ))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
-        assertEquals(ProjectsExtractor.apply(expected), ProjectsExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
     }
 
     private <T> void attempt(String message, Supplier<T> action, Predicate<T> success) {
