@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.pluginusage;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -29,7 +30,7 @@ import static org.junit.Assume.assumeFalse;
 
 public class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.303.2";
+    private static final String IMAGE = "jenkins/jenkins:2.303.3";
 
     @Rule
     public GenericContainer<?> jenkins = new GenericContainer(DockerImageName.parse(IMAGE))
@@ -40,7 +41,8 @@ public class PluginUsageIT {
                     "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true");
 
     private JenkinsClient client;
-    private final int maxTimeBackoffMillis = 5 * 60 * 1000;
+
+    private final Duration maxTimeBackoff = Duration.ofMinutes(5);
 
     Function<PluginUsage, Set<String>> pluginNamesExtractor = p -> p.getJobsPerPlugin()
             .stream()
@@ -798,6 +800,6 @@ public class PluginUsageIT {
     }
 
     private <T> void attempt(String message, Supplier<T> action, Predicate<T> success) {
-        ExponentialBackoffStrategy.attempt(message, action, success, maxTimeBackoffMillis);
+        ExponentialBackoffStrategy.attempt(message, action, success, maxTimeBackoff.toMillis());
     }
 }
