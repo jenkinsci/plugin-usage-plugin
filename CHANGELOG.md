@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 3.0] (2022-06-08)
+
  - [Upgrade Plugin Parent to 4.40](https://github.com/jenkinsci/plugin-usage-plugin/pull/29)
 
 ### [Version 2.2] (2022-03-04)
@@ -69,7 +71,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.2...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-3.0...HEAD
+[Version 3.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.2...plugin-usage-plugin-3.0
 [Version 2.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.1...plugin-usage-plugin-2.2
 [Version 2.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.0...plugin-usage-plugin-2.1
 [Version 2.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-1.2...plugin-usage-plugin-2.0
