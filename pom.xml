@@ -12,7 +12,7 @@
 
   <name>Plugin Usage - Plugin</name>
   <artifactId>plugin-usage-plugin</artifactId>
-  <version>3.0</version>
+  <version>3.1-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
 
@@ -135,7 +135,7 @@
     <connection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
-    <tag>plugin-usage-plugin-3.0</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <developers>
