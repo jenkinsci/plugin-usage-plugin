@@ -286,6 +286,15 @@ public class JenkinsClient {
                 output.flush();
                 writer.append(CRLF).flush();
 
+
+                // uploading a plugin is expecting a list of hardcoded length 2. See https://github.com/jenkinsci/jenkins/pull/5862
+                writer.append("--").append(boundary).append(CRLF);
+                writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"empty.txt\"").append(CRLF);
+                writer.append("Content-Type: ").append(URLConnection.guessContentTypeFromName("empty.txt")).append(CRLF);
+                writer.append("Content-Transfer-Encoding: binary").append(CRLF);
+                writer.append(CRLF).flush();
+                writer.append(CRLF).flush();
+
                 writer.append("--").append(boundary).append("--").append(CRLF).flush();
             }
 
