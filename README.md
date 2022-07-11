@@ -16,8 +16,8 @@ use this plugin.
 The plugin will give you a report on how much every plugin will be used
 in all of your jobs (see the screenshot below). Therefore it will
 analyze the used extension points of each job.
-**Plugins used in pipeline scripts would not be listed normally as used
-by jobs, because they are used dynamically in Jenkinsfiles.**
+**Plugins used in scripted pipeline scripts would not be listed normally as used
+by jobs, because they are used dynamically in Jenkinsfiles. Declarative pipelines are supported experimentally**
 
 ![plugin view](screenshot.png)
 
@@ -31,8 +31,7 @@ This is because plugin usage view exposes information about the installed plugin
 
 ## Supported Extension points
 
-This plugins will first iterate through jobs to gather those types of
-extension points:
+This plugins will first iterate through jobs to gather those types of extension points:
 
 -   Builder
 -   BuildWrapper
@@ -43,7 +42,7 @@ extension points:
 -   WorkflowJob
 -   Maven
 
-and will add other plugins at the end.
+All other plugins that do not implement any of these extension points will be show on the second table "Other plugins".
 
 ## Release
 
