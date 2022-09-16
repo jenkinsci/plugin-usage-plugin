@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import hudson.PluginWrapper;
-import hudson.model.FreeStyleProject;
-import hudson.model.Job;
+import hudson.model.Item;
 import hudson.model.Project;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Builder;
@@ -14,7 +13,7 @@ import hudson.tasks.Builder;
 class ProjectAnalyzer extends AbstractProjectAnalyzer {
 
     @Override
-    protected Set<PluginWrapper> getPluginsFromBuilders(Job<?,?> item) {
+    protected Set<PluginWrapper> getPluginsFromBuilders(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
         if (item instanceof Project) {

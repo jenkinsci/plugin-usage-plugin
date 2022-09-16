@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -52,6 +53,7 @@ public class PluginUsageIT {
 
     Function<PluginUsage, List<List<Project>>> projectsExtractor = p -> p.getJobsPerPlugin()
             .stream()
+            .sorted(Comparator.comparing(a -> a.getPlugin().getShortName()))
             .map(PluginProjects::getProjects)
             .collect(Collectors.toList());
 
@@ -746,6 +748,62 @@ public class PluginUsageIT {
                         new Plugin("matrix-project", "1.19"), Lists.newArrayList(new Project("matrix1"))),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("matrix1")))
+        ));
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
+    }
+
+    @Test
+    public void computedFolder() {
+
+        attempt("installing pipeline-model-definition",
+                () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
+                plugins -> client.getInstalledPlugins().contains("pipeline-model-definition"));
+
+        attempt("installing plugin-usage",
+                client::installPluginUsage,
+                plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"));
+
+        attempt("creating job",
+                () -> client.createJob("multibranch pipeline1", "multibranch_pipeline1.xml"),
+                plugins -> client.getJobs().contains("multibranch pipeline1"));
+        attempt("creating job",
+                () -> client.createJob("multibranch pipeline2", "multibranch_pipeline2.xml"),
+                plugins -> client.getJobs().contains("multibranch pipeline2"));
+
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("cloudbees-folder", "6.16"),
+                        Lists.newArrayList(new Project("multibranch pipeline2"))),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-basic-steps", "2.24"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-model-definition", "1.9.3"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-cps", "2.94"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-input-step", "2.12"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-multibranch", "2.26"),
+                        Lists.newArrayList(
+                                new Project("multibranch pipeline1"),
+                                new Project("multibranch pipeline2"))),
+                new PluginProjects(
+                        new Plugin("workflow-durable-task-step", "2.40"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList())
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
         assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));

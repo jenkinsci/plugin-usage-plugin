@@ -5,7 +5,7 @@ import java.util.Set;
 
 import hudson.PluginWrapper;
 import hudson.maven.MavenModuleSet;
-import hudson.model.Job;
+import hudson.model.Item;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Builder;
 import jenkins.model.Jenkins;
@@ -13,7 +13,7 @@ import jenkins.model.Jenkins;
 class MavenProjectAnalyzer extends AbstractProjectAnalyzer {
 
     @Override
-    protected Set<PluginWrapper> getPluginsFromBuilders(Job<?,?> item) {
+    protected Set<PluginWrapper> getPluginsFromBuilders(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
         if (Jenkins.get().getPlugin("maven-plugin") == null){

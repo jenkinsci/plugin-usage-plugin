@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.pluginusage;
 
 import hudson.PluginWrapper;
+import hudson.model.Item;
 import hudson.model.Job;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
@@ -15,22 +16,22 @@ import java.util.Map;
 public class JobsPerPlugin {
 	
 	private PluginWrapper plugin;
-	private Map<String, Job> jobMap = new HashMap<String, Job>();
+	private Map<String, Item> jobMap = new HashMap<String, Item>();
 	
 	
 	public JobsPerPlugin(PluginWrapper plugin) {
 		this.plugin = plugin;
 	}
 	
-	public void addProject(Job project) {
+	public void addProject(Item project) {
 		this.jobMap.put(project.getFullDisplayName(), project);
 	}
 	
 	@Exported
-	public List<Job> getProjects() {
-		ArrayList<Job> projects = new ArrayList<Job>();
+	public List<Item> getProjects() {
+		ArrayList<Item> projects = new ArrayList<Item>();
 		projects.addAll(jobMap.values());
-		projects.sort(Comparator.comparing(Job::getName));
+		projects.sort(Comparator.comparing(Item::getName));
 		return projects;
 	}
 	

@@ -7,7 +7,7 @@ import java.util.Set;
 import hudson.PluginWrapper;
 import hudson.matrix.MatrixConfiguration;
 import hudson.matrix.MatrixProject;
-import hudson.model.Job;
+import hudson.model.Item;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.Builder;
 import jenkins.model.Jenkins;
@@ -21,7 +21,7 @@ class MatrixProjectAnalyzer extends AbstractProjectAnalyzer {
     }
 
     @Override
-    protected Set<PluginWrapper> getPluginsFromBuilders(Job<?, ?> item) {
+    protected Set<PluginWrapper> getPluginsFromBuilders(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
         if (!hasPlugin){
@@ -46,7 +46,7 @@ class MatrixProjectAnalyzer extends AbstractProjectAnalyzer {
     }
 
     @Override
-    protected boolean ignoreJob(Job<?, ?> item) {
+    protected boolean ignoreJob(Item item) {
         if (hasPlugin){
             return item instanceof MatrixConfiguration;
         }

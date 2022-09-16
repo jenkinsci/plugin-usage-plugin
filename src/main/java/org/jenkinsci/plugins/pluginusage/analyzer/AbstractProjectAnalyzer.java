@@ -8,6 +8,7 @@ import java.util.Set;
 import hudson.PluginWrapper;
 import hudson.model.AbstractProject;
 import hudson.model.Descriptor;
+import hudson.model.Item;
 import hudson.model.Job;
 import hudson.model.JobProperty;
 import hudson.model.JobPropertyDescriptor;
@@ -25,6 +26,7 @@ import hudson.triggers.Trigger;
 import hudson.triggers.TriggerDescriptor;
 import hudson.util.DescribableList;
 import jenkins.model.Jenkins;
+import jenkins.model.ParameterizedJobMixIn;
 import org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder;
 import org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder;
 
@@ -63,7 +65,7 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
-    protected Set<PluginWrapper> getPluginsFromItem(Job<?,?> item){
+    protected Set<PluginWrapper> getPluginsFromItem(Item item){
         Set<PluginWrapper> plugins = new HashSet<>();
         plugins.addAll(getPluginsFromBuilders(item));
         plugins.addAll(getPluginsFromProperties(item));
@@ -75,31 +77,33 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
-    protected boolean ignoreJob(Job<?,?> item){
+    protected boolean ignoreJob(Item item){
         return false;
     }
 
-    protected abstract Set<PluginWrapper> getPluginsFromBuilders(Job<?,?> item);
+    protected abstract Set<PluginWrapper> getPluginsFromBuilders(Item item);
 
-    protected Set<PluginWrapper> getPluginsFromPromotedBuilds(Job item) {
+    protected Set<PluginWrapper> getPluginsFromPromotedBuilds(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
         if (Jenkins.get().getPlugin("promoted-builds") == null){
             return plugins;
         }
-        PromotedProjectAction action = item.getAction(PromotedProjectAction.class);
-        if (action != null){
-            List<PromotionProcess> processes = action.getProcesses();
-            for (PromotionProcess process: processes) {
-                List<BuildStep> buildSteps = process.getBuildSteps();
-                for (BuildStep buildStep: buildSteps) {
-                    if (buildStep instanceof Builder){
-                        Builder innerBuilder = (Builder) buildStep;
-                        plugins.add(getPluginFromClass(innerBuilder.getDescriptor().clazz));
-                    }
-                    if (buildStep instanceof Publisher){
-                        Publisher innerPublisher = (Publisher) buildStep;
-                        plugins.add(getPluginFromClass(innerPublisher.getDescriptor().clazz));
+        if (item instanceof Job) {
+            PromotedProjectAction action = ((Job)item).getAction(PromotedProjectAction.class);
+            if (action != null){
+                List<PromotionProcess> processes = action.getProcesses();
+                for (PromotionProcess process: processes) {
+                    List<BuildStep> buildSteps = process.getBuildSteps();
+                    for (BuildStep buildStep: buildSteps) {
+                        if (buildStep instanceof Builder){
+                            Builder innerBuilder = (Builder) buildStep;
+                            plugins.add(getPluginFromClass(innerBuilder.getDescriptor().clazz));
+                        }
+                        if (buildStep instanceof Publisher){
+                            Publisher innerPublisher = (Publisher) buildStep;
+                            plugins.add(getPluginFromClass(innerPublisher.getDescriptor().clazz));
+                        }
                     }
                 }
             }
@@ -108,19 +112,21 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
-    protected Set<PluginWrapper> getPluginsFromParameters(Job<?, ?> project) {
+    protected Set<PluginWrapper> getPluginsFromParameters(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
-        ParametersDefinitionProperty parameters = project.getAction(ParametersDefinitionProperty.class);
-        if (parameters != null) {
-            List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
-            for (ParameterDefinition parameterDefinition : parameterDefinitions) {
-                plugins.add(getPluginFromClass(parameterDefinition.getDescriptor().clazz));
+        if (item instanceof Job){
+            ParametersDefinitionProperty parameters = ((Job) item).getAction(ParametersDefinitionProperty.class);
+            if (parameters != null) {
+                List<ParameterDefinition> parameterDefinitions = parameters.getParameterDefinitions();
+                for (ParameterDefinition parameterDefinition : parameterDefinitions) {
+                    plugins.add(getPluginFromClass(parameterDefinition.getDescriptor().clazz));
+                }
             }
         }
         return plugins;
     }
 
-    protected Set<PluginWrapper> getPluginsFromScm(Job<?,?> item){
+    protected Set<PluginWrapper> getPluginsFromScm(Item item){
         Set<PluginWrapper> plugins = new HashSet<>();
         if(item instanceof AbstractProject){
             plugins.add(getPluginFromClass(((AbstractProject<?, ?>)item).getScm().getDescriptor().clazz));
@@ -128,7 +134,7 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
-    protected Set<PluginWrapper> getPluginsFromPublishers(Job<?,?> item){
+    protected Set<PluginWrapper> getPluginsFromPublishers(Item item){
         Set<PluginWrapper> plugins = new HashSet<>();
         if(item instanceof AbstractProject){
             DescribableList<Publisher, Descriptor<Publisher>> publisherList = ((AbstractProject)item).getPublishersList();
@@ -141,10 +147,10 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
-    protected Set<PluginWrapper> getPluginsFromTriggers(Job<?,?> item){
+    protected Set<PluginWrapper> getPluginsFromTriggers(Item item){
         Set<PluginWrapper> plugins = new HashSet<>();
-        if(item instanceof AbstractProject){
-            Map<TriggerDescriptor, Trigger<?>> triggers = ((AbstractProject)item).getTriggers();
+        if(item instanceof ParameterizedJobMixIn.ParameterizedJob){
+            Map<TriggerDescriptor, Trigger<?>> triggers = ((ParameterizedJobMixIn.ParameterizedJob)item).getTriggers();
             for (Map.Entry<TriggerDescriptor,Trigger<?>> entry : triggers.entrySet()) {
                 plugins.add(getPluginFromClass(entry.getKey().clazz));
             }
@@ -152,14 +158,17 @@ abstract class AbstractProjectAnalyzer {
         return plugins;
     }
 
-    protected Set<PluginWrapper> getPluginsFromProperties(Job item) {
+    protected Set<PluginWrapper> getPluginsFromProperties(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
-        Map<JobPropertyDescriptor,JobProperty<?>> properties = item.getProperties();
-        for (Map.Entry<JobPropertyDescriptor,JobProperty<?>> entry : properties.entrySet())
-        {
-            plugins.add(getPluginFromClass(entry.getKey().clazz));
+        if (item instanceof Job){
+            Map<JobPropertyDescriptor,JobProperty<?>> properties = ((Job)item).getProperties();
+            for (Map.Entry<JobPropertyDescriptor,JobProperty<?>> entry : properties.entrySet())
+            {
+                plugins.add(getPluginFromClass(entry.getKey().clazz));
+            }
         }
+
 
         return plugins;
     }
