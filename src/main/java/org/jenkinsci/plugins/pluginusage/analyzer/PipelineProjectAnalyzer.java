@@ -9,7 +9,7 @@ import java.util.Set;
 import hudson.PluginWrapper;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Job;
+import hudson.model.Item;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch;
 import org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBuildCondition;
@@ -85,7 +85,7 @@ class PipelineProjectAnalyzer extends AbstractProjectAnalyzer {
     }
 
     @Override
-    protected Set<PluginWrapper> getPluginsFromBuilders(Job<?, ?> item) {
+    protected Set<PluginWrapper> getPluginsFromBuilders(Item item) {
         Set<PluginWrapper> plugins = new HashSet<>();
 
         if (!hasPlugin) {

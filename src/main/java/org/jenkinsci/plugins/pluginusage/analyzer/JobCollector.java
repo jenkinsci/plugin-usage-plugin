@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import hudson.PluginWrapper;
-import hudson.model.Job;
+import hudson.model.Item;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.pluginusage.JobsPerPlugin;
 
@@ -32,7 +32,8 @@ public class JobCollector {
                         new ProjectAnalyzer(),
                         new MavenProjectAnalyzer(),
                         new PipelineProjectAnalyzer(),
-                        new MatrixProjectAnalyzer());
+                        new MatrixProjectAnalyzer(),
+                        new ComputedFolderAnalyzer());
 
         // bootstrap map with all job related plugins
         for(AbstractProjectAnalyzer analyzer: analyzers)
@@ -50,14 +51,14 @@ public class JobCollector {
             }
         }
 
-        final List<Job> jobs = Jenkins.get().getAllItems(Job.class)
+        final List<Item> items = Jenkins.get().getAllItems()
                 .stream()
                 .filter(job -> !analyzers
                         .stream()
-                        .map(f -> f.ignoreJob(job))
+                        .map(analyzer -> analyzer.ignoreJob(job))
                         .reduce(false, (a, b) -> a || b))
                 .collect(Collectors.toList());
-        for(Job<?,?> item: jobs)
+        for(Item item: items)
         {
             for(AbstractProjectAnalyzer analyzer: analyzers)
             {
@@ -76,7 +77,7 @@ public class JobCollector {
         return mapJobsPerPlugin;
     }
 
-    protected void 	addItem(Job<?,?> item, PluginWrapper usedPlugin) {
+    protected void addItem(Item item, PluginWrapper usedPlugin) {
         if (usedPlugin != null) {
             JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
             if (jobsPerPlugin != null) {
@@ -93,7 +94,7 @@ public class JobCollector {
         return getJobsPerPlugin()
                 .values()
                 .stream()
-                .flatMap(jopsPerPlugin -> jopsPerPlugin.getProjects().stream())
+                .flatMap(jobsPerPlugin -> jobsPerPlugin.getProjects().stream())
                 .collect(Collectors.toSet())
                 .size();
     }
