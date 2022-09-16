@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Adds Computed Folders Analyzer](https://github.com/jenkinsci/plugin-usage-plugin/pull/30)
+
 ### [Version 3.0] (2022-06-08)
 
  - [Upgrade Plugin Parent to 4.40](https://github.com/jenkinsci/plugin-usage-plugin/pull/29)
