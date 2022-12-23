@@ -4,6 +4,7 @@
 
  - [Adds Computed Folders Analyzer](https://github.com/jenkinsci/plugin-usage-plugin/pull/30)
  - [Use HTTPS instead of git](https://github.com/jenkinsci/plugin-usage-plugin/pull/32)
+ - [Updates parent pom to 4.51](https://github.com/jenkinsci/plugin-usage-plugin/pull/31)
 
 ### [Version 3.0] (2022-06-08)
 
