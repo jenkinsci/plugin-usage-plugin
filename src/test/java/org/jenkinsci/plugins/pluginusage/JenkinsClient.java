@@ -274,7 +274,7 @@ public class JenkinsClient {
 
             try (
                     OutputStream output = connection.getOutputStream();
-                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
+                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true)
             ) {
                 // Send binary file.
                 writer.append("--").append(boundary).append(CRLF);
