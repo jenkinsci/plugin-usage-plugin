@@ -6,6 +6,7 @@
  - [Use HTTPS instead of git](https://github.com/jenkinsci/plugin-usage-plugin/pull/32)
  - [Updates parent pom to 4.51](https://github.com/jenkinsci/plugin-usage-plugin/pull/31)
  - [Bump commons-net from 3.8.0 to 3.9.0](https://github.com/jenkinsci/plugin-usage-plugin/pull/33)
+ - [Refactoring: Use diamond operator and removed unnecessary semicolon and import](https://github.com/jenkinsci/plugin-usage-plugin/pull/34)
 
 ### [Version 3.0] (2022-06-08)
 
