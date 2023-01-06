@@ -31,7 +31,7 @@ import static org.junit.Assume.assumeFalse;
 
 public class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.332.3";
+    private static final String IMAGE = "jenkins/jenkins:2.361.4";
 
     @Rule
     public GenericContainer<?> jenkins = new GenericContainer(DockerImageName.parse(IMAGE))
