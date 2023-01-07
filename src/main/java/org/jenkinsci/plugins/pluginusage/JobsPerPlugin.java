@@ -52,7 +52,7 @@ public class JobsPerPlugin {
 	}
 
 	public boolean hasDependants(){
-		return plugin.hasDependants();
+		return plugin.hasMandatoryDependents();
 	}
 
 }
