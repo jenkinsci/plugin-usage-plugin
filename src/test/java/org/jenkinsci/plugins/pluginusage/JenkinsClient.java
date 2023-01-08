@@ -13,7 +13,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -102,23 +104,15 @@ public class JenkinsClient {
     public List<String> getInstalledPlugins() {
 
         try {
-            HttpURLConnection con = (HttpURLConnection) installedPluginsURL().openConnection();
-            con.setRequestMethod("GET");
+            final HttpRequest request = HttpRequest.newBuilder(installedPluginsURL().toURI())
+                    .build();
 
-            int status = con.getResponseCode();
-            assertEquals(200, status);
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            StringBuilder content = new StringBuilder();
-            try(BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))){
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-            }
-            con.disconnect();
+            assertEquals(200, response.statusCode());
 
-            final JsonObject asJsonObject = JsonParser.parseString(content.toString()).getAsJsonObject();
+            final JsonObject asJsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
             final JsonArray jobs = asJsonObject.get("plugins").getAsJsonArray();
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(jobs.iterator(), Spliterator.ORDERED), false)
                     .map(element -> element.getAsJsonObject().get("shortName").getAsString())
@@ -131,23 +125,15 @@ public class JenkinsClient {
     public List<String> getAvailablePlugins() {
 
         try {
-            HttpURLConnection con = (HttpURLConnection) availablePluginsURL().openConnection();
-            con.setRequestMethod("GET");
+            final HttpRequest request = HttpRequest.newBuilder(availablePluginsURL().toURI())
+                    .build();
 
-            int status = con.getResponseCode();
-            assertEquals(200, status);
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            StringBuilder content = new StringBuilder();
-            try(BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))){
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-            }
-            con.disconnect();
+            assertEquals(200, response.statusCode());
 
-            final JsonObject asJsonObject = JsonParser.parseString(content.toString()).getAsJsonObject();
+            final JsonObject asJsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
             final JsonArray jobs = asJsonObject.get("availables").getAsJsonArray();
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(jobs.iterator(), Spliterator.ORDERED), false)
                     .map(element -> element.getAsJsonObject().get("name").getAsString())
@@ -159,26 +145,16 @@ public class JenkinsClient {
 
     public PluginUsage getPluginUsage() {
         try {
-            HttpURLConnection con = (HttpURLConnection) pluginUsageApiURL().openConnection();
-            con.setRequestMethod("GET");
+            final HttpRequest request = HttpRequest.newBuilder(pluginUsageApiURL().toURI())
+                    .build();
 
-            int status = con.getResponseCode();
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-
-            StringBuilder content = new StringBuilder();
-            try(BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))){
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-            }
-            con.disconnect();
-
-            assertEquals(200, status);
+            assertEquals(200, response.statusCode());
 
             Gson gson = new Gson();
-            return gson.fromJson(content.toString(), PluginUsage.class);
+            return gson.fromJson(response.body(), PluginUsage.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -195,10 +171,6 @@ public class JenkinsClient {
 
     public Void postFile(URL url, String jobResource) {
         try {
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
-            http.setRequestMethod("POST");
-            http.setDoOutput(true);
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             try(final InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(jobResource)){
@@ -210,26 +182,17 @@ public class JenkinsClient {
                 }
             }
 
-            http.setFixedLengthStreamingMode(byteArrayOutputStream.size());
-            http.setRequestProperty("Content-Type", "application/xml; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(byteArrayOutputStream.toByteArray());
-            }
-            int status = http.getResponseCode();
+            final HttpRequest request = HttpRequest.newBuilder(url.toURI())
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(byteArrayOutputStream.toByteArray()))
+                    .header("Content-Type", "application/xml; charset=UTF-8")
+                    .build();
 
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            StringBuilder content = new StringBuilder();
-            try(BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))){
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-            }
-            http.disconnect();
-            assertEquals(200, status);
-        } catch (IOException e) {
+            assertEquals(200, response.statusCode());
+
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
         return null;
@@ -237,24 +200,16 @@ public class JenkinsClient {
 
     public Void installPlugins(String plugin, String version) {
         try {
-            URLConnection con = installNecessaryPluginsURL().openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
-            http.setRequestMethod("POST");
-            http.setDoOutput(true);
+            final HttpRequest request = HttpRequest.newBuilder(installNecessaryPluginsURL().toURI())
+                    .POST(HttpRequest.BodyPublishers.ofString("<jenkins><install plugin=\""+ plugin + "@" + version + "\" /></jenkins>"))
+                    .header("Content-Type", "application/xml; charset=UTF-8")
+                    .build();
 
-            byte[] out = ("<jenkins><install plugin=\""+ plugin + "@" + version + "\" /></jenkins>")
-                    .getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/xml; charset=UTF-8");
-            http.connect();
-            try(OutputStream os = http.getOutputStream()) {
-                os.write(out);
-            }
-            int status = http.getResponseCode();
-            assertEquals(302, status);
-        } catch (IOException | URISyntaxException e) {
+            assertEquals(302, response.statusCode());
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         return null;
