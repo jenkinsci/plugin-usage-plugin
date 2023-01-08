@@ -33,7 +33,8 @@ public class JobCollector {
                         new MavenProjectAnalyzer(),
                         new PipelineProjectAnalyzer(),
                         new MatrixProjectAnalyzer(),
-                        new ComputedFolderAnalyzer());
+                        new ComputedFolderAnalyzer(),
+                        new PipelineLastBuildAnalyzer());
 
         // bootstrap map with all job related plugins
         for(AbstractProjectAnalyzer analyzer: analyzers)

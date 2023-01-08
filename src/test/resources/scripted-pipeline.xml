@@ -1,0 +1,19 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1145.v7f2433caa07f">
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties/>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2660.vb_c0412dc4e6d">
+        <script>node {
+            stage(&apos;build&apos;){
+            sh &apos;echo foo&apos;
+            junit allowEmptyResults: true, testResults: &apos;**/target/surefire-reports/TEST-*.xml&apos;
+            vb6 &apos;project1.vbp&apos;
+            }
+            }</script>
+        <sandbox>true</sandbox>
+    </definition>
+    <triggers/>
+    <disabled>false</disabled>
+</flow-definition>

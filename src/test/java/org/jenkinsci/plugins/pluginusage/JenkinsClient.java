@@ -27,6 +27,7 @@ import java.util.stream.StreamSupport;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.client.utils.URIBuilder;
@@ -59,12 +60,20 @@ public class JenkinsClient {
     private URL jobsURL() throws URISyntaxException, MalformedURLException {
         return getBaseURLBuilder().setPath("/api/json").build().toURL();
     }
+    private URL jobURL(String name) throws URISyntaxException, MalformedURLException {
+        return getBaseURLBuilder().setPath("/job/" + name + "/api/json").build().toURL();
+    }
     private URL pluginUsageApiURL() throws URISyntaxException, MalformedURLException {
         return getBaseURLBuilder().setPath("/pluginusage/api/json").setParameter("depth", "2").build().toURL();
     }
     private URL createJobURL(String name) throws URISyntaxException, MalformedURLException {
         return getBaseURLBuilder().setPath("/createItem").setParameter("name", name).build().toURL();
     }
+
+    private URL triggerJobURL(String name) throws URISyntaxException, MalformedURLException {
+        return getBaseURLBuilder().setPath("/job/" + name + "/build").setParameter("delay", "0sec").build().toURL();
+    }
+
     private URL installNecessaryPluginsURL() throws URISyntaxException, MalformedURLException {
         return getBaseURLBuilder().setPath("/pluginManager/installNecessaryPlugins").build().toURL();
     }
@@ -97,6 +106,23 @@ public class JenkinsClient {
                     .map(element -> element.getAsJsonObject().get("name").getAsString())
                     .collect(Collectors.toList());
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean hasLastCompletedBuild(String name) {
+        try {
+            final HttpRequest request = HttpRequest.newBuilder(jobURL(name).toURI())
+                    .GET()
+                    .build();
+
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+
+            final JsonObject asJsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
+            return asJsonObject.get("lastCompletedBuild") != JsonNull.INSTANCE;
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
@@ -164,6 +190,21 @@ public class JenkinsClient {
         try {
             postFile(createJobURL(name), jobResource);
         } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public Void triggerJob(String name) {
+        try {
+            final HttpRequest request = HttpRequest.newBuilder(triggerJobURL(name).toURI())
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(201, response.statusCode());
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         return null;
