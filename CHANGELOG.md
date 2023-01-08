@@ -8,6 +8,8 @@
  - [Bump commons-net from 3.8.0 to 3.9.0](https://github.com/jenkinsci/plugin-usage-plugin/pull/33)
  - [Refactoring: Use diamond operator and removed unnecessary semicolon and import](https://github.com/jenkinsci/plugin-usage-plugin/pull/34)
  - [Require Jenkins 2.361.4 and Java 11](https://github.com/jenkinsci/plugin-usage-plugin/pull/35)
+ - [Uses new HTTP client in Java 11 for testing](https://github.com/jenkinsci/plugin-usage-plugin/pull/37)
+ - [Replaces hasDependants with hasMandatoryDependents](https://github.com/jenkinsci/plugin-usage-plugin/pull/36)
 
 ### [Version 3.0] (2022-06-08)
 
