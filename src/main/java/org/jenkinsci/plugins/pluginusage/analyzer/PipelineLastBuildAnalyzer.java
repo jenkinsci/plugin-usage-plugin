@@ -24,7 +24,7 @@ import org.jenkinsci.plugins.workflow.steps.CoreStep;
 import org.jenkinsci.plugins.workflow.steps.CoreWrapperStep;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
 
-public class PipelineLastBuildAnalyzer extends AbstractProjectAnalyzer {
+class PipelineLastBuildAnalyzer extends AbstractProjectAnalyzer {
 
     private final boolean hasPlugin;
 
