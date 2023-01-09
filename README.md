@@ -49,5 +49,8 @@ All other plugins that do not implement any of these extension points will be sh
  * [Performing a Plugin Release manually ](https://www.jenkins.io/doc/developer/publishing/releasing-manually/)
  
 ```
-JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64 mvn -Darguments="-DskipITs" release:prepare release:perform
+JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64 mvn \
+    -Darguments="-DskipITs" \
+    release:prepare \
+    release:perform
 ```
