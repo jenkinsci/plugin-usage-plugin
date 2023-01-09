@@ -10,6 +10,7 @@
  - [Require Jenkins 2.361.4 and Java 11](https://github.com/jenkinsci/plugin-usage-plugin/pull/35)
  - [Uses new HTTP client in Java 11 for testing](https://github.com/jenkinsci/plugin-usage-plugin/pull/37)
  - [Replaces hasDependants with hasMandatoryDependents](https://github.com/jenkinsci/plugin-usage-plugin/pull/36)
+ - [Adds analyzer for pipelines (scripted and declarative) based on last runs](https://github.com/jenkinsci/plugin-usage-plugin/pull/38)
 
 ### [Version 3.0] (2022-06-08)
 
