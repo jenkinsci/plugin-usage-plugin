@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.0] (2023-01-09)
+
  - [Adds Computed Folders Analyzer](https://github.com/jenkinsci/plugin-usage-plugin/pull/30)
  - [Use HTTPS instead of git](https://github.com/jenkinsci/plugin-usage-plugin/pull/32)
  - [Updates parent pom to 4.51](https://github.com/jenkinsci/plugin-usage-plugin/pull/31)
@@ -81,7 +83,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-3.0...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.0...HEAD
+[Version 4.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-3.0...plugin-usage-plugin-4.0
 [Version 3.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.2...plugin-usage-plugin-3.0
 [Version 2.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.1...plugin-usage-plugin-2.2
 [Version 2.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.0...plugin-usage-plugin-2.1
