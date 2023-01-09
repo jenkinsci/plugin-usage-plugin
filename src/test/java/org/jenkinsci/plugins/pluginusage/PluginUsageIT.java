@@ -4,8 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -51,11 +51,9 @@ public class PluginUsageIT {
             .map(Plugin::getShortName)
             .collect(Collectors.toSet());
 
-    Function<PluginUsage, List<List<Project>>> projectsExtractor = p -> p.getJobsPerPlugin()
+    Function<PluginUsage, Map<String, List<Project>>> projectsExtractor = p -> p.getJobsPerPlugin()
             .stream()
-            .sorted(Comparator.comparing(a -> a.getPlugin().getShortName()))
-            .map(PluginProjects::getProjects)
-            .collect(Collectors.toList());
+            .collect(Collectors.toMap(x -> x.getPlugin().getShortName(), PluginProjects::getProjects));
 
     @BeforeClass
     public static void setupAll(){
@@ -717,6 +715,70 @@ public class PluginUsageIT {
                         new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("pipeline2")))
+        ));
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
+    }
+
+    @Test
+    public void scriptedPipeline() {
+
+        attempt("installing pipeline-model-definition",
+                () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
+                ignore -> client.getInstalledPlugins().contains("pipeline-model-definition"));
+        attempt("installing visual basic 6",
+                () -> client.installPlugins("visual-basic-6", "1.4"),
+                ignore -> client.getInstalledPlugins().contains("visual-basic-6"));
+        attempt("installing junit",
+                () -> client.installPlugins("junit", "1.54"),
+                ignore -> client.getInstalledPlugins().contains("junit"));
+
+        attempt("installing plugin-usage",
+                client::installPluginUsage,
+                ignore -> client.getInstalledPlugins().contains("plugin-usage-plugin"));
+
+        attempt("creating job",
+                () -> client.createJob("scripted-pipeline", "scripted-pipeline.xml"),
+                ignore -> client.getJobs().contains("scripted-pipeline"));
+
+        attempt("trigger job",
+                () -> client.triggerJob("scripted-pipeline"),
+                ignore -> client.hasLastCompletedBuild("scripted-pipeline"));
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("junit", "1.54"), Lists.newArrayList(new Project("scripted-pipeline"))),
+                new PluginProjects(
+                        new Plugin("checks-api", "1.54"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("cloudbees-folder", "6.16"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-basic-steps", "2.24"), Lists.newArrayList(new Project("scripted-pipeline"))),
+                new PluginProjects(
+                        new Plugin("pipeline-model-definition", "1.9.3"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-cps", "2.94"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-input-step", "2.12"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-multibranch", "2.26"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-durable-task-step", "2.40"), Lists.newArrayList(new Project("scripted-pipeline"))),
+                new PluginProjects(
+                        new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList(new Project("scripted-pipeline"))),
+                new PluginProjects(
+                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(new Project("scripted-pipeline")))
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
         assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
