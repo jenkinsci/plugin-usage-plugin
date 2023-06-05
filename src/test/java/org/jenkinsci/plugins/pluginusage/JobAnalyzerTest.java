@@ -2,7 +2,7 @@ package org.jenkinsci.plugins.pluginusage;
 
 import static org.junit.Assert.*;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.htmlunit.html.HtmlPage;
 import hudson.model.FreeStyleProject;
 import jenkins.model.Jenkins;
 import org.junit.Rule;
