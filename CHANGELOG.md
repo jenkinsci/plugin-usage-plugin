@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Upgrade HtmlUnit from 2.x to 3.x](https://github.com/jenkinsci/plugin-usage-plugin/pull/41)
+
 ### [Version 4.0] (2023-01-09)
 
  - [Adds Computed Folders Analyzer](https://github.com/jenkinsci/plugin-usage-plugin/pull/30)
