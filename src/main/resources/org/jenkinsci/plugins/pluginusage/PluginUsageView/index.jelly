@@ -4,7 +4,7 @@
     <l:layout xmlns:local="local" norefresh="true">
         <st:include it="${app}" page="sidepanel.jelly"/><!--Implements the sidepanel of the default-view-->
         <l:main-panel>
-            <p>${%Warning: Scripted pipeline jobs are not detected by this plugin. Support for declarative pipeline jobs is experimental.}</p>
+            <p>${%Warning: Support for pipeline jobs is experimental.}</p>
             <j:set var="data" value="${it.data}"/>
             <j:set var="pluginsByJob" value="${data.pluginUsageByPlugin}"/>
             <j:set var="jobsPerPlugin" value="${data.jobsPerPlugin}"/>
