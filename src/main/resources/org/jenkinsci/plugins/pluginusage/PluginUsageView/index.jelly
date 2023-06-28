@@ -65,7 +65,6 @@
                  </tbody>
             </table>
 
-            <j:set var="data" value="${it.data}"/>
             <j:set var="otherPlugins" value="${data.otherPlugins}"/>
             <br/>
             <hr/>
