@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.1] (2023-06-28)
+
  - [Upgrade HtmlUnit from 2.x to 3.x](https://github.com/jenkinsci/plugin-usage-plugin/pull/41)
  - [Add null check for old descriptors that are not available anymore](https://github.com/jenkinsci/plugin-usage-plugin/pull/42)
  - [Uses a HashSet to not process the same run multiple times in pipeline jobs](https://github.com/jenkinsci/plugin-usage-plugin/pull/43)
@@ -90,7 +92,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.0...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.1...HEAD
+[Version 4.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.0...plugin-usage-plugin-4.1
 [Version 4.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-3.0...plugin-usage-plugin-4.0
 [Version 3.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.2...plugin-usage-plugin-3.0
 [Version 2.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.1...plugin-usage-plugin-2.2
