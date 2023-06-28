@@ -14,10 +14,9 @@ You can find the plugin on sidepanel of Jenkins. Every user is able to
 use this plugin.
 
 The plugin will give you a report on how much every plugin will be used
-in all of your jobs (see the screenshot below). Therefore it will
+in all of your jobs (see the screenshot below). Therefore, it will
 analyze the used extension points of each job.
-**Plugins used in scripted pipeline scripts would not be listed normally as used
-by jobs, because they are used dynamically in Jenkinsfiles. Declarative pipelines are supported experimentally**
+**Pipelines are supported experimentally**
 
 ![plugin view](screenshot.png)
 
