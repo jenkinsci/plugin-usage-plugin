@@ -42,10 +42,12 @@ class PipelineLastBuildAnalyzer extends AbstractProjectAnalyzer {
 
         if (item instanceof WorkflowJob){
             final WorkflowJob workflowJob = (WorkflowJob) item;
-            processRun(plugins, workflowJob.getLastBuild());
-            processRun(plugins, workflowJob.getLastSuccessfulBuild());
-            processRun(plugins, workflowJob.getLastCompletedBuild());
-            processRun(plugins, workflowJob.getLastStableBuild());
+            final var jobs = new HashSet<WorkflowRun>();
+            jobs.add(workflowJob.getLastBuild());
+            jobs.add(workflowJob.getLastSuccessfulBuild());
+            jobs.add(workflowJob.getLastCompletedBuild());
+            jobs.add(workflowJob.getLastStableBuild());
+            jobs.forEach(build -> processRun(plugins, build));
         }
         return plugins;
     }
