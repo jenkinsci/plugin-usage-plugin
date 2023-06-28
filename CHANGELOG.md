@@ -3,6 +3,9 @@
 ### [Unreleased]
 
  - [Upgrade HtmlUnit from 2.x to 3.x](https://github.com/jenkinsci/plugin-usage-plugin/pull/41)
+ - [Add null check for old descriptors that are not available anymore](https://github.com/jenkinsci/plugin-usage-plugin/pull/42)
+ - [Uses a HashSet to not process the same run multiple times in pipeline jobs](https://github.com/jenkinsci/plugin-usage-plugin/pull/43)
+ - [Use a single instance of PluginUsageModel in jelly to cache analyze results](https://github.com/jenkinsci/plugin-usage-plugin/pull/44)
 
 ### [Version 4.0] (2023-01-09)
 
