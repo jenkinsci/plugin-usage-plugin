@@ -6,6 +6,7 @@
  - [Add null check for old descriptors that are not available anymore](https://github.com/jenkinsci/plugin-usage-plugin/pull/42)
  - [Uses a HashSet to not process the same run multiple times in pipeline jobs](https://github.com/jenkinsci/plugin-usage-plugin/pull/43)
  - [Use a single instance of PluginUsageModel in jelly to cache analyze results](https://github.com/jenkinsci/plugin-usage-plugin/pull/44)
+ - [Update pipeline warning for both scripted and pipeline](https://github.com/jenkinsci/plugin-usage-plugin/pull/45)
 
 ### [Version 4.0] (2023-01-09)
 
