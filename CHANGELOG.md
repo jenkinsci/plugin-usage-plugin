@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Modernize to Jenkins 2.375.4](https://github.com/jenkinsci/plugin-usage-plugin/pull/47)
+
 ### [Version 4.1] (2023-06-28)
 
  - [Upgrade HtmlUnit from 2.x to 3.x](https://github.com/jenkinsci/plugin-usage-plugin/pull/41)
