@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - [Modernize to Jenkins 2.375.4](https://github.com/jenkinsci/plugin-usage-plugin/pull/47)
+ - [Add Plugin Development Team to CODEOWNERS](https://github.com/jenkinsci/plugin-usage-plugin/pull/48)
 
 ### [Version 4.1] (2023-06-28)
 
