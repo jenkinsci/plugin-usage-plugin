@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.2] (2023-09-05)
+
  - [Modernize to Jenkins 2.375.4](https://github.com/jenkinsci/plugin-usage-plugin/pull/47)
  - [Add Plugin Development Team to CODEOWNERS](https://github.com/jenkinsci/plugin-usage-plugin/pull/48)
 
@@ -95,7 +97,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.1...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.2...HEAD
+[Version 4.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.1...plugin-usage-plugin-4.2
 [Version 4.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.0...plugin-usage-plugin-4.1
 [Version 4.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-3.0...plugin-usage-plugin-4.0
 [Version 3.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-2.2...plugin-usage-plugin-3.0
