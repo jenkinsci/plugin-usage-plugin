@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class JobCollector {
                     }
                 }
             } catch(Exception e){
-                LOGGER.warning("Exception caught: " + e );
+                LOGGER.log(Level.WARNING, "Exception caught: " + e , e);
             }
         }
 
@@ -68,9 +69,9 @@ public class JobCollector {
                         addItem(item, plugin);
                     }
                 } catch(Exception e){
-                    LOGGER.warning("Exception caught in job " + item.getFullName() + ": " + e );
+                    LOGGER.log(Level.WARNING, "Exception caught in job " + item.getFullName() + ": " + e , e);
                 } catch (Throwable e){
-                    LOGGER.severe("Exception caught in job " + item.getFullName() + ": " + e );
+                    LOGGER.log(Level.SEVERE,"Exception caught in job " + item.getFullName() + ": " + e, e);
                 }
             }
         }
