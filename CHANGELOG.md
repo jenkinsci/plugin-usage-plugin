@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Add null check for missing plugins in pipelines](https://github.com/jenkinsci/plugin-usage-plugin/pull/49)
+
 ### [Version 4.2] (2023-09-05)
 
  - [Modernize to Jenkins 2.375.4](https://github.com/jenkinsci/plugin-usage-plugin/pull/47)
