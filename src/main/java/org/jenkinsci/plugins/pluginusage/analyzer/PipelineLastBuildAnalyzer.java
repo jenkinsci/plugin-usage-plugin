@@ -98,7 +98,9 @@ class PipelineLastBuildAnalyzer extends AbstractProjectAnalyzer {
             if (describable != null) {
                 final Descriptor<?> descriptor = SymbolLookup.get()
                         .findDescriptor(Describable.class, describable.getSymbol());
-                plugins.add(getPluginFromClass(descriptor.clazz));
+                if (descriptor != null){
+                    plugins.add(getPluginFromClass(descriptor.clazz));
+                }
             }
         }
     }
