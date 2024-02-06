@@ -1,0 +1,15 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout xmlns:local="local" norefresh="true">
+        <st:include it="${app}" page="sidepanel.jelly"/><!--Implements the sidepanel of the default-view-->
+        <l:main-panel>
+
+            <st:adjunct includes="org.jenkinsci.plugins.pluginusage.AsyncPluginUsageView.progressiveRendering" />
+            <l:progressiveRendering handler="${it.progressiveRendering()}" callback="display" tooltip="Checking Plugins usage..."/>
+
+            <ul class="jdl-list" id="factors"/>
+        </l:main-panel>
+    </l:layout>
+
+</j:jelly>

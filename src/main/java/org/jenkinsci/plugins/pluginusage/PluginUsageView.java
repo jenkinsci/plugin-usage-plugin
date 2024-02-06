@@ -32,7 +32,7 @@ public class PluginUsageView implements RootAction{
 	@Override
 	public String getIconFileName() {
 		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
-			return "plugin.png";
+			return "plugin.svg";
 		}
 		return null;
 	}
