@@ -1,19 +1,27 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <l:layout xmlns:local="local" norefresh="true">
+    <l:layout norefresh="true" title="${%Plugin Usage}">
         <st:include it="${app}" page="sidepanel.jelly"/><!--Implements the sidepanel of the default-view-->
         <l:main-panel>
-            <p>${%Warning: Support for pipeline jobs is experimental.}</p>
             <j:set var="data" value="${it.data}"/>
             <j:set var="pluginsByJob" value="${data.pluginUsageByPlugin}"/>
             <j:set var="jobsPerPlugin" value="${data.jobsPerPlugin}"/>
             <j:set var="numberOfJobs" value="${data.numberOfJobs}"/>
             <j:set var="count" value="0"/>
-            ${%Number of Jobs}: ${numberOfJobs}
-            <br/>
-            <hr/>
-            <h1>${%Jobs by Plugin}</h1>
+
+            <form action="update" class="jenkins-!-margin-bottom-5">
+                <j:if test="${data.timestampStr != null}">
+                    ${%lastUpdated(data.timestampStr)}
+                </j:if>
+                <f:submit value="${%Update}" />
+            </form>
+
+            <header>
+                <h1>${%Jobs by Plugin}</h1>
+                <p>${%numberOfJobs(numberOfJobs)}</p>
+            </header>
+
             <table class="sortable pane bigtable" border="solid #bbb;" id="PluginUsageTable">
                 <thead>
                     <tr>

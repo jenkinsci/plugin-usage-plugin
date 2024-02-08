@@ -1,0 +1,21 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<org.jenkinsci.plugins.pluginusage.PersistedModel plugin="plugin-usage-plugin@4.3-SNAPSHOT">
+  <timestamp>2024-02-08T12:19:46.764286Z</timestamp>
+  <jobsPerPluginMap>
+    <entry>
+      <string>ant</string>
+      <set>
+        <string>a</string>
+        <string>b</string>
+      </set>
+    </entry>
+    <entry>
+      <string>junit</string>
+      <set/>
+    </entry>
+    <entry>
+      <string>mailer</string>
+      <set/>
+    </entry>
+  </jobsPerPluginMap>
+</org.jenkinsci.plugins.pluginusage.PersistedModel>

@@ -1,6 +1,5 @@
 package org.jenkinsci.plugins.pluginusage.analyzer;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,15 +17,9 @@ public class JobCollector {
 
     private static final Logger LOGGER = Logger.getLogger(org.jenkinsci.plugins.pluginusage.analyzer.JobCollector.class.getName());
 
-    private Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin;
-
     public Map<PluginWrapper, JobsPerPlugin> getJobsPerPlugin()
     {
-        if (mapJobsPerPlugin != null){
-            return mapJobsPerPlugin;
-        }
-
-        mapJobsPerPlugin = new HashMap<>();
+        Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin = new HashMap<>();
 
         List<AbstractProjectAnalyzer> analyzers =
                 Arrays.asList(
@@ -66,7 +59,7 @@ public class JobCollector {
             {
                 try{
                     for(PluginWrapper plugin: analyzer.getPluginsFromItem(item)){
-                        addItem(item, plugin);
+                        addItem(mapJobsPerPlugin, item, plugin);
                     }
                 } catch(Exception e){
                     LOGGER.log(Level.WARNING, "Exception caught in job " + item.getFullName() + ": " + e , e);
@@ -79,7 +72,7 @@ public class JobCollector {
         return mapJobsPerPlugin;
     }
 
-    protected void addItem(Item item, PluginWrapper usedPlugin) {
+    protected void addItem(Map<PluginWrapper, JobsPerPlugin> mapJobsPerPlugin, Item item, PluginWrapper usedPlugin) {
         if (usedPlugin != null) {
             JobsPerPlugin jobsPerPlugin = mapJobsPerPlugin.get(usedPlugin);
             if (jobsPerPlugin != null) {
@@ -91,23 +84,4 @@ public class JobCollector {
             }
         }
     }
-
-    public int getNumberOfJobs() {
-        return getJobsPerPlugin()
-                .values()
-                .stream()
-                .flatMap(jobsPerPlugin -> jobsPerPlugin.getProjects().stream())
-                .collect(Collectors.toSet())
-                .size();
-    }
-
-    public List<PluginWrapper> getOtherPlugins() {
-        List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
-        List<PluginWrapper> others = new ArrayList<>(allPlugins);
-
-        others.removeAll(getJobsPerPlugin().keySet());
-
-        return others;
-    }
-
 }

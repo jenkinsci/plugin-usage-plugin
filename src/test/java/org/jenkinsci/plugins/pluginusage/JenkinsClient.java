@@ -66,6 +66,9 @@ public class JenkinsClient {
     private URL pluginUsageApiURL() throws URISyntaxException, MalformedURLException {
         return getBaseURLBuilder().setPath("/pluginusage/api/json").setParameter("depth", "2").build().toURL();
     }
+    private URL pluginUsageUpdateURL() throws URISyntaxException, MalformedURLException {
+        return getBaseURLBuilder().setPath("/pluginusage/update").build().toURL();
+    }
     private URL createJobURL(String name) throws URISyntaxException, MalformedURLException {
         return getBaseURLBuilder().setPath("/createItem").setParameter("name", name).build().toURL();
     }
@@ -184,6 +187,20 @@ public class JenkinsClient {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Void triggerPluginUsage() {
+        try {
+            final HttpRequest request = HttpRequest.newBuilder(pluginUsageUpdateURL().toURI())
+                    .build();
+
+            final HttpClient client = HttpClient.newHttpClient();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(302, response.statusCode());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public Void createJob(String name, String jobResource) {
