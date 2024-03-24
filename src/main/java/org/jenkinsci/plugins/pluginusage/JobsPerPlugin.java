@@ -34,7 +34,7 @@ public class JobsPerPlugin {
 	}
 	
 	public String getPluginName() {
-		return plugin.getLongName();
+		return plugin.getDisplayName();
 	}
 
 	public String getPluginVersion() {

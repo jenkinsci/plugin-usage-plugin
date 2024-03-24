@@ -84,6 +84,10 @@ public class PluginUsageIT {
                 () -> client.createJob("freestyle1", "freestyle1.xml"),
                 plugins -> client.getJobs().contains("freestyle1"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(new Plugin("visual-basic-6", "1.4"), Lists.newArrayList(
@@ -111,6 +115,10 @@ public class PluginUsageIT {
         attempt("installing plugin-usage",
                 client::installPluginUsage,
                 plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -141,6 +149,10 @@ public class PluginUsageIT {
                 client::installPluginUsage,
                 plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -166,6 +178,10 @@ public class PluginUsageIT {
         attempt("installing plugin-usage",
                 client::installPluginUsage,
                 plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -203,6 +219,10 @@ public class PluginUsageIT {
         final URL url = client.getBaseURLBuilder().setPath("job/promotion-job1/promotion/createProcess").setParameter("name", "CI").build().toURL();
         client.postFile(url, "promotion-job1-CI-process1.xml");
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -234,6 +254,10 @@ public class PluginUsageIT {
                 () -> client.createJob("timestamper1", "timestamper1.xml"),
                 plugins -> client.getJobs().contains("timestamper1"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -259,6 +283,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("publisher1", "publisher1.xml"),
                 plugins -> client.getJobs().contains("publisher1"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -290,6 +318,10 @@ public class PluginUsageIT {
         final URL url = client.getBaseURLBuilder().setPath("job/publisher2/promotion/createProcess").setParameter("name", "CI").build().toURL();
         client.postFile(url, "publisher2-CI-process1.xml");
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -315,6 +347,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("scm1", "scm1.xml"),
                 plugins -> client.getJobs().contains("scm1"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -343,6 +379,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("maven1", "maven1.xml"),
                 plugins -> client.getJobs().contains("maven1"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -376,6 +416,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("maven2", "maven2.xml"),
                 plugins -> client.getJobs().contains("maven2"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -412,6 +456,10 @@ public class PluginUsageIT {
                 () -> client.createJob("maven3", "maven3.xml"),
                 plugins -> client.getJobs().contains("maven3"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -446,6 +494,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("maven4", "maven4.xml"),
                 plugins -> client.getJobs().contains("maven4"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -490,6 +542,10 @@ public class PluginUsageIT {
                 () -> client.createJob("maven5", "maven5.xml"),
                 plugins -> client.getJobs().contains("maven5"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -529,6 +585,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("maven6", "maven6.xml"),
                 plugins -> client.getJobs().contains("maven6"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -574,6 +634,10 @@ public class PluginUsageIT {
         final URL url = client.getBaseURLBuilder().setPath("job/maven7/promotion/createProcess").setParameter("name", "CI").build().toURL();
         client.postFile(url, "maven7-CI-process1.xml");
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -608,6 +672,10 @@ public class PluginUsageIT {
                 () -> client.createJob("trigger1", "trigger1.xml"),
                 plugins -> client.getJobs().contains("trigger1"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -633,6 +701,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("pipeline1", "pipeline1.xml"),
                 plugins -> client.getJobs().contains("pipeline1"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -684,6 +756,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("pipeline2", "pipeline2.xml"),
                 plugins -> client.getJobs().contains("pipeline2"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -745,6 +821,10 @@ public class PluginUsageIT {
                 () -> client.triggerJob("scripted-pipeline"),
                 ignore -> client.hasLastCompletedBuild("scripted-pipeline"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -802,6 +882,10 @@ public class PluginUsageIT {
                 () -> client.createJob("matrix1", "matrix1.xml"),
                 plugins -> client.getJobs().contains("matrix1"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
                 new PluginProjects(
@@ -833,6 +917,9 @@ public class PluginUsageIT {
                 () -> client.createJob("multibranch pipeline2", "multibranch_pipeline2.xml"),
                 plugins -> client.getJobs().contains("multibranch pipeline2"));
 
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(
@@ -891,6 +978,10 @@ public class PluginUsageIT {
         attempt("creating job",
                 () -> client.createJob("coordinator1", "coordinator1.xml"),
                 plugins -> client.getJobs().contains("coordinator1"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
 
         PluginUsage actual = client.getPluginUsage();
         PluginUsage expected = new PluginUsage(Lists.newArrayList(

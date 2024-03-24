@@ -10,6 +10,7 @@ import org.jenkinsci.plugins.pluginusage.api.Project;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.recipes.LocalData;
 import org.jvnet.hudson.test.recipes.WithPlugin;
 
 import java.io.File;
@@ -26,6 +27,7 @@ public class PluginUsageViewApiTest {
     public JenkinsRule j = new JenkinsRule();
 
     @Test
+    @LocalData("plugin-usage.xml")
     @WithPlugin({"structs-1.17.hpi", "ant-1.9.hpi"})
     public void shouldRenderJson() throws Exception {
         // given two jobs are using the ant builder

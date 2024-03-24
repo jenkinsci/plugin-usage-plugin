@@ -2,11 +2,14 @@ package org.jenkinsci.plugins.pluginusage;
 
 import hudson.Extension;
 import hudson.model.Api;
+import hudson.model.AsyncPeriodicWork;
 import hudson.model.RootAction;
 import hudson.security.Permission;
 import hudson.security.PermissionGroup;
 import hudson.security.PermissionScope;
 import jenkins.model.Jenkins;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
 @Extension
 public class PluginUsageView implements RootAction{
@@ -32,7 +35,7 @@ public class PluginUsageView implements RootAction{
 	@Override
 	public String getIconFileName() {
 		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
-			return "plugin.png";
+			return "plugin.svg";
 		}
 		return null;
 	}
@@ -45,8 +48,15 @@ public class PluginUsageView implements RootAction{
 		return null;
 	}
 
+	public void doUpdate(StaplerRequest req, StaplerResponse res) throws Exception {
+		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
+			AsyncPeriodicWork.all().getInstance(PluginUsageAsyncPeriodicWork.class).doRun();
+		}
+		res.forwardToPreviousPage(req);
+	}
+
 	public PluginUsageModel getData() {
-        Jenkins.get().checkPermission(PluginUsageView.PLUGIN_VIEW);
+		Jenkins.get().checkPermission(PluginUsageView.PLUGIN_VIEW);
 		PluginUsageModel pluginUsageModel = new PluginUsageModel();
 		return pluginUsageModel;
 	}
