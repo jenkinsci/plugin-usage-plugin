@@ -2,7 +2,10 @@
 
 ### [Unreleased]
 
+### [Version 4.3] (2023-03-27)
+
  - [Add null check for missing plugins in pipelines](https://github.com/jenkinsci/plugin-usage-plugin/pull/49)
+ - [Adds AsyncPeriodicWork with persistence to make loading faster](https://github.com/jenkinsci/plugin-usage-plugin/pull/51)
 
 ### [Version 4.2] (2023-09-05)
 
@@ -99,7 +102,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.2...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.3...HEAD
+[Version 4.3]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.2...plugin-usage-plugin-4.3
 [Version 4.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.1...plugin-usage-plugin-4.2
 [Version 4.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.0...plugin-usage-plugin-4.1
 [Version 4.0]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-3.0...plugin-usage-plugin-4.0
