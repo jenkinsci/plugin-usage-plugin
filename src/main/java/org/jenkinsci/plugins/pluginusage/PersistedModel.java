@@ -69,7 +69,7 @@ public class PersistedModel implements Saveable {
                             final var jobsPerPlugin = new JobsPerPlugin(plugin);
                             e.getValue()
                                     .stream()
-                                    .map(Jenkins.get()::getItem)
+                                    .map(Jenkins.get()::getItemByFullName)
                                     .filter(Objects::nonNull)
                                     .forEach(jobsPerPlugin::addProject);
                             return jobsPerPlugin;
@@ -85,7 +85,7 @@ public class PersistedModel implements Saveable {
                                 e -> e.getValue()
                                         .getProjects()
                                         .stream()
-                                        .map(Item::getFullDisplayName)
+                                        .map(Item::getFullName)
                                         .collect(Collectors.toSet())
                         ));
     }
