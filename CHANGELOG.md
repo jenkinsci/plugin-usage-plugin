@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.4] (2023-03-28)
+
  - [Fix persisted model to use full name instead of display name](https://github.com/jenkinsci/plugin-usage-plugin/pull/52)
 
 ### [Version 4.3] (2023-03-27)
@@ -104,7 +106,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.3...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.4...HEAD
+[Version 4.4]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.3...plugin-usage-plugin-4.4
 [Version 4.3]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.2...plugin-usage-plugin-4.3
 [Version 4.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.1...plugin-usage-plugin-4.2
 [Version 4.1]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.0...plugin-usage-plugin-4.1
