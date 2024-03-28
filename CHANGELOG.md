@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Fix persisted model to use full name instead of display name](https://github.com/jenkinsci/plugin-usage-plugin/pull/52)
+
 ### [Version 4.3] (2023-03-27)
 
  - [Add null check for missing plugins in pipelines](https://github.com/jenkinsci/plugin-usage-plugin/pull/49)
