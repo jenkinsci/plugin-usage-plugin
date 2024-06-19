@@ -3,7 +3,6 @@ package org.jenkinsci.plugins.pluginusage;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -16,9 +15,9 @@ import hudson.PluginWrapper;
 import hudson.XmlFile;
 import hudson.model.Item;
 import hudson.model.Saveable;
-import hudson.model.TopLevelItem;
 import hudson.model.listeners.SaveableListener;
 import jenkins.model.Jenkins;
+import org.springframework.security.access.AccessDeniedException;
 
 public class PersistedModel implements Saveable {
 
@@ -69,12 +68,21 @@ public class PersistedModel implements Saveable {
                             final var jobsPerPlugin = new JobsPerPlugin(plugin);
                             e.getValue()
                                     .stream()
-                                    .map(Jenkins.get()::getItemByFullName)
+                                    .map(PersistedModel::getItemByFullName)
                                     .filter(Objects::nonNull)
                                     .forEach(jobsPerPlugin::addProject);
                             return jobsPerPlugin;
                         }
                 ));
+    }
+
+    private static Item getItemByFullName(String fullName) {
+        try {
+            return Jenkins.get().getItemByFullName(fullName);
+        } catch (AccessDeniedException e) {
+            // ignore DISCOVER PERMISSION
+            return null;
+        }
     }
 
     public void setJobsPerPlugin(Map<PluginWrapper, JobsPerPlugin> jobsPerPlugin) {
