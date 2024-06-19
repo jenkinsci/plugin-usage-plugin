@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -21,9 +22,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.utility.MountableFile;
 
 import static hudson.Functions.isWindows;
 import static org.junit.Assert.assertEquals;
@@ -31,19 +34,24 @@ import static org.junit.Assume.assumeFalse;
 
 public class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.375.4";
+    private static final String IMAGE = "jenkins/jenkins:2.440.3";
+
+    @Rule
+    public Timeout timeout = Timeout.builder().withTimeout(5, TimeUnit.MINUTES).build();
 
     @Rule
     public GenericContainer<?> jenkins = new GenericContainer(DockerImageName.parse(IMAGE))
             .withExposedPorts(8080)
             .waitingFor(Wait.forHttp("/"))
+            .withCopyFileToContainer(MountableFile.forClasspathResource("update-center.2.440.3.json"), "/tmp/update-center.json")
             .withEnv("JAVA_OPTS",
                     "-Djenkins.install.runSetupWizard=false " +
-                    "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true");
+                    "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true " +
+                    "-Dhudson.model.UpdateCenter.updateCenterUrl=file:///tmp/ ");
 
     private JenkinsClient client;
 
-    private final Duration maxTimeBackoff = Duration.ofMinutes(5);
+    private final Duration maxTimeBackoff = Duration.ofMinutes(3);
 
     Function<PluginUsage, Set<String>> pluginNamesExtractor = p -> p.getJobsPerPlugin()
             .stream()
