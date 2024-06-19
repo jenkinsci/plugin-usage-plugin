@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Upgrade Jenkins core to 2.440.3](https://github.com/jenkinsci/plugin-usage-plugin/pull/54)
+
 ### [Version 4.4] (2023-03-28)
 
  - [Fix persisted model to use full name instead of display name](https://github.com/jenkinsci/plugin-usage-plugin/pull/52)
