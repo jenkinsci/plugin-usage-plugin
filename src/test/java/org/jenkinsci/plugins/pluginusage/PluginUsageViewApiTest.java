@@ -46,8 +46,8 @@ public class PluginUsageViewApiTest {
                         new Project("a"),
                         new Project("b")
                 )),
-                new PluginProjects(new Plugin("junit", "1160.vf1f01a_a_ea_b_7f"), Lists.newArrayList()),
-                new PluginProjects(new Plugin("mailer", "408.vd726a_1130320"), Lists.newArrayList())
+                new PluginProjects(new Plugin("junit", "1265.v65b_14fa_f12f0"), Lists.newArrayList()),
+                new PluginProjects(new Plugin("mailer", "472.vf7c289a_4b_420"), Lists.newArrayList())
         ));
 
         // when the api is fetched
