@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - [Upgrade Jenkins core to 2.440.3](https://github.com/jenkinsci/plugin-usage-plugin/pull/54)
+ - [Fix NullPointerException for user with discover permission](https://github.com/jenkinsci/plugin-usage-plugin/pull/53)
 
 ### [Version 4.4] (2023-03-28)
 
