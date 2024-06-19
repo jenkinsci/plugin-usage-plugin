@@ -111,7 +111,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.4...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.5...HEAD
+[Version 4.5]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.4...plugin-usage-plugin-4.5
 [Version 4.4]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.3...plugin-usage-plugin-4.4
 [Version 4.3]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.2...plugin-usage-plugin-4.3
 [Version 4.2]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.1...plugin-usage-plugin-4.2
