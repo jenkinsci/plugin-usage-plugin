@@ -7,8 +7,8 @@
   </parent>
 
   <properties>
-    <java.version>11</java.version>
-    <jenkins.version>2.440.3</jenkins.version>
+    <jenkins.baseline>2.440</jenkins.baseline>
+    <jenkins.version>${jenkins.baseline}.3</jenkins.version>
   </properties>
 
   <name>Plugin Usage - Plugin</name>
@@ -92,8 +92,8 @@
       </dependency>
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
-        <artifactId>bom-2.440.x</artifactId>
-        <version>3105.v672692894683</version>
+        <artifactId>bom-${jenkins.baseline}.x</artifactId>
+        <version>3307.v2769886db_63b_</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
