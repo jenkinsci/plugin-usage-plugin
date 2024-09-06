@@ -23,7 +23,7 @@ public class PluginUsageModel {
 		list.sort(Comparator.comparing(JobsPerPlugin::getPluginName));
 		return list;
 	}
-	
+
 	public int getNumberOfJobs()
 	{
 		return getPersistedModel().getJobsPerPlugin()
@@ -33,7 +33,8 @@ public class PluginUsageModel {
 				.collect(Collectors.toSet())
 				.size();
 	}
-	
+
+	@Exported
 	public List<PluginWrapper> getOtherPlugins(){
 		List<PluginWrapper> allPlugins = Jenkins.get().getPluginManager().getPlugins();
 		List<PluginWrapper> others = new ArrayList<>(allPlugins);
