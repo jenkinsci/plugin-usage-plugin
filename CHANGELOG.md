@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - [Upgrade parent pom from 4.83 to 4.87](https://github.com/jenkinsci/plugin-usage-plugin/pull/58)
+ - [Use maven-plugin from jenkins bom](https://github.com/jenkinsci/plugin-usage-plugin/pull/59)
 
 ### [Version 4.5] (2024-06-19)
 
