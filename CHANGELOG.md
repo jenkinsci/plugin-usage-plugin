@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Upgrade parent pom from 4.83 to 4.87](https://github.com/jenkinsci/plugin-usage-plugin/pull/58)
+
 ### [Version 4.5] (2024-06-19)
 
  - [Upgrade Jenkins core to 2.440.3](https://github.com/jenkinsci/plugin-usage-plugin/pull/54)
