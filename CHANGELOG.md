@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.6] (2024-09-30)
+
  - [Upgrade parent pom from 4.83 to 4.87](https://github.com/jenkinsci/plugin-usage-plugin/pull/58)
  - [Use maven-plugin from jenkins bom](https://github.com/jenkinsci/plugin-usage-plugin/pull/59)
  - [Update Jenkins BOM](https://github.com/jenkinsci/plugin-usage-plugin/pull/60)
@@ -118,7 +120,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.5...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.6...HEAD
+[Version 4.6]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.5...plugin-usage-plugin-4.6
 [Version 4.5]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.4...plugin-usage-plugin-4.5
 [Version 4.4]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.3...plugin-usage-plugin-4.4
 [Version 4.3]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.2...plugin-usage-plugin-4.3
