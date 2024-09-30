@@ -118,14 +118,14 @@
       <url>https://repo.jenkins-ci.org/public/</url>
     </pluginRepository>
   </pluginRepositories>
-  
+
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/plugin-usage-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/plugin-usage-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/plugin-usage-plugin</url>
     <tag>HEAD</tag>
   </scm>
-  
+
   <developers>
     <developer>
       <id>chrissy25</id>
@@ -143,6 +143,6 @@
       <email>froque@premium-minds.com</email>
     </developer>
   </developers>
-  
+
 
 </project>
