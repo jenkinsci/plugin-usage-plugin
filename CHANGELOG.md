@@ -7,6 +7,7 @@
  - [Update Jenkins BOM](https://github.com/jenkinsci/plugin-usage-plugin/pull/60)
  - [Use promoted-builds version from BOM](https://github.com/jenkinsci/plugin-usage-plugin/pull/61)
  - [Update testcontainers to 1.20.1](https://github.com/jenkinsci/plugin-usage-plugin/pull/62)
+ - [Add api support to othersPlugin field in PluginUsageView](https://github.com/jenkinsci/plugin-usage-plugin/pull/57)
 
 ### [Version 4.5] (2024-06-19)
 
