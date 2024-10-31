@@ -40,7 +40,8 @@ public class PluginUsageIT {
     public Timeout timeout = Timeout.builder().withTimeout(5, TimeUnit.MINUTES).build();
 
     @Rule
-    public GenericContainer<?> jenkins = new GenericContainer(DockerImageName.parse(IMAGE))
+    public GenericContainer<?> jenkins = new GenericContainer<>(DockerImageName.parse(IMAGE))
+            .withLogConsumer(frame -> System.out.println(frame.getUtf8StringWithoutLineEnding()))
             .withExposedPorts(8080)
             .waitingFor(Wait.forHttp("/"))
             .withCopyFileToContainer(MountableFile.forClasspathResource("update-center.2.440.3.json"), "/tmp/update-center.json")
@@ -739,8 +740,6 @@ public class PluginUsageIT {
                 new PluginProjects(
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
                 new PluginProjects(
-                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
-                new PluginProjects(
                         new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList())
         ));
         assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
@@ -793,8 +792,6 @@ public class PluginUsageIT {
                         new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList()),
                 new PluginProjects(
@@ -861,8 +858,6 @@ public class PluginUsageIT {
                         new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList(new Project("scripted-pipeline"))),
-                new PluginProjects(
-                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList()),
                 new PluginProjects(
@@ -957,8 +952,6 @@ public class PluginUsageIT {
                         new Plugin("workflow-scm-step", "2.13"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("pipeline-stage-step", "2.5"), Lists.newArrayList()),
-                new PluginProjects(
-                        new Plugin("token-macro", "293.v283932a_0a_b_49"), Lists.newArrayList()),
                 new PluginProjects(
                         new Plugin("pipeline-groovy-lib", "593.va_a_fc25d520e9"), Lists.newArrayList())
         ));
