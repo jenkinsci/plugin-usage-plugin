@@ -1,0 +1,66 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject plugin="workflow-multibranch@773.vc4fe1378f1d5">
+    <actions/>
+    <description></description>
+    <properties/>
+    <folderViews class="jenkins.branch.MultiBranchProjectViewHolder" plugin="branch-api@2.1178.v969d9eb_c728e">
+        <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+    </folderViews>
+    <healthMetrics/>
+    <icon class="jenkins.branch.MetadataActionFolderIcon" plugin="branch-api@2.1178.v969d9eb_c728e">
+        <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+    </icon>
+    <orphanedItemStrategy class="com.cloudbees.hudson.plugins.folder.computed.DefaultOrphanedItemStrategy" plugin="cloudbees-folder@6.901.vb_4c7a_da_75da_3">
+        <pruneDeadBranches>true</pruneDeadBranches>
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>-1</numToKeep>
+        <abortBuilds>false</abortBuilds>
+    </orphanedItemStrategy>
+    <triggers/>
+    <disabled>false</disabled>
+    <sources class="jenkins.branch.MultiBranchProject$BranchSourceList" plugin="branch-api@2.1178.v969d9eb_c728e">
+        <data>
+            <jenkins.branch.BranchSource>
+                <source class="io.jenkins.plugins.gitlabbranchsource.GitLabSCMSource" plugin="gitlab-branch-source@710.v6f19df32544b_">
+                    <id>d69d4db2-2719-4e53-ade3-406afd3d9df2</id>
+                    <serverName>default</serverName>
+                    <projectOwner>foo</projectOwner>
+                    <projectPath></projectPath>
+                    <credentialsId></credentialsId>
+                    <traits>
+                        <io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait>
+                            <strategyId>1</strategyId>
+                        </io.jenkins.plugins.gitlabbranchsource.BranchDiscoveryTrait>
+                        <io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait>
+                            <strategyId>1</strategyId>
+                        </io.jenkins.plugins.gitlabbranchsource.OriginMergeRequestDiscoveryTrait>
+                        <io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait>
+                            <strategyId>1</strategyId>
+                            <trust class="io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait$TrustPermission"/>
+                            <buildMRForksNotMirror>false</buildMRForksNotMirror>
+                        </io.jenkins.plugins.gitlabbranchsource.ForkMergeRequestDiscoveryTrait>
+                        <io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait>
+                            <alwaysBuildMROpen>true</alwaysBuildMROpen>
+                            <alwaysBuildMRReOpen>true</alwaysBuildMRReOpen>
+                            <alwaysIgnoreMRApproval>false</alwaysIgnoreMRApproval>
+                            <alwaysIgnoreMRUnApproval>false</alwaysIgnoreMRUnApproval>
+                            <alwaysIgnoreMRApproved>false</alwaysIgnoreMRApproved>
+                            <alwaysIgnoreMRUnApproved>false</alwaysIgnoreMRUnApproved>
+                            <alwaysIgnoreNonCodeRelatedUpdates>false</alwaysIgnoreNonCodeRelatedUpdates>
+                            <alwaysIgnoreMRWorkInProgress>false</alwaysIgnoreMRWorkInProgress>
+                        </io.jenkins.plugins.gitlabbranchsource.WebhookListenerBuildConditionsTrait>
+                    </traits>
+                    <projectId>0</projectId>
+                </source>
+                <strategy class="jenkins.branch.DefaultBranchPropertyStrategy">
+                    <properties class="empty-list"/>
+                </strategy>
+            </jenkins.branch.BranchSource>
+        </data>
+        <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+    </sources>
+    <factory class="org.jenkinsci.plugins.workflow.multibranch.WorkflowBranchProjectFactory">
+        <owner class="org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject" reference="../.."/>
+        <scriptPath>Jenkinsfile</scriptPath>
+    </factory>
+</org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject>
