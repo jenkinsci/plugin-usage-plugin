@@ -34,11 +34,6 @@
 
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>token-macro</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>promoted-builds</artifactId>
       <optional>true</optional>
     </dependency>
