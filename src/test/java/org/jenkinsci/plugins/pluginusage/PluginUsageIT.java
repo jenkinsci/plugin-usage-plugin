@@ -375,6 +375,47 @@ public class PluginUsageIT {
     }
 
     @Test
+    public void scmSource() {
+
+        attempt("installing gitlab-branch-source",
+                () -> client.installPlugins("gitlab-branch-source", "710.v6f19df32544b_"),
+                plugins -> client.getInstalledPlugins().contains("gitlab-branch-source"));
+        attempt("installing workflow-multibranch",
+                () -> client.installPlugins("workflow-multibranch", "773.vc4fe1378f1d5"),
+                plugins -> client.getInstalledPlugins().contains("workflow-multibranch"));
+
+        attempt("installing plugin-usage",
+                client::installPluginUsage,
+                plugins -> client.getInstalledPlugins().contains("plugin-usage-plugin"));
+
+        attempt("creating job",
+                () -> client.createJob("scmSource1", "scmSource1.xml"),
+                plugins -> client.getJobs().contains("scmSource1"));
+
+        attempt("executing plugin usage work",
+                () -> client.triggerPluginUsage(),
+                plugins -> !client.getPluginUsage().getJobsPerPlugin().isEmpty());
+
+        PluginUsage actual = client.getPluginUsage();
+        PluginUsage expected = new PluginUsage(Lists.newArrayList(
+                new PluginProjects(
+                        new Plugin("credentials-binding", "1.27"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("git", "4.9.0"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("cloudbees-folder", "6.16"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("gitlab-branch-source", "710.v6f19df32544b_"), Lists.newArrayList(new Project("scmSource1"))),
+                new PluginProjects(
+                        new Plugin("mailer", "1.34"), Lists.newArrayList()),
+                new PluginProjects(
+                        new Plugin("workflow-multibranch", "2.26"), Lists.newArrayList(new Project("scmSource1")))
+        ));
+        assertEquals(pluginNamesExtractor.apply(expected), pluginNamesExtractor.apply(actual));
+        assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual));
+    }
+
+    @Test
     public void maven() {
 
         attempt("installing maven",

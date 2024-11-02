@@ -28,7 +28,8 @@ public class JobCollector {
                         new PipelineProjectAnalyzer(),
                         new MatrixProjectAnalyzer(),
                         new ComputedFolderAnalyzer(),
-                        new PipelineLastBuildAnalyzer());
+                        new PipelineLastBuildAnalyzer(),
+                        new SCMSourceAnalyzer());
 
         // bootstrap map with all job related plugins
         for(AbstractProjectAnalyzer analyzer: analyzers)
