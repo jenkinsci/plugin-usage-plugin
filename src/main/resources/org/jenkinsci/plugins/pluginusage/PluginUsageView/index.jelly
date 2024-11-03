@@ -109,19 +109,5 @@
             </table>
         </l:main-panel>
     </l:layout>
-    <script>
-        function showHide(element, btn)
-        {
-            if (element.style.display == 'none')
-            {
-                element.style.display = '';
-                btn.value='collapse';
-            }
-            else
-            {
-                element.style.display = 'none';
-                btn.value='expand';
-            }
-        }
-    </script>
+    <st:adjunct includes="org.jenkinsci.plugins.pluginusage.PluginUsageView.show-hide"/>
 </j:jelly>
