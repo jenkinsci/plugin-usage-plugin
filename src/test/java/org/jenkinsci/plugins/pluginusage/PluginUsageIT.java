@@ -34,7 +34,7 @@ import static org.junit.Assume.assumeFalse;
 
 public class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.440.3";
+    private static final String IMAGE = "jenkins/jenkins:2.452.4";
 
     @Rule
     public Timeout timeout = Timeout.builder().withTimeout(5, TimeUnit.MINUTES).build();
@@ -44,7 +44,7 @@ public class PluginUsageIT {
             .withLogConsumer(frame -> System.out.println(frame.getUtf8StringWithoutLineEnding()))
             .withExposedPorts(8080)
             .waitingFor(Wait.forHttp("/"))
-            .withCopyFileToContainer(MountableFile.forClasspathResource("update-center.2.440.3.json"), "/tmp/update-center.json")
+            .withCopyFileToContainer(MountableFile.forClasspathResource("update-center.2.452.4.json"), "/tmp/update-center.json")
             .withEnv("JAVA_OPTS",
                     "-Djenkins.install.runSetupWizard=false " +
                     "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true " +
