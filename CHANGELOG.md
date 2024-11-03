@@ -6,6 +6,10 @@
  - [Removes unused token-macro dependency](https://github.com/jenkinsci/plugin-usage-plugin/pull/63)
  - [Adds support for SCMSource](https://github.com/jenkinsci/plugin-usage-plugin/pull/65)
  - [Extract inline script block and event handler](https://github.com/jenkinsci/plugin-usage-plugin/pull/66)
+ - [Upgrade parent pom from 4.87 to 4.88](https://github.com/jenkinsci/plugin-usage-plugin/pull/67)
+ - [Upgrade testcontainers](https://github.com/jenkinsci/plugin-usage-plugin/pull/68)
+ - [Upgrade Jenkins core from 2.440.3 to 2.452.4](https://github.com/jenkinsci/plugin-usage-plugin/pull/69)
+ - [Removes managed version for commons-net](https://github.com/jenkinsci/plugin-usage-plugin/pull/70)
 
 ### [Version 4.6] (2024-09-30)
 
