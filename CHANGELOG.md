@@ -2,6 +2,11 @@
 
 ### [Unreleased]
 
+ - [Fix unit test shouldRenderJson](https://github.com/jenkinsci/plugin-usage-plugin/pull/64)
+ - [Removes unused token-macro dependency](https://github.com/jenkinsci/plugin-usage-plugin/pull/63)
+ - [Adds support for SCMSource](https://github.com/jenkinsci/plugin-usage-plugin/pull/65)
+ - [Extract inline script block and event handler](https://github.com/jenkinsci/plugin-usage-plugin/pull/66)
+
 ### [Version 4.6] (2024-09-30)
 
  - [Upgrade parent pom from 4.83 to 4.87](https://github.com/jenkinsci/plugin-usage-plugin/pull/58)
