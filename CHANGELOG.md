@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.7] (2024-11-04)
+
  - [Fix unit test shouldRenderJson](https://github.com/jenkinsci/plugin-usage-plugin/pull/64)
  - [Removes unused token-macro dependency](https://github.com/jenkinsci/plugin-usage-plugin/pull/63)
  - [Adds support for SCMSource](https://github.com/jenkinsci/plugin-usage-plugin/pull/65)
@@ -129,7 +131,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.6...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.7...HEAD
+[Version 4.7]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.6...plugin-usage-plugin-4.7
 [Version 4.6]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.5...plugin-usage-plugin-4.6
 [Version 4.5]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.4...plugin-usage-plugin-4.5
 [Version 4.4]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.3...plugin-usage-plugin-4.4
