@@ -56,13 +56,13 @@
                         </td>
                         <td style="padding:5px 15px 5px 5px;">
                           <j:if test="${j.numberOfJobs > 0}">
-                              <input type="button" name="exco" id="exco${count}" value="expand" onclick="showHide(ulID${count},exco${count})" style="display: block;margin: auto;"/>
-                              <ul id="ulID${count}" style="display:none">
-                                  <j:forEach var="project" items="${j.projects}">
-                                      <li><a href="${app.rootUrl}${project.url}">${project.fullDisplayName}</a></li>
-                                  </j:forEach>
-                              </ul>
-                             <j:set var="count" value="${count+1}"/>
+                              <details class="jenkins-button jenkins-button--tertiary" >
+                                  <ul>
+                                      <j:forEach var="project" items="${j.projects}">
+                                          <li><a href="${app.rootUrl}${project.url}">${project.fullDisplayName}</a></li>
+                                      </j:forEach>
+                                  </ul>
+                              </details>
                           </j:if>
                         </td>
                         <td align="center" style="vertical-align:middle;">
@@ -109,5 +109,4 @@
             </table>
         </l:main-panel>
     </l:layout>
-    <st:adjunct includes="org.jenkinsci.plugins.pluginusage.PluginUsageView.show-hide"/>
 </j:jelly>
