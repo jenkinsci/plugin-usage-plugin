@@ -2,6 +2,10 @@
 
 ### [Unreleased]
 
+### [Version 4.8] (2024-11-15)
+
+ - [Replaces custom Javascript with details element to show jobs list](https://github.com/jenkinsci/plugin-usage-plugin/pull/71)
+
 ### [Version 4.7] (2024-11-04)
 
  - [Fix unit test shouldRenderJson](https://github.com/jenkinsci/plugin-usage-plugin/pull/64)
@@ -131,7 +135,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.7...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.8...HEAD
+[Version 4.8]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.7...plugin-usage-plugin-4.8
 [Version 4.7]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.6...plugin-usage-plugin-4.7
 [Version 4.6]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.5...plugin-usage-plugin-4.6
 [Version 4.5]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.4...plugin-usage-plugin-4.5
