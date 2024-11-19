@@ -2,7 +2,7 @@
 
 ### [Unreleased]
 
-### [Version 4.8] (2024-11-15)
+### [Version 4.8] (2024-11-19)
 
  - [Replaces custom Javascript with details element to show jobs list](https://github.com/jenkinsci/plugin-usage-plugin/pull/71)
 
