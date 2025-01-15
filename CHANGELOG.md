@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - [Stop testing Java 11](https://github.com/jenkinsci/plugin-usage-plugin/pull/72)
+ - [Use jenkins.baseline to reduce bom update mistakes](https://github.com/jenkinsci/plugin-usage-plugin/pull/73)
 
 ### [Version 4.8] (2024-11-19)
 
