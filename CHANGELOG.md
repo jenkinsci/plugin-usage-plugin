@@ -4,6 +4,10 @@
 
  - [Stop testing Java 11](https://github.com/jenkinsci/plugin-usage-plugin/pull/72)
  - [Use jenkins.baseline to reduce bom update mistakes](https://github.com/jenkinsci/plugin-usage-plugin/pull/73)
+ - [Bump org.apache.maven.plugins:maven-failsafe-plugin from 3.0.0-M5 to 3.5.2](https://github.com/jenkinsci/plugin-usage-plugin/pull/76)
+ - [Bump org.testcontainers:testcontainers from 1.20.3 to 1.20.4](https://github.com/jenkinsci/plugin-usage-plugin/pull/78)
+ - [Bump io.jenkins.tools.bom:bom-2.452.x from 3387.v0f2773fa_3200 to 3944.v1a_e4f8b_452db_](https://github.com/jenkinsci/plugin-usage-plugin/pull/75)
+ - [Bump org.jenkins-ci.plugins:plugin from 4.88 to 5.5](https://github.com/jenkinsci/plugin-usage-plugin/pull/77)
 
 ### [Version 4.8] (2024-11-19)
 
