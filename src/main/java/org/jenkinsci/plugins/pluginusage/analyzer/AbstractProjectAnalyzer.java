@@ -184,9 +184,12 @@ abstract class AbstractProjectAnalyzer {
 
         if(builder instanceof ConditionalBuilder){
             ConditionalBuilder conditionalBuilder = (ConditionalBuilder) builder;
-            List<Builder> conditionalBuilders = conditionalBuilder.getConditionalbuilders();
-            for (Builder innerBuilder: conditionalBuilders) {
-                plugins.add(getPluginFromClass(innerBuilder.getDescriptor().clazz));
+            List<BuildStep> conditionalBuildSteps = conditionalBuilder.getConditionalbuilders();
+            for (BuildStep buildStep: conditionalBuildSteps) {
+                if (buildStep instanceof Builder){
+                    Builder innerBuilder = (Builder) buildStep;
+                    plugins.add(getPluginFromClass(innerBuilder.getDescriptor().clazz));
+                }
             }
         }
         if(builder instanceof SingleConditionalBuilder){
