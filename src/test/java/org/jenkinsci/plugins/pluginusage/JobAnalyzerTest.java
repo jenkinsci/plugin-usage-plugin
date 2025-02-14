@@ -1,23 +1,22 @@
 package org.jenkinsci.plugins.pluginusage;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.htmlunit.html.HtmlPage;
 import hudson.model.FreeStyleProject;
 import jenkins.model.Jenkins;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.MockAuthorizationStrategy;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 import java.net.HttpURLConnection;
 
-public class JobAnalyzerTest {
-
-    @Rule public JenkinsRule j = new JenkinsRule();
+@WithJenkins
+class JobAnalyzerTest {
 
     @Test
-    public void first() throws Exception {
+    void first(JenkinsRule j) throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
         PluginUsageView pluginUsageView = new PluginUsageView();
         PluginUsageModel data = pluginUsageView.getData();
@@ -25,7 +24,7 @@ public class JobAnalyzerTest {
     }
 
     @Test
-    public void onlyReadOrAdminCanReadPluginUsage() throws Exception {
+    void onlyReadOrAdminCanReadPluginUsage(JenkinsRule j) throws Exception {
         final String PLUGIN_VIEW = "plugin-view-user";
         final String ANONYMOUS = "anonymous";
         final String ADMIN = "admin";

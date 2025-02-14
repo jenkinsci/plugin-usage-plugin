@@ -7,13 +7,15 @@ import org.jenkinsci.plugins.pluginusage.api.Plugin;
 import org.jenkinsci.plugins.pluginusage.api.PluginProjects;
 import org.jenkinsci.plugins.pluginusage.api.PluginUsage;
 import org.jenkinsci.plugins.pluginusage.api.Project;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 import org.jvnet.hudson.test.recipes.LocalData;
 
 import java.io.File;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.List;
@@ -22,13 +24,9 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-
-public class PluginUsageViewApiTest {
+@WithJenkins
+class PluginUsageViewApiTest {
     private final Gson gson = new Gson();
-
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
 
     Function<PluginUsage, Set<String>> otherPluginsPluginNamesExtractor = p -> p.getOtherPlugins()
             .stream()
@@ -46,7 +44,7 @@ public class PluginUsageViewApiTest {
 
     @Test
     @LocalData("plugin-usage.xml")
-    public void shouldRenderJson() throws Exception {
+    void shouldRenderJson(JenkinsRule j) throws Exception {
         // given two jobs are using the ant builder
         URL configUsingAnt = Resources.getResource("with-ant.xml");
         File config = new File(configUsingAnt.toURI());
@@ -128,7 +126,8 @@ public class PluginUsageViewApiTest {
                         new Plugin("commons-lang3-api", "3.17.0-84.vb_b_938040b_078"),
                         new Plugin("commons-text-api", "1.12.0-129.v99a_50df237f7"),
                         new Plugin("conditional-buildstep", "1.2"),
-                        new Plugin("promoted-builds", "965.vcda_c6a_e0998f")
+                        new Plugin("promoted-builds", "965.vcda_c6a_e0998f"),
+                        new Plugin("oss-symbols-api", "296.v4981240eeb_1a_")
                     )
         );
 
@@ -137,7 +136,7 @@ public class PluginUsageViewApiTest {
         PluginUsage actual = gson.fromJson(body, PluginUsage.class);
 
         // then
-        Assertions.assertAll(
+        assertAll(
                 () -> assertEquals(otherPluginsPluginNamesExtractor.apply(expected), otherPluginsPluginNamesExtractor.apply(actual)),
                 () -> assertEquals(jobsPerPluginPluginNamesExtractor.apply(expected), jobsPerPluginPluginNamesExtractor.apply(actual)),
                 () -> assertEquals(projectsExtractor.apply(expected), projectsExtractor.apply(actual))
