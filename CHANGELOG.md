@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.9] (2025-02-17)
+
  - [Stop testing Java 11](https://github.com/jenkinsci/plugin-usage-plugin/pull/72)
  - [Use jenkins.baseline to reduce bom update mistakes](https://github.com/jenkinsci/plugin-usage-plugin/pull/73)
  - [Migrate tests to JUnit5](https://github.com/jenkinsci/plugin-usage-plugin/pull/84)
@@ -146,7 +148,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.8...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.9...HEAD
+[Version 4.9]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.8...plugin-usage-plugin-4.9
 [Version 4.8]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.7...plugin-usage-plugin-4.8
 [Version 4.7]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.6...plugin-usage-plugin-4.7
 [Version 4.6]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.5...plugin-usage-plugin-4.6
