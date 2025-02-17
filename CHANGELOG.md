@@ -11,6 +11,7 @@
  - [Bump org.jenkins-ci.plugins:plugin from 4.88 to 5.5](https://github.com/jenkinsci/plugin-usage-plugin/pull/77)
  - [Bump org.jenkins-ci.plugins:plugin from 5.5 to 5.6](https://github.com/jenkinsci/plugin-usage-plugin/pull/81)
  - [Bump org.jenkins-ci.plugins:conditional-buildstep from 1.2 to 1.4.3](https://github.com/jenkinsci/plugin-usage-plugin/pull/79)
+ - [Bump org.jenkins-ci.plugins:conditional-buildstep from 1.4.3 to 1.5.0](https://github.com/jenkinsci/plugin-usage-plugin/pull/82)
 
 ### [Version 4.8] (2024-11-19)
 
