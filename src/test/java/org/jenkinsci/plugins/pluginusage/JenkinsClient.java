@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.google.gson.Gson;
@@ -33,7 +32,7 @@ import com.google.gson.JsonParser;
 import org.apache.http.client.utils.URIBuilder;
 import org.jenkinsci.plugins.pluginusage.api.PluginUsage;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JenkinsClient {
 
@@ -107,7 +106,7 @@ public class JenkinsClient {
             final JsonArray jobs = asJsonObject.get("jobs").getAsJsonArray();
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(jobs.iterator(), Spliterator.ORDERED), false)
                     .map(element -> element.getAsJsonObject().get("name").getAsString())
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -145,7 +144,7 @@ public class JenkinsClient {
             final JsonArray jobs = asJsonObject.get("plugins").getAsJsonArray();
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(jobs.iterator(), Spliterator.ORDERED), false)
                     .map(element -> element.getAsJsonObject().get("shortName").getAsString())
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -166,7 +165,7 @@ public class JenkinsClient {
             final JsonArray jobs = asJsonObject.get("availables").getAsJsonArray();
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(jobs.iterator(), Spliterator.ORDERED), false)
                     .map(element -> element.getAsJsonObject().get("name").getAsString())
-                    .collect(Collectors.toList());
+                    .toList();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

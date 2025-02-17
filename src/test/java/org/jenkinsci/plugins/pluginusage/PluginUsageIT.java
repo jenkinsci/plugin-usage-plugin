@@ -18,29 +18,29 @@ import org.jenkinsci.plugins.pluginusage.api.Plugin;
 import org.jenkinsci.plugins.pluginusage.api.PluginProjects;
 import org.jenkinsci.plugins.pluginusage.api.PluginUsage;
 import org.jenkinsci.plugins.pluginusage.api.Project;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.Timeout;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
 import static hudson.Functions.isWindows;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PluginUsageIT {
+@Testcontainers
+@Timeout(value = 5, unit = TimeUnit.MINUTES)
+class PluginUsageIT {
 
     private static final String IMAGE = "jenkins/jenkins:2.479.1";
 
-    @Rule
-    public Timeout timeout = Timeout.builder().withTimeout(5, TimeUnit.MINUTES).build();
-
-    @Rule
-    public GenericContainer<?> jenkins = new GenericContainer<>(DockerImageName.parse(IMAGE))
+    @Container
+    private final GenericContainer<?> jenkins = new GenericContainer<>(DockerImageName.parse(IMAGE))
             .withLogConsumer(frame -> System.out.println(frame.getUtf8StringWithoutLineEnding()))
             .withExposedPorts(8080)
             .waitingFor(Wait.forHttp("/"))
@@ -64,13 +64,13 @@ public class PluginUsageIT {
             .stream()
             .collect(Collectors.toMap(x -> x.getPlugin().getShortName(), PluginProjects::getProjects));
 
-    @BeforeClass
-    public static void setupAll(){
+    @BeforeAll
+    static void setupAll(){
         assumeFalse(isWindows());
     }
 
-    @Before
-    public void setup(){
+    @BeforeEach
+    void setup(){
         client = new JenkinsClient(jenkins.getMappedPort(8080));
 
         attempt("waiting for available plugins",
@@ -79,7 +79,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void freestyle() {
+    void freestyle() {
 
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
@@ -108,7 +108,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void conditionalSingle() {
+    void conditionalSingle() {
 
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
@@ -141,7 +141,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void conditionalMultiple() {
+    void conditionalMultiple() {
 
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
@@ -174,7 +174,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void parameters() {
+    void parameters() {
 
         attempt("installing Git Parameter",
                 () -> client.installPlugins("git-parameter", "0.9.13"),
@@ -208,7 +208,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void promotions() throws MalformedURLException, URISyntaxException {
+    void promotions() throws MalformedURLException, URISyntaxException {
 
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
@@ -246,7 +246,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void buildWrappers() {
+    void buildWrappers() {
 
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
@@ -279,7 +279,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void publishers() {
+    void publishers() {
 
         attempt("installing junit",
                 () -> client.installPlugins("junit", "1.53"),
@@ -307,7 +307,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void publishersPromotions() throws URISyntaxException, MalformedURLException {
+    void publishersPromotions() throws URISyntaxException, MalformedURLException {
 
         attempt("installing junit",
                 () -> client.installPlugins("junit", "1.53"),
@@ -343,7 +343,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void scm() {
+    void scm() {
 
         attempt("installing git",
                 () -> client.installPlugins("git", "4.9.0"),
@@ -375,7 +375,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void scmSource() {
+    void scmSource() {
 
         attempt("installing gitlab-branch-source",
                 () -> client.installPlugins("gitlab-branch-source", "710.v6f19df32544b_"),
@@ -416,7 +416,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void maven() {
+    void maven() {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -450,7 +450,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void mavenPreBuilders() {
+    void mavenPreBuilders() {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -489,7 +489,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void mavenPostBuilders() {
+    void mavenPostBuilders() {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -528,7 +528,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void mavenParameter() {
+    void mavenParameter() {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -572,7 +572,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void mavenSingleConditionalBuilder() {
+    void mavenSingleConditionalBuilder() {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -616,7 +616,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void mavenMultiConditionalBuilder() {
+    void mavenMultiConditionalBuilder() {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -661,7 +661,7 @@ public class PluginUsageIT {
 
 
     @Test
-    public void mavenPromotions() throws URISyntaxException, MalformedURLException {
+    void mavenPromotions() throws URISyntaxException, MalformedURLException {
 
         attempt("installing maven",
                 () -> client.installPlugins("maven-plugin", "3.15"),
@@ -708,7 +708,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void trigger() {
+    void trigger() {
 
         attempt("installing urltrigger",
                 () -> client.installPlugins("urltrigger", "0.49"),
@@ -738,7 +738,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void pipeline() {
+    void pipeline() {
 
         attempt("installing pipeline-model-definition",
                 () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
@@ -788,7 +788,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void pipeline2() {
+    void pipeline2() {
 
         attempt("installing pipeline-model-definition",
                 () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
@@ -843,7 +843,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void scriptedPipeline() {
+    void scriptedPipeline() {
 
         attempt("installing pipeline-model-definition",
                 () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
@@ -909,7 +909,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void matrix() {
+    void matrix() {
 
         attempt("installing matrix-project",
                 () -> client.installPlugins("matrix-project", "1.19"),
@@ -944,7 +944,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void computedFolder() {
+    void computedFolder() {
 
         attempt("installing pipeline-model-definition",
                 () -> client.installPlugins("pipeline-model-definition", "1.9.3"),
@@ -1001,7 +1001,7 @@ public class PluginUsageIT {
     }
 
     @Test
-    public void otherProjects() {
+    void otherProjects() {
 
         attempt("installing visual basic 6",
                 () -> client.installPlugins("visual-basic-6", "1.4"),
