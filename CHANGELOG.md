@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+ - [Bump org.testcontainers:junit-jupiter from 1.20.4 to 1.20.5](https://github.com/jenkinsci/plugin-usage-plugin/pull/86)
+
 ### [Version 4.9] (2025-02-17)
 
  - [Stop testing Java 11](https://github.com/jenkinsci/plugin-usage-plugin/pull/72)
