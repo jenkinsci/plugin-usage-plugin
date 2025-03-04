@@ -8,8 +8,8 @@ import hudson.security.Permission;
 import hudson.security.PermissionGroup;
 import hudson.security.PermissionScope;
 import jenkins.model.Jenkins;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
+import org.kohsuke.stapler.StaplerRequest2;
+import org.kohsuke.stapler.StaplerResponse2;
 
 @Extension
 public class PluginUsageView implements RootAction{
@@ -48,7 +48,7 @@ public class PluginUsageView implements RootAction{
 		return null;
 	}
 
-	public void doUpdate(StaplerRequest req, StaplerResponse res) throws Exception {
+	public void doUpdate(StaplerRequest2 req, StaplerResponse2 res) throws Exception {
 		if (Jenkins.get().hasPermission(PluginUsageView.PLUGIN_VIEW)){
 			AsyncPeriodicWork.all().getInstance(PluginUsageAsyncPeriodicWork.class).doRun();
 		}
