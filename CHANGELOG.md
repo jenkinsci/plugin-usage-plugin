@@ -3,6 +3,9 @@
 ### [Unreleased]
 
  - [Bump org.testcontainers:junit-jupiter from 1.20.4 to 1.20.5](https://github.com/jenkinsci/plugin-usage-plugin/pull/86)
+ - [Bump io.jenkins.tools.bom:bom-2.479.x from 4136.vca_c3202a_7fd1 to 4228.v0a_71308d905b_](https://github.com/jenkinsci/plugin-usage-plugin/pull/87)
+ - [Removes specific versions from POM](https://github.com/jenkinsci/plugin-usage-plugin/pull/88)
+ - [Migrate from EE 8 to EE 9](https://github.com/jenkinsci/plugin-usage-plugin/pull/89)
 
 ### [Version 4.9] (2025-02-17)
 
