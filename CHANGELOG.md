@@ -2,6 +2,8 @@
 
 ### [Unreleased]
 
+### [Version 4.10] (2025-03-10)
+
  - [Bump org.testcontainers:junit-jupiter from 1.20.4 to 1.20.5](https://github.com/jenkinsci/plugin-usage-plugin/pull/86)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4136.vca_c3202a_7fd1 to 4228.v0a_71308d905b_](https://github.com/jenkinsci/plugin-usage-plugin/pull/87)
  - [Removes specific versions from POM](https://github.com/jenkinsci/plugin-usage-plugin/pull/88)
@@ -153,7 +155,8 @@
 
 -   initial Version
 
-[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.9...HEAD
+[Unreleased]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.10...HEAD
+[Version 4.10]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.9...plugin-usage-plugin-4.10
 [Version 4.9]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.8...plugin-usage-plugin-4.9
 [Version 4.8]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.7...plugin-usage-plugin-4.8
 [Version 4.7]: https://github.com/jenkinsci/plugin-usage-plugin/compare/plugin-usage-plugin-4.6...plugin-usage-plugin-4.7
