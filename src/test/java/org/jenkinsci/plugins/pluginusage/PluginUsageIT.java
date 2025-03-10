@@ -37,14 +37,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Timeout(value = 5, unit = TimeUnit.MINUTES)
 class PluginUsageIT {
 
-    private static final String IMAGE = "jenkins/jenkins:2.479.1";
+    private static final String IMAGE = "jenkins/jenkins:2.479.3";
 
     @Container
     private final GenericContainer<?> jenkins = new GenericContainer<>(DockerImageName.parse(IMAGE))
             .withLogConsumer(frame -> System.out.println(frame.getUtf8StringWithoutLineEnding()))
             .withExposedPorts(8080)
             .waitingFor(Wait.forHttp("/"))
-            .withCopyFileToContainer(MountableFile.forClasspathResource("update-center.2.479.1.json"), "/tmp/update-center.json")
+            .withCopyFileToContainer(MountableFile.forClasspathResource("update-center.2.479.3.json"), "/tmp/update-center.json")
             .withEnv("JAVA_OPTS",
                     "-Djenkins.install.runSetupWizard=false " +
                     "-Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true " +
