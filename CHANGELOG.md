@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - [Clean up plugin build](https://github.com/jenkinsci/plugin-usage-plugin/pull/90)
+ - [Bump org.testcontainers:junit-jupiter from 1.20.5 to 1.20.6](https://github.com/jenkinsci/plugin-usage-plugin/pull/91)
 
 ### [Version 4.10] (2025-03-10)
 
