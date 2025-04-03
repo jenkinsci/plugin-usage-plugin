@@ -4,6 +4,7 @@
 
  - [Clean up plugin build](https://github.com/jenkinsci/plugin-usage-plugin/pull/90)
  - [Bump org.testcontainers:junit-jupiter from 1.20.5 to 1.20.6](https://github.com/jenkinsci/plugin-usage-plugin/pull/91)
+ - [Bump io.jenkins.tools.bom:bom-2.479.x from 4228.v0a_71308d905b_ to 4545.v56392b_7ca_7b_a_](https://github.com/jenkinsci/plugin-usage-plugin/pull/92)
 
 ### [Version 4.10] (2025-03-10)
 
