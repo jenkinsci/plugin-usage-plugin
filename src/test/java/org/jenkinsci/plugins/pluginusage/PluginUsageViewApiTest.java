@@ -92,6 +92,7 @@ class PluginUsageViewApiTest {
                         new Plugin("javax-activation-api", "1.2.0-7"),
                         new Plugin("javadoc", "280.v050b_5c849f69"),
                         new Plugin("joda-time-api", "2.12.7-29.v5a_b_e3a_82269a_"),
+                        new Plugin("jsoup", "1.20.1-46.ve5f1416988c2"),
                         new Plugin("matrix-project", "832.va_66e270d2946"),
                         new Plugin("maven-plugin", "3.23"),
                         new Plugin("workflow-api", "1336.vee415d95c521"),
