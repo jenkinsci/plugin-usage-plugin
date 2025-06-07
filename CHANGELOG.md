@@ -8,6 +8,7 @@
  - [Bump org.testcontainers:junit-jupiter from 1.21.0 to 1.21.1](https://github.com/jenkinsci/plugin-usage-plugin/pull/97)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4228.v0a_71308d905b_ to 4545.v56392b_7ca_7b_a_](https://github.com/jenkinsci/plugin-usage-plugin/pull/92)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4545.v56392b_7ca_7b_a_ to 4669.v0e99c712a_30e](https://github.com/jenkinsci/plugin-usage-plugin/pull/95)
+ - [Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 4862.vc32a_71c3e731](https://github.com/jenkinsci/plugin-usage-plugin/pull/98)
  - [Bump org.jenkins-ci.plugins:plugin from 5.9 to 5.12](https://github.com/jenkinsci/plugin-usage-plugin/pull/94)
  - [Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.17](https://github.com/jenkinsci/plugin-usage-plugin/pull/96)
 
