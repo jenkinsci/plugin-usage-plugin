@@ -1,4 +1,4 @@
-cccccccccccccccccccccccccccccccccccccccccc## Version History
+## Version History
 
 ### [Unreleased]
 
