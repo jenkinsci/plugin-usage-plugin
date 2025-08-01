@@ -11,9 +11,11 @@
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4545.v56392b_7ca_7b_a_ to 4669.v0e99c712a_30e](https://github.com/jenkinsci/plugin-usage-plugin/pull/95)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 4862.vc32a_71c3e731](https://github.com/jenkinsci/plugin-usage-plugin/pull/98)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4862.vc32a_71c3e731 to 4969.v6ffa_18d90c9f ](https://github.com/jenkinsci/plugin-usage-plugin/pull/101)
+ - [Bump io.jenkins.tools.bom:bom-2.479.x from 4969.v6ffa_18d90c9f to 5054.v620b_5d2b_d5e6](https://github.com/jenkinsci/plugin-usage-plugin/pull/103)
  - [Bump org.jenkins-ci.plugins:plugin from 5.9 to 5.12](https://github.com/jenkinsci/plugin-usage-plugin/pull/94)
  - [Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.17](https://github.com/jenkinsci/plugin-usage-plugin/pull/96)
  - [Bump org.jenkins-ci.plugins:plugin from 5.17 to 5.18](https://github.com/jenkinsci/plugin-usage-plugin/pull/100)
+ - [Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.8 to 1.10](https://github.com/jenkinsci/plugin-usage-plugin/pull/102)
 
 ### [Version 4.10] (2025-03-10)
 
