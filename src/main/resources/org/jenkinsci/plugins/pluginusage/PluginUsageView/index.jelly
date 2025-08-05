@@ -56,8 +56,9 @@
                         </td>
                         <td style="padding:5px 15px 5px 5px;">
                           <j:if test="${j.numberOfJobs > 0}">
-                              <details class="jenkins-button jenkins-button--tertiary" >
-                                  <ul>
+                              <details class="jenkins-button jenkins-button--tertiary" style="display: block;">
+                                  <summary style="margin-bottom: 10px;">${%Details}</summary>
+                                  <ul style="margin-top: 5px;">
                                       <j:forEach var="project" items="${j.projects}">
                                           <li><a href="${app.rootUrl}${project.url}">${project.fullDisplayName}</a></li>
                                       </j:forEach>
