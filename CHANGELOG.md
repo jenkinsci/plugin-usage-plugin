@@ -16,6 +16,7 @@
  - [Bump org.jenkins-ci.plugins:plugin from 5.9 to 5.12](https://github.com/jenkinsci/plugin-usage-plugin/pull/94)
  - [Bump org.jenkins-ci.plugins:plugin from 5.12 to 5.17](https://github.com/jenkinsci/plugin-usage-plugin/pull/96)
  - [Bump org.jenkins-ci.plugins:plugin from 5.17 to 5.18](https://github.com/jenkinsci/plugin-usage-plugin/pull/100)
+ - [Bump org.jenkins-ci.plugins:plugin from 5.18 to 5.24](https://github.com/jenkinsci/plugin-usage-plugin/pull/105)
  - [Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.8 to 1.10](https://github.com/jenkinsci/plugin-usage-plugin/pull/102)
 
 ### [Version 4.10] (2025-03-10)
