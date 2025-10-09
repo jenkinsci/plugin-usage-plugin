@@ -45,18 +45,18 @@
                 <tbody id="pluginUsageTableBody">
                  <j:forEach var="j" items="${jobsPerPlugin}">
                     <tr>
-                        <td align="center" style="vertical-align:middle;">
+                        <td align="center" style="vertical-align:top;">
                             <a href="${j.plugin.url}">${j.pluginName}</a>
                         </td>
-                        <td align="center" style="vertical-align:middle;">
+                        <td align="center" style="vertical-align:top;">
                             ${j.pluginVersion}
                         </td>
-                        <td align="center" style="vertical-align:middle;">
+                        <td align="center" style="vertical-align:top;">
                             ${j.numberOfJobs}
                         </td>
                         <td style="padding:5px 15px 5px 5px;">
                           <j:if test="${j.numberOfJobs > 0}">
-                              <details class="jenkins-button jenkins-button--tertiary" style="display: block;">
+                              <details class="jenkins-button jenkins-button--tertiary" style="display: block; align-items: start;">
                                   <summary style="margin-bottom: 10px;">${%Details}</summary>
                                   <ul style="margin-top: 5px;">
                                       <j:forEach var="project" items="${j.projects}">
