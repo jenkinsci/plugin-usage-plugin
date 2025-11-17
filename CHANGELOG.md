@@ -3,6 +3,7 @@
 ### [Unreleased]
 
  - [style: Move Summary to top](https://github.com/jenkinsci/plugin-usage-plugin/pull/104)
+ - [Align list expand to top](https://github.com/jenkinsci/plugin-usage-plugin/pull/109)
  - [Clean up plugin build](https://github.com/jenkinsci/plugin-usage-plugin/pull/90)
  - [Ban JUnit 4 imports](https://github.com/jenkinsci/plugin-usage-plugin/pull/108)
  - [Test with Java 25](https://github.com/jenkinsci/plugin-usage-plugin/pull/111)
