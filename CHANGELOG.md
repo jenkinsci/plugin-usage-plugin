@@ -5,6 +5,7 @@
  - [style: Move Summary to top](https://github.com/jenkinsci/plugin-usage-plugin/pull/104)
  - [Clean up plugin build](https://github.com/jenkinsci/plugin-usage-plugin/pull/90)
  - [Ban JUnit 4 imports](https://github.com/jenkinsci/plugin-usage-plugin/pull/108)
+ - [Test with Java 25](https://github.com/jenkinsci/plugin-usage-plugin/pull/111)
  - [Bump org.testcontainers:junit-jupiter from 1.20.5 to 1.20.6](https://github.com/jenkinsci/plugin-usage-plugin/pull/91)
  - [Bump org.testcontainers:junit-jupiter from 1.20.6 to 1.21.0](https://github.com/jenkinsci/plugin-usage-plugin/pull/93)
  - [Bump org.testcontainers:junit-jupiter from 1.21.0 to 1.21.1](https://github.com/jenkinsci/plugin-usage-plugin/pull/97)
