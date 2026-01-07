@@ -12,6 +12,7 @@
  - [Bump org.testcontainers:junit-jupiter from 1.21.0 to 1.21.1](https://github.com/jenkinsci/plugin-usage-plugin/pull/97)
  - [Bump org.testcontainers:junit-jupiter from 1.21.1 to 1.21.3](https://github.com/jenkinsci/plugin-usage-plugin/pull/99)
  - [Upgrade testcontainers to v2](https://github.com/jenkinsci/plugin-usage-plugin/pull/112)
+ - [Bump org.testcontainers:testcontainers-junit-jupiter from 2.0.2 to 2.0.3](https://github.com/jenkinsci/plugin-usage-plugin/pull/114)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4228.v0a_71308d905b_ to 4545.v56392b_7ca_7b_a_](https://github.com/jenkinsci/plugin-usage-plugin/pull/92)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4545.v56392b_7ca_7b_a_ to 4669.v0e99c712a_30e](https://github.com/jenkinsci/plugin-usage-plugin/pull/95)
  - [Bump io.jenkins.tools.bom:bom-2.479.x from 4669.v0e99c712a_30e to 4862.vc32a_71c3e731](https://github.com/jenkinsci/plugin-usage-plugin/pull/98)
@@ -22,6 +23,8 @@
  - [Bump org.jenkins-ci.plugins:plugin from 5.17 to 5.18](https://github.com/jenkinsci/plugin-usage-plugin/pull/100)
  - [Bump org.jenkins-ci.plugins:plugin from 5.18 to 5.24](https://github.com/jenkinsci/plugin-usage-plugin/pull/105)
  - [Bump org.jenkins-ci.plugins:plugin from 5.24 to 5.26](https://github.com/jenkinsci/plugin-usage-plugin/pull/106)
+ - [Bump org.jenkins-ci.plugins:plugin from 5.26 to 5.28](https://github.com/jenkinsci/plugin-usage-plugin/pull/110)
+ - [Bump org.jenkins-ci.plugins:plugin from 5.28 to 5.2102.v5f5fe09fccf1](https://github.com/jenkinsci/plugin-usage-plugin/pull/113)
  - [Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.8 to 1.10](https://github.com/jenkinsci/plugin-usage-plugin/pull/102)
  - [Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.10 to 1.13](https://github.com/jenkinsci/plugin-usage-plugin/pull/107)
 
