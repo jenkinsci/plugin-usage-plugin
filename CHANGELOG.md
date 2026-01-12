@@ -27,6 +27,7 @@
  - [Bump org.jenkins-ci.plugins:plugin from 5.28 to 5.2102.v5f5fe09fccf1](https://github.com/jenkinsci/plugin-usage-plugin/pull/113)
  - [Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.8 to 1.10](https://github.com/jenkinsci/plugin-usage-plugin/pull/102)
  - [Bump io.jenkins.tools.incrementals:git-changelist-maven-extension from 1.10 to 1.13](https://github.com/jenkinsci/plugin-usage-plugin/pull/107)
+ - [Require 2.504.3 as minimum Jenkins version](https://github.com/jenkinsci/plugin-usage-plugin/pull/115)
 
 ### [Version 4.10] (2025-03-10)
 
