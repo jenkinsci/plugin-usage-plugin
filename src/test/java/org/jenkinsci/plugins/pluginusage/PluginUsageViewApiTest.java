@@ -128,7 +128,10 @@ class PluginUsageViewApiTest {
                         new Plugin("commons-text-api", "1.12.0-129.v99a_50df237f7"),
                         new Plugin("conditional-buildstep", "1.2"),
                         new Plugin("promoted-builds", "965.vcda_c6a_e0998f"),
-                        new Plugin("oss-symbols-api", "296.v4981240eeb_1a_")
+                        new Plugin("oss-symbols-api", "296.v4981240eeb_1a_"),
+                        new Plugin("antisamy-markup-formatter", "173.v680e3a_b_69ff3"),
+                        new Plugin("jakarta-xml-bind-api", "4.0.6-12.vb_1833c1231d3"),
+                        new Plugin("prism-api", "1.30.0-703.v116fb_3b_5b_b_a_a_")
                     )
         );
 
