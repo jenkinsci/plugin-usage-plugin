@@ -76,14 +76,14 @@ class PipelineLastBuildAnalyzer extends AbstractProjectAnalyzer {
                 final StepDescriptor stepDescriptor = stepAtomNode.getDescriptor();
                 if (stepDescriptor != null) {
                     plugins.add(getPluginFromClass(stepDescriptor.clazz));
-                }
 
-                if (stepDescriptor.isMetaStep()) {
-                    if (stepDescriptor instanceof CoreStep.DescriptorImpl) {
-                        coreStepProcess(plugins, f);
-                    }
-                    if (stepDescriptor instanceof CoreWrapperStep.DescriptorImpl) {
-                        coreStepProcess(plugins, f);
+                    if (stepDescriptor.isMetaStep()) {
+                        if (stepDescriptor instanceof CoreStep.DescriptorImpl) {
+                            coreStepProcess(plugins, f);
+                        }
+                        if (stepDescriptor instanceof CoreWrapperStep.DescriptorImpl) {
+                            coreStepProcess(plugins, f);
+                        }
                     }
                 }
             }
